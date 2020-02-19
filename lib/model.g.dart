@@ -263,6 +263,27 @@ const _$DateTimeAnswerStyleEnumMap = {
   DateTimeAnswerStyle.TimeOfDay: 'TimeOfDay',
 };
 
+RPTappingAnswerFormat _$RPTappingAnswerFormatFromJson(
+    Map<String, dynamic> json) {
+  return RPTappingAnswerFormat()
+    ..questionType =
+        _$enumDecodeNullable(_$QuestionTypeEnumMap, json['question_type']);
+}
+
+Map<String, dynamic> _$RPTappingAnswerFormatToJson(
+    RPTappingAnswerFormat instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('question_type', _$QuestionTypeEnumMap[instance.questionType]);
+  return val;
+}
+
 RPConsentDocument _$RPConsentDocumentFromJson(Map<String, dynamic> json) {
   return RPConsentDocument()
     ..title = json['title'] as String

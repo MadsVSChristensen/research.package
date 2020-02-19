@@ -27,14 +27,20 @@ List<RPChoice> instruments = [
 ];
 
 List<RPImageChoice> images = [
-  RPImageChoice.withParams(Image.asset('assets/images/very-sad.png'), 0, 'Feeling very sad'),
-  RPImageChoice.withParams(Image.asset('assets/images/sad.png'), 0, 'Feeling sad'),
-  RPImageChoice.withParams(Image.asset('assets/images/ok.png'), 0, 'Feeling ok'),
-  RPImageChoice.withParams(Image.asset('assets/images/happy.png'), 0, 'Feeling happy'),
-  RPImageChoice.withParams(Image.asset('assets/images/very-happy.png'), 0, 'Feeling very happy'),
+  RPImageChoice.withParams(
+      Image.asset('assets/images/very-sad.png'), 0, 'Feeling very sad'),
+  RPImageChoice.withParams(
+      Image.asset('assets/images/sad.png'), 0, 'Feeling sad'),
+  RPImageChoice.withParams(
+      Image.asset('assets/images/ok.png'), 0, 'Feeling ok'),
+  RPImageChoice.withParams(
+      Image.asset('assets/images/happy.png'), 0, 'Feeling happy'),
+  RPImageChoice.withParams(
+      Image.asset('assets/images/very-happy.png'), 0, 'Feeling very happy'),
 ];
 
-RPChoiceAnswerFormat timeAnswerFormat = RPChoiceAnswerFormat.withParams(ChoiceAnswerStyle.SingleChoice, timeChoices);
+RPChoiceAnswerFormat timeAnswerFormat = RPChoiceAnswerFormat.withParams(
+    ChoiceAnswerStyle.SingleChoice, timeChoices);
 // All types of DateTime answer formats
 RPDateTimeAnswerFormat timeOfDayAnswerFormat =
     RPDateTimeAnswerFormat.withParams(DateTimeAnswerStyle.TimeOfDay);
@@ -51,8 +57,8 @@ RPChoiceAnswerFormat joyfulActivitiesAnswerFormat =
     RPChoiceAnswerFormat.withParams(
         ChoiceAnswerStyle.MultipleChoice, joyfulActivities);
 
-RPChoiceAnswerFormat instrumentsAnswerFormat =
-    RPChoiceAnswerFormat.withParams(ChoiceAnswerStyle.MultipleChoice, instruments);
+RPChoiceAnswerFormat instrumentsAnswerFormat = RPChoiceAnswerFormat.withParams(
+    ChoiceAnswerStyle.MultipleChoice, instruments);
 
 RPIntegerAnswerFormat weightIntegerAnswerFormat =
     RPIntegerAnswerFormat.withParams(0, 200, "KG");
@@ -60,7 +66,8 @@ RPIntegerAnswerFormat weightIntegerAnswerFormat =
 RPIntegerAnswerFormat minutesIntegerAnswerFormat =
     RPIntegerAnswerFormat.withParams(0, 10000, "minutes");
 
-RPImageChoiceAnswerFormat imageChoiceAnswerFormat = RPImageChoiceAnswerFormat.withParams(images);
+RPImageChoiceAnswerFormat imageChoiceAnswerFormat =
+    RPImageChoiceAnswerFormat.withParams(images);
 
 RPQuestionStep timeOfDayQuestionStep = RPQuestionStep.withAnswerFormat(
     'timeOfDayQuestionStepID', 'When did you wake up?', timeOfDayAnswerFormat);
@@ -84,16 +91,22 @@ RPQuestionStep singleChoiceQuestionStep = RPQuestionStep.withAnswerFormat(
 );
 
 RPQuestionStep instrumentChoiceQuestionStep = RPQuestionStep.withAnswerFormat(
-    "instrumentChoiceQuestionStepID", "Which instrument are you playing?", instrumentsAnswerFormat);
+    "instrumentChoiceQuestionStepID",
+    "Which instrument are you playing?",
+    instrumentsAnswerFormat);
 
 RPQuestionStep happinessChoiceQuestionStep = RPQuestionStep.withAnswerFormat(
-    "happinessChoiceQuestionStepID", "What makes you happy?", joyfulActivitiesAnswerFormat);
+    "happinessChoiceQuestionStepID",
+    "What makes you happy?",
+    joyfulActivitiesAnswerFormat);
 
 RPQuestionStep weightQuestionStep = RPQuestionStep.withAnswerFormat(
     "weightQuestionStepID", "What is your weight?", weightIntegerAnswerFormat);
 
 RPQuestionStep minutesQuestionStep = RPQuestionStep.withAnswerFormat(
-    "minutesQuestionStepID", "How many minutes do you spend practicing a week?", minutesIntegerAnswerFormat);
+    "minutesQuestionStepID",
+    "How many minutes do you spend practicing a week?",
+    minutesIntegerAnswerFormat);
 
 RPQuestionStep imageChoiceQuestionStep = RPQuestionStep.withAnswerFormat(
   "imageStepID",
@@ -101,17 +114,25 @@ RPQuestionStep imageChoiceQuestionStep = RPQuestionStep.withAnswerFormat(
   imageChoiceAnswerFormat,
 );
 
-RPFormStep formStep =
-    RPFormStep.withTitle("formstepID", [instrumentChoiceQuestionStep, minutesQuestionStep], "Questions about music");
+RPFormStep formStep = RPFormStep.withTitle(
+    "formstepID",
+    [instrumentChoiceQuestionStep, minutesQuestionStep],
+    "Questions about music");
 
 RPCompletionStep completionStep = RPCompletionStep("completionID")
   ..title = "Finished"
   ..text = "Thank you for filling out the survey!";
 
+RPTappingAnswerFormat tappingAnswerFormat = RPTappingAnswerFormat.withParams();
+
+RPActivityStep activityStep = RPActivityStep.withAnswerFormat(
+    'activity step ID', 'Title', tappingAnswerFormat);
+
 RPOrderedTask surveyTask = RPOrderedTask(
   "surveyTaskID",
   [
     sliderQuestionStep,
+    activityStep,
     timeOfDayQuestionStep,
     dateAndTimeQuestionStep,
     dateQuestionStep,

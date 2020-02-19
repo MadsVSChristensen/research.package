@@ -30,9 +30,11 @@ part 'src/ui/RPUIQuestionStep.dart';
 part 'src/ui/RPUIInstructionStep.dart';
 part 'src/ui/RPUICompletionStep.dart';
 part 'src/ui/RPUIFormStep.dart';
+part 'src/ui/RPUIActivityStep.dart';
 
 part 'src/ui/QuestionBody/RPUIIntegerQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUIChoiceQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUISliderQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUIImageChoiceQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUIDateTimeQuestionBody.dart';
+part 'src/ui/QuestionBody/RPUITappingActivityBody.dart';
