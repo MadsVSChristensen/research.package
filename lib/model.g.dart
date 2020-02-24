@@ -284,6 +284,27 @@ Map<String, dynamic> _$RPTappingAnswerFormatToJson(
   return val;
 }
 
+RPTrailMakingAnswerFormat _$RPTrailMakingAnswerFormatFromJson(
+    Map<String, dynamic> json) {
+  return RPTrailMakingAnswerFormat()
+    ..questionType =
+        _$enumDecodeNullable(_$QuestionTypeEnumMap, json['question_type']);
+}
+
+Map<String, dynamic> _$RPTrailMakingAnswerFormatToJson(
+    RPTrailMakingAnswerFormat instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('question_type', _$QuestionTypeEnumMap[instance.questionType]);
+  return val;
+}
+
 RPConsentDocument _$RPConsentDocumentFromJson(Map<String, dynamic> json) {
   return RPConsentDocument()
     ..title = json['title'] as String

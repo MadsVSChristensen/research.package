@@ -38,3 +38,4 @@ part 'src/ui/QuestionBody/RPUISliderQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUIImageChoiceQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUIDateTimeQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUITappingActivityBody.dart';
+part 'src/ui/QuestionBody/RPUITrailMakingActivityBody.dart';

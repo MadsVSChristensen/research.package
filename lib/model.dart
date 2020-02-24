@@ -25,6 +25,7 @@ part 'src/model/answerformat/RPSliderAnswerFormat.dart';
 part 'src/model/answerformat/RPImageChoiceAnswerFormat.dart';
 part 'src/model/answerformat/RPDateTimeAnswerFormat.dart';
 part 'src/model/answerformat/RPTappingAnswerFormat.dart';
+part 'src/model/answerformat/RPTrailMakingAnswerFormat.dart';
 
 part 'src/model/consent/RPConsentDocument.dart';
 part 'src/model/consent/RPConsentSection.dart';

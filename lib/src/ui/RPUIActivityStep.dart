@@ -66,10 +66,10 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
         return RPUIDateTimeQuestionBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
         });
-      /* case RPTrailMakerAnswerFormat:
-        return RPUITrailMakerActivityBody(answerFormat, (result) {
+      case RPTrailMakingAnswerFormat:
+        return RPUITrailMakingActivityBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
-        }); */
+        });
       case RPTappingAnswerFormat:
         return RPUITappingActivityBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
