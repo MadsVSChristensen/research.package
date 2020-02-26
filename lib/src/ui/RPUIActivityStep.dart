@@ -87,12 +87,40 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        title: Text(
-            "${recentTaskProgress.current} of ${recentTaskProgress.total}"),
-        automaticallyImplyLeading: false,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          stepBody(widget.step.answerFormat),
+        ],
       ),
-      body: ListView(
+       persistentFooterButtons: <Widget>[
+        FlatButton(
+          onPressed: () => blocTask.sendStatus(StepStatus.Canceled),
+          child: Text(
+            "CANCEL",
+            style: TextStyle(color: Colors.redAccent),
+          ),
+        ),
+        RaisedButton(
+          color: Theme.of(context).accentColor,
+          textColor: Colors.white,
+          child: Text(
+            "NEXT",
+          ),
+          onPressed: readyToProceed
+              ? () {
+                  // Communicating with the RPUITask Widget
+                  blocTask.sendStatus(StepStatus.Finished);
+                  createAndSendResult();
+                }
+              : null,
+        ),
+      ],
+    );
+    
+  }
+
+/* body: ListView(
         padding: EdgeInsets.all(8),
         children: [
           title(),
@@ -107,9 +135,7 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
             ),
           ),
         ],
-      ),
-    );
-  }
+      ), */
 
   // Render the title above the ActivityBody
   Widget title() {
