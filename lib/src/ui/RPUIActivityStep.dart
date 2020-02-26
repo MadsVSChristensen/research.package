@@ -74,6 +74,10 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
         return RPUITappingActivityBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
         });
+      case RPReactionTimeAnswerFormat:
+        return RPUIReactionTimeActivityBody(answerFormat, (result) {
+          this.currentActivityBodyResult = result;
+        });
       default:
         return Container();
     }

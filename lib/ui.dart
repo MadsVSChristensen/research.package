@@ -15,8 +15,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:signature/signature.dart';
 import 'dart:async';
+import 'dart:math';
+import 'dart:core';
 
 import 'package:research_package/model.dart';
+
 
 // Library elements
 part 'src/ui/RPStyles.dart';
@@ -38,3 +41,4 @@ part 'src/ui/QuestionBody/RPUISliderQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUIImageChoiceQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUIDateTimeQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUITappingActivityBody.dart';
+part 'src/ui/QuestionBody/RPUIReactionTimeActivityBody.dart';

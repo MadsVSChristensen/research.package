@@ -125,14 +125,21 @@ RPCompletionStep completionStep = RPCompletionStep("completionID")
 
 RPTappingAnswerFormat tappingAnswerFormat = RPTappingAnswerFormat.withParams();
 
-RPActivityStep activityStep = RPActivityStep.withAnswerFormat(
+RPActivityStep tappingStep = RPActivityStep.withAnswerFormat(
     'activity step ID', 'Title', tappingAnswerFormat);
+
+
+RPReactionTimeAnswerFormat reactionTimeAnswerFormat = RPReactionTimeAnswerFormat.withParams();
+
+RPActivityStep reactionTimeStep = RPActivityStep.withAnswerFormat(
+    'activity step ID', 'Title', reactionTimeAnswerFormat);
 
 RPOrderedTask surveyTask = RPOrderedTask(
   "surveyTaskID",
   [
+    reactionTimeStep,
+    tappingStep,
     sliderQuestionStep,
-    activityStep,
     timeOfDayQuestionStep,
     dateAndTimeQuestionStep,
     dateQuestionStep,
