@@ -78,6 +78,10 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
         return RPUIReactionTimeActivityBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
         });
+      case RPRapidVisualInfoProcessingAnswerFormat:
+        return RPUIRapidVisualInfoProcessingBody(answerFormat, (result) {
+          this.currentActivityBodyResult = result;
+        });
       default:
         return Container();
     }
@@ -93,7 +97,7 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
           stepBody(widget.step.answerFormat),
         ],
       ),
-       persistentFooterButtons: <Widget>[
+      persistentFooterButtons: <Widget>[
         FlatButton(
           onPressed: () => blocTask.sendStatus(StepStatus.Canceled),
           child: Text(
@@ -117,7 +121,6 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
         ),
       ],
     );
-    
   }
 
 /* body: ListView(

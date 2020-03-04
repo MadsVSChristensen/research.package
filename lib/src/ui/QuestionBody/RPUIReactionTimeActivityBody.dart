@@ -26,7 +26,6 @@ class _RPUIReactionTimeActivityBodyState
   final _sw = new Stopwatch();
   List<int> rtList = [];
   double result = 0;
-  bool readyToProceed = false;
 
   //wrong taps currently do nothing.
 

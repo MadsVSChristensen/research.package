@@ -10,6 +10,8 @@
 library research_package_ui;
 
 // Imports
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -42,3 +44,4 @@ part 'src/ui/QuestionBody/RPUIImageChoiceQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUIDateTimeQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUITappingActivityBody.dart';
 part 'src/ui/QuestionBody/RPUIReactionTimeActivityBody.dart';
+part 'src/ui/QuestionBody/RPUIRapidVisualInfoProcessingBody.dart';
