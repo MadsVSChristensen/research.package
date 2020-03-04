@@ -14,22 +14,30 @@ class RPUIRapidVisualInfoProcessingBody extends StatefulWidget {
 class _RPUIRapidVisualInfoProcessingBody
     extends State<RPUIRapidVisualInfoProcessingBody> {
   final _random = new Random();
-  int interval = 3;
-  int testDuration = 20; //test duration in seconds - time untill window changes
-  int newNum = 0;
-  int goodTaps = 0;
-  int badTaps = 0;
-  Duration displayTime = new Duration(seconds: 1);
-  DateTime time;
-  bool testLive = false;
-  bool seqPassed = false;
+  int interval = 3; //interval in which numbers appear (should be 9 (0-9))
+  int testDuration = 40; //test duration in seconds - time untill window changes
+  int newNum = 0; //int for next random generated number on screen
+  int goodTaps = 0; //number of taps that were correct
+  int badTaps = 0; //number of taps that were wrong
+  int seqsPassed =
+      0; //number of times the given sequence passed: cap for good taps
+  Duration displayTime =
+      new Duration(seconds: 1); //amount of time each number is displayed
+  DateTime time; //current time
+  bool testLive = false; //whether the test is in progress or not
+  bool seqPassed =
+      false; //if a sequence has passed or not, meaning a tap would be a correct tap if true.
   List<bool> listIndexes = [
     true
   ]; //booleans for keeping track of lowest index - for registering a sequence has passed
-  List<int> seq1 = [1, 2, 3];
-  List<int> curSeq = [];
-  List<int> delaysList = [];
+  List<int> seq1 = [1, 2, 3]; //sequence of numbers that we wish to track
+  List<int> curSeq = []; //numbers that have appeared on screen in a list
+  List<int> delaysList =
+      []; //list of delay from seqPassed is set true, to button is pressed.
   final _sw = new Stopwatch();
+
+  //Todo: determine how test results are evaluated: Hit sequences, delay in doing so, and false taps are recorded.
+  //seqsPassed can be different that good and bad taps total! Meaning tap should have occured but didnt, before next full sequence.
 
   @override
   initState() {
@@ -41,6 +49,7 @@ class _RPUIRapidVisualInfoProcessingBody
         //periodic timer to update number on screen - starts in init currently.
         displayTime, (Timer t) {
       if (this.mounted) {
+        //make sure window is mounted and that test is live before setting state.
         if (testLive) {
           setState(() {
             numGenerator();
@@ -64,6 +73,7 @@ class _RPUIRapidVisualInfoProcessingBody
   }
 
   void numGenerator() {
+    //generates the numbers to display on screen
     int nextNum = _random.nextInt(interval) + 1; //plus one to not get 0.
     while (newNum == nextNum) {
       //currently code enforces no repetition of numbers - for graphics sakes.
@@ -85,11 +95,12 @@ class _RPUIRapidVisualInfoProcessingBody
       //set all bool flags to false except first one, to restart sequencing
       seqPassed =
           true; //set flag so next press on button gives a positive result
+      seqsPassed++;
+      _sw.reset(); //if a new sequence passes, reset stopwatch.
       _sw.start(); //timer to note delay on presssing button after seeing sequence
-      for (int i = 0; i < listIndexes.length-1; i++) {
+      for (int i = 0; i < listIndexes.length - 1; i++) {
         listIndexes[i + 1] = false;
       }
-      print("true");
     }
   }
 
@@ -108,19 +119,17 @@ class _RPUIRapidVisualInfoProcessingBody
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text('$newNum', style: TextStyle(fontSize: 30)),
-              //update this widget alone!!!!!
             ],
           ),
           OutlineButton(onPressed: () {
+            //on pressed - time is tracked if sequence has actually passed, otherwise no.
             if (seqPassed) {
               seqPassed = false;
               goodTaps++;
-              print('good taps $goodTaps');
               _sw.stop();
               delaysList.add(_sw.elapsedMilliseconds);
               _sw.reset();
             } else {
-              print('that was a bad tap');
               badTaps++;
             }
           })

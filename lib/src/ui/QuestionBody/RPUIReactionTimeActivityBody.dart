@@ -24,12 +24,13 @@ class _RPUIReactionTimeActivityBodyState
   bool lightOn = false;
   bool testLive = false;
   final _sw = new Stopwatch();
-  List<int> rtList = [];
+  List<int> rtList = []; //delay times list
   double result = 0;
 
   //wrong taps currently do nothing.
 
   void lightRegulator() {
+    //determines when light is changed, and starts timer when screen turns green. only called when light is red.
     timer = _random.nextInt(interval) + 1;
     Timer(Duration(seconds: timer), () {
       setState(() {
@@ -48,13 +49,13 @@ class _RPUIReactionTimeActivityBodyState
     Timer(Duration(seconds: testDuration), () {
       setState(() {
         if (rtList.isEmpty) {
+          //if nothing was pressed during the whole test, add 0.
           rtList.add(0);
         }
         for (int i = 0; i < rtList.length; i++) {
           result += (rtList[i]);
-          print(rtList[i]);
         }
-        result = result / rtList.length;
+        result = result / rtList.length; //calculate average delay from test.
         widget.onResultChange(result);
       });
     });
@@ -66,12 +67,14 @@ class _RPUIReactionTimeActivityBodyState
       return Expanded(
           child: InkWell(
               onTap: () {
+                //on tap depends on if light is on. If so, record time, turn light off, and call lightRegulator.
                 if (lightOn) {
                   setState(() {
                     lightOn = false;
                     correctTaps++;
                     _sw.stop();
-                    rtList.add(_sw.elapsedMilliseconds);
+                    rtList.add(
+                        _sw.elapsedMilliseconds); //add delay for current tap.
                     _sw.reset();
                   });
                   lightRegulator();
@@ -103,6 +106,5 @@ class _RPUIReactionTimeActivityBodyState
         ),
       );
     }
-    
   }
 }
