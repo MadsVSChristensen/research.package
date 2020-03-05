@@ -14,8 +14,9 @@ class RPUIRapidVisualInfoProcessingBody extends StatefulWidget {
 class _RPUIRapidVisualInfoProcessingBody
     extends State<RPUIRapidVisualInfoProcessingBody> {
   final _random = new Random();
+  String texthint = 'Click button to begin';
   int interval = 3; //interval in which numbers appear (should be 9 (0-9))
-  int testDuration = 40; //test duration in seconds - time untill window changes
+  int testDuration = 2; //test duration in seconds - time untill window changes
   int newNum = 0; //int for next random generated number on screen
   int goodTaps = 0; //number of taps that were correct
   int badTaps = 0; //number of taps that were wrong
@@ -26,25 +27,33 @@ class _RPUIRapidVisualInfoProcessingBody
   DateTime time; //current time
   bool testLive = false; //whether the test is in progress or not
   bool seqPassed =
-      false; //if a sequence has passed or not, meaning a tap would be a correct tap if true.
+      false; //if a sequence has passed or not, meaning a tap would be a correct tap if true
+  bool first = true; //first tap of button starts the test
   List<bool> listIndexes = [
     true
   ]; //booleans for keeping track of lowest index - for registering a sequence has passed
   List<int> seq1 = [1, 2, 3]; //sequence of numbers that we wish to track
   List<int> curSeq = []; //numbers that have appeared on screen in a list
   List<int> delaysList =
-      []; //list of delay from seqPassed is set true, to button is pressed.
+      []; //list of delay from seqPassed is set true, to button is pressed
   final _sw = new Stopwatch();
 
-  //Todo: determine how test results are evaluated: Hit sequences, delay in doing so, and false taps are recorded.
+  //Todo: determine how test results are evaluated: Hit sequences, delay in doing so, and false taps are recorded
   //seqsPassed can be different that good and bad taps total! Meaning tap should have occured but didnt, before next full sequence.
 
   @override
   initState() {
-    numGenerator();
     super.initState();
     time = DateTime.now();
     testLive = true; //test currently starts right away
+    for (int i = 0; i < seq1.length; i++) {
+      //adds bools according to sequence lengths
+      listIndexes.add(false);
+    }
+  }
+
+  void timerBody() {
+    first = false;
     new Timer.periodic(
         //periodic timer to update number on screen - starts in init currently.
         displayTime, (Timer t) {
@@ -61,10 +70,6 @@ class _RPUIRapidVisualInfoProcessingBody
         }
       }
     });
-    for (int i = 0; i < seq1.length; i++) {
-      //adds bools according to sequence lengths
-      listIndexes.add(false);
-    }
     Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
       testLive = false;
@@ -84,7 +89,7 @@ class _RPUIRapidVisualInfoProcessingBody
   }
 
 //check if sequence have appeared through setting an array of bools for each number
-//Keeping it dynamic, so size of sequence can vary freely.
+//Keeping it dynamic, so size of sequence can vary freely
   void sequenceChecker(seq) {
     for (int i = 0; i < seq1.length; i++) {
       if (newNum == seq[i] && listIndexes[i] == true) {
@@ -96,9 +101,10 @@ class _RPUIRapidVisualInfoProcessingBody
       seqPassed =
           true; //set flag so next press on button gives a positive result
       seqsPassed++;
-      _sw.reset(); //if a new sequence passes, reset stopwatch.
+      _sw.reset(); //if a new sequence passes, reset stopwatch
       _sw.start(); //timer to note delay on presssing button after seeing sequence
       for (int i = 0; i < listIndexes.length - 1; i++) {
+        //reset list of bools for tracking if sequence passed
         listIndexes[i + 1] = false;
       }
     }
@@ -111,18 +117,24 @@ class _RPUIRapidVisualInfoProcessingBody
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('Click the button when you see the sequence:',
+          Text('Click the button when the sequence has passed:',
               style: TextStyle(fontSize: 18)),
           Text('$seq1', style: TextStyle(fontSize: 18)),
           Container(height: 40),
-          Row(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text('$newNum', style: TextStyle(fontSize: 30)),
+              Text('$texthint', style: TextStyle(fontSize: 16)),
             ],
           ),
           OutlineButton(onPressed: () {
-            //on pressed - time is tracked if sequence has actually passed, otherwise no.
+            //on pressed - time is tracked if sequence has actually passed, otherwise no
+            if (first) {
+              //first press on button starts the test
+              texthint = '';
+              timerBody();
+            }
             if (seqPassed) {
               seqPassed = false;
               goodTaps++;
@@ -137,12 +149,14 @@ class _RPUIRapidVisualInfoProcessingBody
       ));
     } else {
       return Container(
-        padding: EdgeInsets.all(20),
-        child: Text(
-          'bing bong youre done with $goodTaps good taps and $badTaps wrong taps',
-          style: TextStyle(fontSize: 22),
-        ),
-      );
+          padding: EdgeInsets.all(20),
+          child: Column(children: <Widget>[
+            Text('The test is done!', style: TextStyle(fontSize: 22)),
+            Text(
+              'You had $goodTaps correct taps and $badTaps wrong ones',
+              style: TextStyle(fontSize: 20),
+            )
+          ]));
     }
   }
 }
