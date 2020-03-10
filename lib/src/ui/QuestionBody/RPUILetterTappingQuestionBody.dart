@@ -22,6 +22,65 @@ class _RPUILetterTappingActivityBodyState
   Timer timer;
   bool shouldTap;
   bool wasTapped;
+  List<String> alphabet = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z'
+  ];
+  List<String> mocaTestList = [
+    'F',
+    'B',
+    'A',
+    'C',
+    'M',
+    'N',
+    'A',
+    'A',
+    'J',
+    'K',
+    'L',
+    'B',
+    'A',
+    'F',
+    'A',
+    'K',
+    'D',
+    'E',
+    'A',
+    'A',
+    'A',
+    'J',
+    'A',
+    'M',
+    'O',
+    'F',
+    'A',
+    'A',
+    'B'
+  ];
 
   @override
   initState() {
@@ -31,40 +90,16 @@ class _RPUILetterTappingActivityBodyState
     player = AudioCache(
         prefix: 'packages/research_package/assets/sounds/',
         fixedPlayer: audioPlayer);
-    player.loadAll([
-      'A.mp3',
-      'B.mp3',
-      'C.mp3',
-      'D.mp3',
-      'E.mp3',
-      'F.mp3',
-      'G.mp3',
-      'H.mp3',
-      'I.mp3',
-      'J.mp3',
-      'K.mp3',
-      'L.mp3',
-      'M.mp3',
-      'N.mp3',
-      'O.mp3',
-      'P.mp3',
-      'Q.mp3',
-      'R.mp3',
-      'S.mp3',
-      'T.mp3',
-      'U.mp3',
-      'V.mp3',
-      'W.mp3',
-      'X.mp3',
-      'Y.mp3',
-      'Z.mp3',
-    ]);
+    player.loadAll(alphabet.map((item) => (item + '.mp3')).toList());
   }
 
   void updateLetter(String newLetter) {
     if (currentLetter == 'A' && !wasTapped) {
       errors += 1;
+      print(
+          'Error at letter $currentLetter - Letter was A but wasTapped = false at update time (forgot to tap)');
     }
+    wasTapped = false;
     currentLetter = newLetter;
   }
 
@@ -88,10 +123,16 @@ class _RPUILetterTappingActivityBodyState
                         setState(() {
                           isPlaying = true;
                         });
-                        player.play('A.mp3');
+                        await Future.delayed(Duration(seconds: 2));
+                        for (String letter in mocaTestList) {
+                          updateLetter(letter);
+                          player.play('$letter.mp3');
+                          await Future.delayed(Duration(seconds: 1));
+                        }
+
+                        /* player.play('A.mp3');
                         updateLetter('A');
                         await Future.delayed(Duration(seconds: 1));
-                        wasTapped = false;
                         player.play('B.mp3');
                         updateLetter('B');
                         await Future.delayed(Duration(seconds: 1));
@@ -166,7 +207,8 @@ class _RPUILetterTappingActivityBodyState
                         await Future.delayed(Duration(seconds: 1));
                         player.play('Z.mp3');
                         updateLetter('Z');
-                        await Future.delayed(Duration(seconds: 1));
+                        await Future.delayed(Duration(seconds: 1)); */
+
                         updateLetter('');
                         setState(() {
                           isPlaying = false;
@@ -182,10 +224,14 @@ class _RPUILetterTappingActivityBodyState
                       : () {
                           if (currentLetter != 'A') {
                             errors += 1;
+                            print(
+                                'Error at letter $currentLetter - Tapped while current letter not A');
                           }
                           if (currentLetter == 'A') {
                             if (wasTapped) {
                               errors += 1;
+                              print(
+                                  'Error at letter $currentLetter - Tapped letter A while wasTapped = true (tapped too many times)');
                             } else {
                               wasTapped = true;
                             }
