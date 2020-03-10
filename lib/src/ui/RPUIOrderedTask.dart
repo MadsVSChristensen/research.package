@@ -47,7 +47,8 @@ class _RPUIOrderedTaskState extends State<RPUIOrderedTask> with CanSaveResult {
     });
 
     // Sending the initial Task Progress so the Question UI can use it in the app bar
-    blocTask.updateTaskProgress(RPTaskProgress(currentQuestionIndex, nrOfQuestionSteps));
+    blocTask.updateTaskProgress(
+        RPTaskProgress(currentQuestionIndex, nrOfQuestionSteps));
 
     // Subscribe to step status changes so the navigation can be triggered
     stepStatusSubscription = blocTask.stepStatus.listen((data) {
@@ -65,13 +66,15 @@ class _RPUIOrderedTaskState extends State<RPUIOrderedTask> with CanSaveResult {
           // Updating taskProgress stream
           if (currentStep.runtimeType == RPQuestionStep) {
             currentQuestionIndex++;
-            blocTask.updateTaskProgress(RPTaskProgress(currentQuestionIndex, nrOfQuestionSteps));
+            blocTask.updateTaskProgress(
+                RPTaskProgress(currentQuestionIndex, nrOfQuestionSteps));
           }
 
           // Calculating next step and then navigate there
           currentStep = widget.task.getStepAfterStep(currentStep, null);
           currentStepIndex++;
-          taskPageViewController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.decelerate);
+          taskPageViewController.nextPage(
+              duration: Duration(milliseconds: 300), curve: Curves.decelerate);
           break;
 
         case StepStatus.Canceled:
@@ -85,6 +88,7 @@ class _RPUIOrderedTaskState extends State<RPUIOrderedTask> with CanSaveResult {
           break;
       }
     });
+
     stepResultSubscription = blocTask.stepResult.listen((stepResult) {
       taskResult.setStepResultForIdentifier(stepResult.identifier, stepResult);
 //      print("This is the taskresult so far: ${taskResult.results}");
@@ -113,7 +117,8 @@ class _RPUIOrderedTaskState extends State<RPUIOrderedTask> with CanSaveResult {
           actions: <Widget>[
             FlatButton(
               child: Text("NO"),
-              onPressed: () => Navigator.of(context).pop(), // Dismissing the pop-up
+              onPressed: () =>
+                  Navigator.of(context).pop(), // Dismissing the pop-up
             ),
             FlatButton(
               child: Text("YES"),

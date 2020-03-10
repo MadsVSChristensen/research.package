@@ -74,6 +74,10 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
         return RPUITappingActivityBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
         });
+      case RPLetterTappingAnswerFormat:
+        return RPUILetterTappingActivityBody(answerFormat, (result) {
+          this.currentActivityBodyResult = result;
+        });
       default:
         return Container();
     }
@@ -89,9 +93,9 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
         automaticallyImplyLeading: false,
       ),
       body: ListView(
+        physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.all(8),
         children: [
-          title(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(

@@ -30,7 +30,11 @@ class RPStepResult extends RPResult {
     try {
       this.answerFormat = (step as RPQuestionStep).answerFormat;
     } catch (e) {
-      print(e);
+      try {
+        this.answerFormat = (step as RPActivityStep).answerFormat;
+      } catch (e) {
+        print(e);
+      }
     }
 
     startDate = DateTime.now();
@@ -63,6 +67,7 @@ class RPStepResult extends RPResult {
     this.endDate = DateTime.now();
   }
 
-  factory RPStepResult.fromJson(Map<String, dynamic> json) => _$RPStepResultFromJson(json);
+  factory RPStepResult.fromJson(Map<String, dynamic> json) =>
+      _$RPStepResultFromJson(json);
   Map<String, dynamic> toJson() => _$RPStepResultToJson(this);
 }

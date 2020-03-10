@@ -10,6 +10,7 @@
 library research_package_ui;
 
 // Imports
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -39,3 +40,4 @@ part 'src/ui/QuestionBody/RPUIImageChoiceQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUIDateTimeQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUITappingActivityBody.dart';
 part 'src/ui/QuestionBody/RPUITrailMakingActivityBody.dart';
+part 'src/ui/QuestionBody/RPUILetterTappingQuestionBody.dart';
