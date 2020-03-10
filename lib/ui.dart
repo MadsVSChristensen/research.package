@@ -11,6 +11,7 @@ library research_package_ui;
 
 // Imports
 import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,6 @@ import 'dart:math';
 import 'dart:core';
 
 import 'package:research_package/model.dart';
-
 
 // Library elements
 part 'src/ui/RPStyles.dart';

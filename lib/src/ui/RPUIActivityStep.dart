@@ -127,23 +127,6 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
     );
   }
 
-      body: ListView(
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.all(8),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: stepBody(widget.step.answerFormat),
-              ),
-            ),
-          ),
-        ],
-      ), 
-
   // Render the title above the ActivityBody
   Widget title() {
     if (widget.step.title != null) {

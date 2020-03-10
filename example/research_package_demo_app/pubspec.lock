@@ -180,7 +180,7 @@ packages:
   research_package:
     dependency: "direct main"
     description:
-      path: "\\Users\\daman\\Desktop\\Uni\\flutter\\research.package"
+      path: "/Users/madsvedelsaabychristensen/Development/Bachelor/research.package"
       relative: false
     source: path
     version: "0.1.2"

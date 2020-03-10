@@ -176,7 +176,7 @@ class _PathTracker extends ChangeNotifier {
         nextLocation.rect.contains(lastPoint)) {
       print('good end');
       prevLocation = nextLocation;
-      if (index <= _locations.length) {
+      if (index < _locations.length - 1) {
         index += 1;
         nextLocation = _locations[index];
       } else {
