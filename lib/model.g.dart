@@ -326,6 +326,49 @@ Map<String, dynamic> _$RPLetterTappingAnswerFormatToJson(
   return val;
 }
 
+RPReactionTimeAnswerFormat _$RPReactionTimeAnswerFormatFromJson(
+    Map<String, dynamic> json) {
+  return RPReactionTimeAnswerFormat()
+    ..questionType =
+        _$enumDecodeNullable(_$QuestionTypeEnumMap, json['question_type']);
+}
+
+Map<String, dynamic> _$RPReactionTimeAnswerFormatToJson(
+    RPReactionTimeAnswerFormat instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('question_type', _$QuestionTypeEnumMap[instance.questionType]);
+  return val;
+}
+
+RPRapidVisualInfoProcessingAnswerFormat
+    _$RPRapidVisualInfoProcessingAnswerFormatFromJson(
+        Map<String, dynamic> json) {
+  return RPRapidVisualInfoProcessingAnswerFormat()
+    ..questionType =
+        _$enumDecodeNullable(_$QuestionTypeEnumMap, json['question_type']);
+}
+
+Map<String, dynamic> _$RPRapidVisualInfoProcessingAnswerFormatToJson(
+    RPRapidVisualInfoProcessingAnswerFormat instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('question_type', _$QuestionTypeEnumMap[instance.questionType]);
+  return val;
+}
+
 RPConsentDocument _$RPConsentDocumentFromJson(Map<String, dynamic> json) {
   return RPConsentDocument()
     ..title = json['title'] as String

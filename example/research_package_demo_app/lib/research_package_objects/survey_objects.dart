@@ -131,8 +131,18 @@ RPTrailMakingAnswerFormat trailMakingAnswerFormat =
 RPLetterTappingAnswerFormat letterTappingAnswerFormat =
     RPLetterTappingAnswerFormat.withParams();
 
-RPActivityStep activityStep = RPActivityStep.withAnswerFormat(
+RPActivityStep tappingStep = RPActivityStep.withAnswerFormat(
     'activity step ID', 'Title', tappingAnswerFormat);
+
+RPReactionTimeAnswerFormat reactionTimeAnswerFormat = RPReactionTimeAnswerFormat.withParams();
+
+RPActivityStep reactionTimeStep = RPActivityStep.withAnswerFormat(
+    'activity step ID', 'Title', reactionTimeAnswerFormat);
+
+RPRapidVisualInfoProcessingAnswerFormat rapidVisualInfoProcessingAnswerFormat = RPRapidVisualInfoProcessingAnswerFormat.withParams();
+
+RPActivityStep rapidVisualInfoProcessingStep = RPActivityStep.withAnswerFormat(
+    'activity step ID', 'Title', rapidVisualInfoProcessingAnswerFormat);
 
 RPActivityStep activityStepTrail = RPActivityStep.withAnswerFormat(
     'identifier', 'title', trailMakingAnswerFormat);
@@ -146,6 +156,9 @@ RPOrderedTask surveyTask = RPOrderedTask(
     activityStepLetterTapping,
     activityStepTrail,
     activityStep,
+    rapidVisualInfoProcessingStep,
+    reactionTimeStep,
+    tappingStep,
     sliderQuestionStep,
     timeOfDayQuestionStep,
     dateAndTimeQuestionStep,
