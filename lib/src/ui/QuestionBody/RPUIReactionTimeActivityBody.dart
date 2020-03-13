@@ -40,18 +40,19 @@ class _RPUIReactionTimeActivityBodyState
 
   void lightRegulator() {
     //determines when light is changed, and starts timer when screen turns green. only called when light is red.
-      timer = _random.nextInt(interval) + 1;
-      Timer(Duration(seconds: timer), () {
-        if (this.mounted) {
+    timer = _random.nextInt(interval) + 1;
+    Timer(Duration(seconds: timer), () {
+      if (this.mounted) {
         setState(() {
           lightOn = true;
           _sw.start();
         });
-        }
-      });
+      }
+    });
   }
 
-  void testTimer() { //times the test and calculates result when done.
+  void testTimer() {
+    //times the test and calculates result when done.
     Timer(Duration(seconds: testDuration), () {
       testLive = false;
       if (this.mounted) {
@@ -63,7 +64,9 @@ class _RPUIReactionTimeActivityBodyState
           result += (rtList[i]);
         }
         result = result / rtList.length; //calculate average delay from test.
-        widget.onResultChange(result);
+        if (this.mounted) {
+          widget.onResultChange(result);
+        }
       }
     });
   }

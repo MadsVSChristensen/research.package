@@ -45,3 +45,5 @@ part 'src/ui/QuestionBody/RPUIDateTimeQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUITappingActivityBody.dart';
 part 'src/ui/QuestionBody/RPUIReactionTimeActivityBody.dart';
 part 'src/ui/QuestionBody/RPUIRapidVisualInfoProcessingBody.dart';
+part 'src/ui/QuestionBody/RPUIPairedAssociatesLearningBody.dart';
+

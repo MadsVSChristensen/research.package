@@ -82,6 +82,10 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
         return RPUIRapidVisualInfoProcessingBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
         });
+      case RPPairedAssociatesLearningAnswerFormat:
+        return RPUIPairedAssociatesLearningBody(answerFormat, (result) {
+          this.currentActivityBodyResult = result;
+        });
       default:
         return Container();
     }

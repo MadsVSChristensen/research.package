@@ -16,7 +16,7 @@ class _RPUIRapidVisualInfoProcessingBody
   final _random = new Random();
   String texthint = 'Click button to begin';
   int interval = 3; //interval in which numbers appear (should be 9 (0-9))
-  int testDuration = 2; //test duration in seconds - time untill window changes
+  int testDuration = 5; //test duration in seconds - time untill window changes
   int newNum = 0; //int for next random generated number on screen
   int goodTaps = 0; //number of taps that were correct
   int badTaps = 0; //number of taps that were wrong
@@ -53,7 +53,6 @@ class _RPUIRapidVisualInfoProcessingBody
   }
 
   void timerBody() {
-    first = false;
     new Timer.periodic(
         //periodic timer to update number on screen - starts in init currently.
         displayTime, (Timer t) {
@@ -73,7 +72,9 @@ class _RPUIRapidVisualInfoProcessingBody
     Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
       testLive = false;
-      widget.onResultChange(0);
+      if (this.mounted) {
+        widget.onResultChange(0);
+      }
     });
   }
 
@@ -133,16 +134,18 @@ class _RPUIRapidVisualInfoProcessingBody
             if (first) {
               //first press on button starts the test
               texthint = '';
+              first = false;
               timerBody();
-            }
-            if (seqPassed) {
-              seqPassed = false;
-              goodTaps++;
-              _sw.stop();
-              delaysList.add(_sw.elapsedMilliseconds);
-              _sw.reset();
             } else {
-              badTaps++;
+              if (seqPassed) {
+                seqPassed = false;
+                goodTaps++;
+                _sw.stop();
+                delaysList.add(_sw.elapsedMilliseconds);
+                _sw.reset();
+              } else {
+                badTaps++;
+              }
             }
           })
         ],

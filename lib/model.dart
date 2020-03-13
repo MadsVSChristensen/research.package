@@ -27,6 +27,7 @@ part 'src/model/answerformat/RPDateTimeAnswerFormat.dart';
 part 'src/model/answerformat/RPTappingAnswerFormat.dart';
 part 'src/model/answerformat/RPReactionTimeAnswerFormat.dart';
 part 'src/model/answerformat/RPRapidVisualInfoProcessingAnswerFormat.dart';
+part 'src/model/answerformat/RPPairedAssociatesLearningAnswerFormat.dart';
 
 part 'src/model/consent/RPConsentDocument.dart';
 part 'src/model/consent/RPConsentSection.dart';

@@ -138,9 +138,15 @@ RPRapidVisualInfoProcessingAnswerFormat rapidVisualInfoProcessingAnswerFormat = 
 RPActivityStep rapidVisualInfoProcessingStep = RPActivityStep.withAnswerFormat(
     'activity step ID', 'Title', rapidVisualInfoProcessingAnswerFormat);
 
+RPPairedAssociatesLearningAnswerFormat pairedAssociatesLearningAnswerFormat = RPPairedAssociatesLearningAnswerFormat.withParams();
+
+RPActivityStep pairedAssociatesLearningStep = RPActivityStep.withAnswerFormat(
+    'activity step ID', 'Title', pairedAssociatesLearningAnswerFormat);
+
 RPOrderedTask surveyTask = RPOrderedTask(
   "surveyTaskID",
   [
+    pairedAssociatesLearningStep,
     rapidVisualInfoProcessingStep,
     reactionTimeStep,
     tappingStep,
