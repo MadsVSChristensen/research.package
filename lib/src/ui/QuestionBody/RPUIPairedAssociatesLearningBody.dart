@@ -16,7 +16,7 @@ class _RPUIPairedAssociatesLearningBody
   final _random = new Random();
   bool testBegin = true;
   bool testLive = false;
-  bool buttonsDisabled = false;
+  bool buttonsDisabled = false; //diable when peaking tiles and when checking result
   int correct =
       0; //introduce int that can be 0, 1 and 2 for three possibilities. (indicates if, and which icon to show)
   int successes = 0;
@@ -278,6 +278,7 @@ class _RPUIPairedAssociatesLearningBody
         color: containerHide[buttonNumber], //let containerHide control the look of button
         onPressed: () {
           if (!buttonsDisabled) {
+            buttonsDisabled = true;
             checkMatchClick(buttonNumber); //check if click was correct if all tiles have been peaked
           }
         }));
