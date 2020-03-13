@@ -66,12 +66,16 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
         return RPUIDateTimeQuestionBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
         });
-      /* case RPTrailMakerAnswerFormat:
-        return RPUITrailMakerActivityBody(answerFormat, (result) {
+      case RPTrailMakingAnswerFormat:
+        return RPUITrailMakingActivityBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
-        }); */
+        });
       case RPTappingAnswerFormat:
         return RPUITappingActivityBody(answerFormat, (result) {
+          this.currentActivityBodyResult = result;
+        });
+      case RPLetterTappingAnswerFormat:
+        return RPUILetterTappingActivityBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
         });
       case RPReactionTimeAnswerFormat:
@@ -126,23 +130,6 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
       ],
     );
   }
-
-/* body: ListView(
-        padding: EdgeInsets.all(8),
-        children: [
-          title(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: stepBody(widget.step.answerFormat),
-              ),
-            ),
-          ),
-        ],
-      ), */
 
   // Render the title above the ActivityBody
   Widget title() {

@@ -125,18 +125,32 @@ RPCompletionStep completionStep = RPCompletionStep("completionID")
 
 RPTappingAnswerFormat tappingAnswerFormat = RPTappingAnswerFormat.withParams();
 
+RPTrailMakingAnswerFormat trailMakingAnswerFormat =
+    RPTrailMakingAnswerFormat.withParams();
+
+RPLetterTappingAnswerFormat letterTappingAnswerFormat =
+    RPLetterTappingAnswerFormat.withParams();
+
 RPActivityStep tappingStep = RPActivityStep.withAnswerFormat(
     'activity step ID', 'Title', tappingAnswerFormat);
 
-RPReactionTimeAnswerFormat reactionTimeAnswerFormat = RPReactionTimeAnswerFormat.withParams();
+RPReactionTimeAnswerFormat reactionTimeAnswerFormat =
+    RPReactionTimeAnswerFormat.withParams();
 
 RPActivityStep reactionTimeStep = RPActivityStep.withAnswerFormat(
     'activity step ID', 'Title', reactionTimeAnswerFormat);
 
-RPRapidVisualInfoProcessingAnswerFormat rapidVisualInfoProcessingAnswerFormat = RPRapidVisualInfoProcessingAnswerFormat.withParams();
+RPRapidVisualInfoProcessingAnswerFormat rapidVisualInfoProcessingAnswerFormat =
+    RPRapidVisualInfoProcessingAnswerFormat.withParams();
 
 RPActivityStep rapidVisualInfoProcessingStep = RPActivityStep.withAnswerFormat(
     'activity step ID', 'Title', rapidVisualInfoProcessingAnswerFormat);
+
+RPActivityStep activityStepTrail = RPActivityStep.withAnswerFormat(
+    'identifier', 'title', trailMakingAnswerFormat);
+
+RPActivityStep activityStepLetterTapping = RPActivityStep.withAnswerFormat(
+    'identifier', 'title', letterTappingAnswerFormat);
 
 RPPairedAssociatesLearningAnswerFormat pairedAssociatesLearningAnswerFormat = RPPairedAssociatesLearningAnswerFormat.withParams();
 
@@ -147,6 +161,8 @@ RPOrderedTask surveyTask = RPOrderedTask(
   "surveyTaskID",
   [
     pairedAssociatesLearningStep,
+    activityStepLetterTapping,
+    activityStepTrail,
     rapidVisualInfoProcessingStep,
     reactionTimeStep,
     tappingStep,
