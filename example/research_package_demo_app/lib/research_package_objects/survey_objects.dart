@@ -160,11 +160,11 @@ RPActivityStep pairedAssociatesLearningStep = RPActivityStep.withAnswerFormat(
 RPOrderedTask surveyTask = RPOrderedTask(
   "surveyTaskID",
   [
+    reactionTimeStep,
     pairedAssociatesLearningStep,
     activityStepLetterTapping,
     activityStepTrail,
     rapidVisualInfoProcessingStep,
-    reactionTimeStep,
     tappingStep,
     sliderQuestionStep,
     timeOfDayQuestionStep,

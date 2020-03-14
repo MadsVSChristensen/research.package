@@ -16,22 +16,23 @@ class _RPUIPairedAssociatesLearningBody
   final _random = new Random();
   bool testBegin = true;
   bool testLive = false;
-  bool buttonsDisabled = false; //diable when peaking tiles and when checking result
+  bool buttonsDisabled =
+      false; //diable when peaking tiles and when checking result
   int correct =
       0; //introduce int that can be 0, 1 and 2 for three possibilities. (indicates if, and which icon to show)
   int successes = 0;
   int mistakes = 0;
-  int testDuration = 20; //test duration in seconds - time untill window changes
+  int testDuration = 30; //test duration in seconds - time untill window changes
   Timer t = new Timer(Duration(seconds: 0),
       () {}); //construct for further control of timer. Cancel at window collapse.
-  List<Color> containers = [
+  /* List<Color> containers = [
     Colors.white,
     Colors.white,
     Colors.white,
     Colors.white,
     Colors.white,
     Colors.white
-  ]; //a container can be empty, default values, or have a shape identified by an int
+  ]; //a container can be empty, default values, or have a shape 
   List<Color> containerHide = [
     Colors.green,
     Colors.green,
@@ -39,13 +40,37 @@ class _RPUIPairedAssociatesLearningBody
     Colors.green,
     Colors.green,
     Colors.green
+  ];*/
+  List<String> containers = [
+    'assets/images/nothing.png',
+    'assets/images/nothing.png',
+    'assets/images/nothing.png',
+    'assets/images/nothing.png',
+    'assets/images/nothing.png',
+    'assets/images/nothing.png'
+  ]; //a container can be empty, default values, or have a shape
+  List<String> containerHide = [
+    'assets/images/hidden.png',
+    'assets/images/hidden.png',
+    'assets/images/hidden.png',
+    'assets/images/hidden.png',
+    'assets/images/hidden.png',
+    'assets/images/hidden.png'
   ];
-  List<Color> shapes1 = [Colors.red]; //colors for inital logic setup
-  List<Color> shapes2 = [Colors.red, Colors.blue];
+  List<String> shapes0 = ['assets/images/shape1.png'];
+  List<String> shapes1 = [
+    'assets/images/shape1.png',
+    'assets/images/shape2.png'
+  ]; //colors for inital logic setup
+  List<String> shapes2 = [
+    'assets/images/shape1.png',
+    'assets/images/shape2.png',
+    'assets/images/shape3.png'
+  ];
   List<Color> shapes3 = [Colors.red, Colors.blue, Colors.yellow];
   List<Color> shapes4 = [Colors.red, Colors.blue, Colors.yellow, Colors.purple];
   List<List> levels = []; //list of all levels. Add in init.
-  Color matchObject = Colors.transparent;
+  String matchObject = '';
 
 //feedback on clicking right or wrong... and shapessssss
 
@@ -69,8 +94,8 @@ class _RPUIPairedAssociatesLearningBody
     correct = 0; //set no feedback icon.
     //fill containers with content
     for (int i = 0; i < containers.length; i++) {
-      //let all containers be green from start of levels.
-      containers[i] = Colors.white;
+      //let all containers be the same from start of levels.
+      containers[i] = 'assets/images/nothing.png';
     }
     matchObject =
         level[_random.nextInt(level.length)]; //fill object with content
@@ -104,12 +129,12 @@ class _RPUIPairedAssociatesLearningBody
       peaked.add(peaking);
       if (this.mounted) {
         setState(() {
-          containerHide[peaking] =
-              containers[peaking]; //reveal color under tile
+          containerHide[peaking] = containers[peaking]; //reveal tile
         });
       }
       await Future.delayed(Duration(seconds: 1));
-      containerHide[peaking] = Colors.green; //after time, set back to default
+      containerHide[peaking] =
+          'assets/images/hidden.png'; //after time, set back to default
     }
     if (this.mounted) {
       setState(() {});
@@ -156,20 +181,10 @@ class _RPUIPairedAssociatesLearningBody
     }
   }
 
-  BoxDecoration objectDecor() {
-    return BoxDecoration(
-      color: matchObject,
-      border: Border.all(
-        width: 3,
-      ),
-    );
-  }
-
   @override
   initState() {
     super.initState();
-    levels.addAll(
-        [shapes1, shapes2, shapes3, shapes4]); //hard add all levels?? :/
+    levels.addAll([shapes0, shapes1, shapes2]); //hard add all levels?? :/
     containerContent(
         levels[successes]); //call containerContent with 0 before beginning.
   }
@@ -238,7 +253,7 @@ class _RPUIPairedAssociatesLearningBody
                 ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, //lower most
                 children: <Widget>[
-                 _makeButton(5),
+                  _makeButton(5),
                 ]),
           ]));
     } else {
@@ -258,29 +273,52 @@ class _RPUIPairedAssociatesLearningBody
     }
   }
 
-  Widget _getIcon() { //show feedback icons on object to match
+  BoxDecoration objectDecor() {
+    return BoxDecoration(
+      //color: matchObject,
+      border: Border.all(
+        width: 3,
+      ),
+      borderRadius: new BorderRadius.circular(5),
+      image: DecorationImage(fit: BoxFit.fill, image: AssetImage(matchObject)),
+    );
+  }
+
+  Widget _getIcon() {
+    //show feedback icons on object to match
     if (correct == 0) {
       //nothing happens - no icon to show
     } else if (correct == 1) {
-      return Icon(Icons.check, size: 40);
+      return Icon(Icons.check, size: 50);
     } else {
-      return Icon(Icons.clear, size: 40);
+      return Icon(Icons.clear, size: 50);
     }
   }
 
-  Widget _makeButton(int buttonNumber) { //make material buttons for outter tiles to match with
-    return (MaterialButton(
-        shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(5),
-            side: BorderSide(color: Colors.black, width: 3)),
+  Widget _makeButton(int buttonNumber) {
+    //make material buttons for outter tiles to match with
+    return (Container(
         height: 60,
-        minWidth: 60,
-        color: containerHide[buttonNumber], //let containerHide control the look of button
-        onPressed: () {
-          if (!buttonsDisabled) {
-            buttonsDisabled = true;
-            checkMatchClick(buttonNumber); //check if click was correct if all tiles have been peaked
-          }
-        }));
+        width: 60,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              fit: BoxFit.fill, image: AssetImage(containerHide[buttonNumber])),
+        ),
+        child: MaterialButton(
+          shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(5),
+              side: BorderSide(color: Colors.black, width: 3)),
+          height: 60,
+          minWidth: 60,
+          /* color: containerHide[
+            buttonNumber], //let containerHide control the look of button */
+          onPressed: () {
+            if (!buttonsDisabled) {
+              buttonsDisabled = true;
+              checkMatchClick(
+                  buttonNumber); //check if click was correct if all tiles have been peaked
+            }
+          },
+        )));
   }
 }
