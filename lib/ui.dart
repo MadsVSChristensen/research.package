@@ -41,10 +41,9 @@ part 'src/ui/QuestionBody/RPUIChoiceQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUISliderQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUIImageChoiceQuestionBody.dart';
 part 'src/ui/QuestionBody/RPUIDateTimeQuestionBody.dart';
-part 'src/ui/QuestionBody/RPUITappingActivityBody.dart';
-part 'src/ui/QuestionBody/RPUITrailMakingActivityBody.dart';
-part 'src/ui/QuestionBody/RPUILetterTappingQuestionBody.dart';
-part 'src/ui/QuestionBody/RPUIReactionTimeActivityBody.dart';
-part 'src/ui/QuestionBody/RPUIRapidVisualInfoProcessingBody.dart';
-part 'src/ui/QuestionBody/RPUIPairedAssociatesLearningBody.dart';
-
+part 'src/ui/ActivityBody/RPUITappingActivityBody.dart';
+part 'src/ui/ActivityBody/RPUITrailMakingActivityBody.dart';
+part 'src/ui/ActivityBody/RPUILetterTappingActivityBody.dart';
+part 'src/ui/ActivityBody/RPUIReactionTimeActivityBody.dart';
+part 'src/ui/ActivityBody/RPUIRapidVisualInfoProcessingActivityBody.dart';
+part 'src/ui/ActivityBody/RPUIPairedAssociatesLearningActivityBody.dart';

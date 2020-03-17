@@ -46,26 +46,6 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   // Returning the according step body widget based on the answerFormat of the step
   Widget stepBody(RPAnswerFormat answerFormat) {
     switch (answerFormat.runtimeType) {
-      case RPIntegerAnswerFormat:
-        return RPUIIntegerQuestionBody(answerFormat, (result) {
-          this.currentActivityBodyResult = result;
-        });
-      case RPChoiceAnswerFormat:
-        return RPUIChoiceQuestionBody(answerFormat, (result) {
-          this.currentActivityBodyResult = result;
-        });
-      case RPSliderAnswerFormat:
-        return RPUISliderQuestionBody(answerFormat, (result) {
-          this.currentActivityBodyResult = result;
-        });
-      case RPImageChoiceAnswerFormat:
-        return RPUIImageChoiceQuestionBody(answerFormat, (result) {
-          this.currentActivityBodyResult = result;
-        });
-      case RPDateTimeAnswerFormat:
-        return RPUIDateTimeQuestionBody(answerFormat, (result) {
-          this.currentActivityBodyResult = result;
-        });
       case RPTrailMakingAnswerFormat:
         return RPUITrailMakingActivityBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
@@ -83,11 +63,12 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
           this.currentActivityBodyResult = result;
         });
       case RPRapidVisualInfoProcessingAnswerFormat:
-        return RPUIRapidVisualInfoProcessingBody(answerFormat, (result) {
+        return RPUIRapidVisualInfoProcessingActivityBody(answerFormat,
+            (result) {
           this.currentActivityBodyResult = result;
         });
       case RPPairedAssociatesLearningAnswerFormat:
-        return RPUIPairedAssociatesLearningBody(answerFormat, (result) {
+        return RPUIPairedAssociatesLearningActivityBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
         });
       default:

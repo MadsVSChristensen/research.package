@@ -1,18 +1,19 @@
 part of research_package_ui;
 
-class RPUIPairedAssociatesLearningBody extends StatefulWidget {
+class RPUIPairedAssociatesLearningActivityBody extends StatefulWidget {
   final RPPairedAssociatesLearningAnswerFormat answerFormat;
   final Function(dynamic) onResultChange;
 
-  RPUIPairedAssociatesLearningBody(this.answerFormat, this.onResultChange);
+  RPUIPairedAssociatesLearningActivityBody(
+      this.answerFormat, this.onResultChange);
 
   @override
-  _RPUIPairedAssociatesLearningBody createState() =>
-      _RPUIPairedAssociatesLearningBody();
+  _RPUIPairedAssociatesLearningActivityBody createState() =>
+      _RPUIPairedAssociatesLearningActivityBody();
 }
 
-class _RPUIPairedAssociatesLearningBody
-    extends State<RPUIPairedAssociatesLearningBody> {
+class _RPUIPairedAssociatesLearningActivityBody
+    extends State<RPUIPairedAssociatesLearningActivityBody> {
   final _random = new Random();
   bool testBegin = true;
   bool testLive = false;

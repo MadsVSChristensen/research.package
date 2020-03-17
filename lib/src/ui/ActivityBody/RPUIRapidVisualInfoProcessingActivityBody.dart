@@ -1,18 +1,19 @@
 part of research_package_ui;
 
-class RPUIRapidVisualInfoProcessingBody extends StatefulWidget {
+class RPUIRapidVisualInfoProcessingActivityBody extends StatefulWidget {
   final RPRapidVisualInfoProcessingAnswerFormat answerFormat;
   final Function(dynamic) onResultChange;
 
-  RPUIRapidVisualInfoProcessingBody(this.answerFormat, this.onResultChange);
+  RPUIRapidVisualInfoProcessingActivityBody(
+      this.answerFormat, this.onResultChange);
 
   @override
-  _RPUIRapidVisualInfoProcessingBody createState() =>
-      _RPUIRapidVisualInfoProcessingBody();
+  _RPUIRapidVisualInfoProcessingActivityBody createState() =>
+      _RPUIRapidVisualInfoProcessingActivityBody();
 }
 
-class _RPUIRapidVisualInfoProcessingBody
-    extends State<RPUIRapidVisualInfoProcessingBody> {
+class _RPUIRapidVisualInfoProcessingActivityBody
+    extends State<RPUIRapidVisualInfoProcessingActivityBody> {
   final _random = new Random();
   String texthint = 'Click button to begin';
   int interval = 3; //interval in which numbers appear (should be 9 (0-9))
