@@ -71,6 +71,10 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
         return RPUIPairedAssociatesLearningActivityBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
         });
+      case RPCorsiBlockTappingAnswerFormat:
+        return RPUICorsiBlockTappingActivityBody(answerFormat, (result) {
+          this.currentActivityBodyResult = result;
+        });
       default:
         return Container();
     }

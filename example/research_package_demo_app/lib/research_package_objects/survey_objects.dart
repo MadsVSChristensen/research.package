@@ -158,9 +158,16 @@ RPPairedAssociatesLearningAnswerFormat pairedAssociatesLearningAnswerFormat =
 RPActivityStep pairedAssociatesLearningStep = RPActivityStep.withAnswerFormat(
     'activity step ID', 'Title', pairedAssociatesLearningAnswerFormat);
 
+RPCorsiBlockTappingAnswerFormat corsiBlockTappingAnswerFormat =
+    RPCorsiBlockTappingAnswerFormat.withParams();
+
+RPActivityStep corsiBlockTapping = RPActivityStep.withAnswerFormat(
+    'identifier', 'title', corsiBlockTappingAnswerFormat);
+
 RPOrderedTask surveyTask = RPOrderedTask(
   "surveyTaskID",
   [
+    corsiBlockTapping,
     pairedAssociatesLearningStep,
     reactionTimeStep,
     activityStepLetterTapping,
