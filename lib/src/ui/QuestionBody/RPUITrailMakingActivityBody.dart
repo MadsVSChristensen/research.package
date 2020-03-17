@@ -31,20 +31,21 @@ class _RPUITrailMakingActivityBodyState
   void _onPanUpdate(DragUpdateDetails update) {
     Offset pos = (context.findRenderObject() as RenderBox)
         .globalToLocal(update.globalPosition);
-    _pathTracker.updateCurrentPath(pos);
+    _pathTracker.updateCurrentPath(pos, widget.onResultChange);
     _pathTracker.notifyListeners();
   }
 
   void _onPanEnd(DragEndDetails end) {
-    _pathTracker.endCurrentPath(widget.onResultChange);
+    _pathTracker.endCurrentPath();
     _pathTracker.notifyListeners();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 600,
-      width: 400,
+      height:
+          MediaQuery.of(context).size.height - AppBar().preferredSize.height,
+      width: MediaQuery.of(context).size.width,
       child: GestureDetector(
         onPanStart: _onPanStart,
         onPanUpdate: _onPanUpdate,
@@ -81,9 +82,12 @@ class _TrailPainter extends CustomPainter {
       );
       textPainter.layout(
         minWidth: 0,
-        maxWidth: size.width,
+        // maxWidth: size.width,
+        maxWidth: 0,
       );
-      textPainter.paint(canvas, location.offset);
+      Offset textOffset =
+          Offset(location.offset.dx - 6, location.offset.dy - 12);
+      textPainter.paint(canvas, textOffset);
       canvas.drawRect(
           location.rect,
           Paint()
@@ -118,9 +122,12 @@ class _PathTracker extends ChangeNotifier {
   List<Path> _paths;
   List<_Location> _locations;
   bool _isDraging;
+  bool goodStart;
+  bool taskStarted;
   _Location prevLocation;
   _Location nextLocation;
   int index;
+  DateTime startTime;
 
   _PathTracker() {
     _paths = List<Path>();
@@ -136,6 +143,7 @@ class _PathTracker extends ChangeNotifier {
     _locations.add(_Location('E', Offset(350, 100),
         Rect.fromCircle(center: Offset(350, 100), radius: 20)));
     _isDraging = false;
+    taskStarted = false;
     prevLocation = _locations.first;
     nextLocation = _locations[1];
     index = 1;
@@ -143,6 +151,9 @@ class _PathTracker extends ChangeNotifier {
 
   void addNewPath(Offset pos) {
     print('Add new pos at $pos');
+    if (!taskStarted) {
+      startTime = DateTime.now();
+    }
     if (!_isDraging) {
       _isDraging = true;
       Path path = Path();
@@ -151,41 +162,62 @@ class _PathTracker extends ChangeNotifier {
     }
   }
 
-  void updateCurrentPath(Offset newPos) {
+  void updateCurrentPath(Offset newPos, Function(dynamic) onResultChange) {
     if (_isDraging) {
       Path path = _paths.last;
       path.lineTo(newPos.dx, newPos.dy);
+      Offset firstPoint =
+          path.computeMetrics().first.getTangentForOffset(0).position;
+
+      // Avoid if drag hits another locations before hitting the next location (e.g. A-C-B)
+      List locationCopy = List.from(_locations);
+      locationCopy.remove(prevLocation);
+      locationCopy.remove(nextLocation);
+      for (_Location l in locationCopy) {
+        if (l.rect.contains(newPos)) {
+          _isDraging = false;
+          deleteWrong();
+          return;
+        }
+      }
+
+      // If dragging directly without lifting finger
+      if (prevLocation.rect.contains(firstPoint) &&
+          nextLocation.rect.contains(newPos)) {
+        print(
+            'Found a path with start in previous location and end in next location');
+        Path newPath = Path();
+        newPath.moveTo(newPos.dx, newPos.dy);
+        _paths.add(newPath);
+        prevLocation = nextLocation;
+        if (index < _locations.length - 1) {
+          index += 1;
+          nextLocation = _locations[index];
+        } else {
+          print('finished');
+          int secondsUsed = DateTime.now().difference(startTime).inSeconds;
+          onResultChange(secondsUsed);
+        }
+      }
     }
   }
 
-  void endCurrentPath(Function(dynamic) onResultChange) {
+  void endCurrentPath() {
     print('end');
-    _isDraging = false;
-    Path path = _paths.last;
-    Offset lastPoint = path
-        .computeMetrics()
-        .last
-        .getTangentForOffset(path.computeMetrics().last.length)
-        .position;
-    Offset firstPoint =
-        path.computeMetrics().first.getTangentForOffset(0).position;
-    print('First point was $firstPoint      Last point was $lastPoint');
-    print('contains first point ${prevLocation.rect.contains(firstPoint)}');
-    print('contains last point  ${nextLocation.rect.contains(lastPoint)}');
-    if (prevLocation.rect.contains(firstPoint) &&
-        nextLocation.rect.contains(lastPoint)) {
-      print('good end');
-      prevLocation = nextLocation;
-      if (index < _locations.length - 1) {
-        index += 1;
-        nextLocation = _locations[index];
-      } else {
-        print('finished');
-        onResultChange(true);
+    if (_isDraging) {
+      _isDraging = false;
+      Path path = _paths.last;
+      Offset lastPoint = path
+          .computeMetrics()
+          .last
+          .getTangentForOffset(path.computeMetrics().last.length)
+          .position;
+      Offset firstPoint =
+          path.computeMetrics().first.getTangentForOffset(0).position;
+      if (!prevLocation.rect.contains(firstPoint) ||
+          !nextLocation.rect.contains(lastPoint)) {
+        deleteWrong();
       }
-    } else {
-      print('bad end');
-      deleteWrong();
     }
   }
 

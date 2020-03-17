@@ -99,11 +99,12 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          stepBody(widget.step.answerFormat),
-        ],
+      body: SafeArea(
+        child: Center(
+          child: Container(
+            child: stepBody(widget.step.answerFormat),
+          ),
+        ),
       ),
       persistentFooterButtons: <Widget>[
         FlatButton(

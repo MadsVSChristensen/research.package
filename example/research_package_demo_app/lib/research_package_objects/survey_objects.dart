@@ -164,6 +164,7 @@ RPOrderedTask surveyTask = RPOrderedTask(
     pairedAssociatesLearningStep,
     activityStepLetterTapping,
     activityStepTrail,
+    activityStepLetterTapping,
     rapidVisualInfoProcessingStep,
     tappingStep,
     sliderQuestionStep,

@@ -18,9 +18,11 @@ class _RPUILetterTappingActivityBodyState
   bool isPlaying = false;
   bool isFinished = false;
   String currentLetter;
+  String lastLetter;
   int errors = 0;
   Timer timer;
   bool shouldTap;
+  bool lastWasTapped;
   bool wasTapped;
   List<String> alphabet = [
     'A',
@@ -86,6 +88,7 @@ class _RPUILetterTappingActivityBodyState
   initState() {
     super.initState();
     currentLetter = '';
+    lastLetter = '';
     audioPlayer = AudioPlayer();
     player = AudioCache(
         prefix: 'packages/research_package/assets/sounds/',
@@ -94,12 +97,14 @@ class _RPUILetterTappingActivityBodyState
   }
 
   void updateLetter(String newLetter) {
-    if (currentLetter == 'A' && !wasTapped) {
+    if (lastLetter == 'A' && !lastWasTapped) {
       errors += 1;
       print(
-          'Error at letter $currentLetter - Letter was A but wasTapped = false at update time (forgot to tap)');
+          'Error at $lastLetter $currentLetter - Last letter was A but wasTapped = false at update time (forgot to tap)');
     }
+    lastWasTapped = wasTapped;
     wasTapped = false;
+    lastLetter = currentLetter;
     currentLetter = newLetter;
   }
 
@@ -112,132 +117,80 @@ class _RPUILetterTappingActivityBodyState
             ),
           )
         : Container(
-            child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              FlatButton(
-                child: Icon(Icons.play_arrow),
-                onPressed: isPlaying
-                    ? null
-                    : () async {
-                        setState(() {
-                          isPlaying = true;
-                        });
-                        await Future.delayed(Duration(seconds: 2));
-                        for (String letter in mocaTestList) {
-                          updateLetter(letter);
-                          player.play('$letter.mp3');
-                          await Future.delayed(Duration(seconds: 1));
-                        }
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text('Press the start button to begin'),
+                FlatButton(
+                  child: Icon(Icons.play_arrow),
+                  onPressed: isPlaying
+                      ? null
+                      : () async {
+                          setState(() {
+                            isPlaying = true;
+                          });
+                          await Future.delayed(Duration(seconds: 2));
+                          for (String letter in mocaTestList) {
+                            player.play('$letter.mp3');
+                            updateLetter(letter);
+                            await Future.delayed(Duration(milliseconds: 1000));
+                          }
+                          updateLetter('');
 
-                        /* player.play('A.mp3');
-                        updateLetter('A');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('B.mp3');
-                        updateLetter('B');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('C.mp3');
-                        updateLetter('C');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('D.mp3');
-                        updateLetter('D');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('E.mp3');
-                        updateLetter('E');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('F.mp3');
-                        updateLetter('F');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('G.mp3');
-                        updateLetter('G');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('H.mp3');
-                        updateLetter('H');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('I.mp3');
-                        updateLetter('I');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('J.mp3');
-                        updateLetter('J');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('K.mp3');
-                        updateLetter('K');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('L.mp3');
-                        updateLetter('L');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('M.mp3');
-                        updateLetter('M');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('N.mp3');
-                        updateLetter('N');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('O.mp3');
-                        updateLetter('O');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('P.mp3');
-                        updateLetter('P');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('Q.mp3');
-                        updateLetter('Q');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('R.mp3');
-                        updateLetter('R');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('S.mp3');
-                        updateLetter('S');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('T.mp3');
-                        updateLetter('T');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('U.mp3');
-                        updateLetter('U');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('V.mp3');
-                        updateLetter('V');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('W.mp3');
-                        updateLetter('W');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('X.mp3');
-                        updateLetter('X');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('Y.mp3');
-                        updateLetter('Y');
-                        await Future.delayed(Duration(seconds: 1));
-                        player.play('Z.mp3');
-                        updateLetter('Z');
-                        await Future.delayed(Duration(seconds: 1)); */
-
-                        updateLetter('');
-                        setState(() {
-                          isPlaying = false;
-                          isFinished = true;
-                        });
-                        widget.onResultChange(errors);
-                      },
-              ),
-              FlatButton(
+                          // TODO: SetState error when survey is canceled
+                          setState(() {
+                            isPlaying = false;
+                            isFinished = true;
+                          });
+                          widget.onResultChange(errors);
+                        },
+                ),
+                FlatButton(
                   child: Icon(Icons.restaurant),
                   onPressed: !isPlaying
                       ? null
                       : () {
-                          if (currentLetter != 'A') {
+                          // X - X
+                          if (currentLetter != 'A' && lastLetter != 'A') {
                             errors += 1;
                             print(
-                                'Error at letter $currentLetter - Tapped while current letter not A');
+                                'Error at $lastLetter $currentLetter - Tapped while current letter and last letter were not A');
                           }
-                          if (currentLetter == 'A') {
+                          // A - A
+                          if (lastLetter == 'A' && currentLetter == 'A') {
+                            if (!lastWasTapped) {
+                              lastWasTapped = true;
+                            } else if (lastWasTapped && !wasTapped) {
+                              wasTapped = true;
+                            } else {
+                              errors += 1;
+                              print(
+                                  'Error at $lastLetter $currentLetter - Last and current were already tapped');
+                            }
+                          }
+                          // A - X
+                          if (lastLetter == 'A' && currentLetter != 'A') {
+                            if (lastWasTapped) {
+                              errors += 1;
+                              print(
+                                  'Error at $lastLetter $currentLetter - Tapped last letter as it was A, but it was already tapped');
+                            }
+                          }
+                          // X - A
+                          if (lastLetter != 'A' && currentLetter == 'A') {
                             if (wasTapped) {
                               errors += 1;
                               print(
-                                  'Error at letter $currentLetter - Tapped letter A while wasTapped = true (tapped too many times)');
+                                  'Error at $lastLetter $currentLetter - Tapped current letter A while wasTapped = true');
                             } else {
                               wasTapped = true;
                             }
                           }
-                        })
-            ],
-          ));
+                        },
+                )
+              ],
+            ),
+          );
   }
 }
