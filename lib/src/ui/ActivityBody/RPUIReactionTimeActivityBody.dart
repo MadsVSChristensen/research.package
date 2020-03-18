@@ -34,7 +34,6 @@ class _RPUIReactionTimeActivityBodyState
   @override
   initState() {
     super.initState();
-    time = DateTime.now();
     testLive = true;
   }
 

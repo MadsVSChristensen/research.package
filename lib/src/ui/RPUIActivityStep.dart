@@ -75,6 +75,10 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
         return RPUICorsiBlockTappingActivityBody(answerFormat, (result) {
           this.currentActivityBodyResult = result;
         });
+      case RPStroopEffectAnswerFormat:
+        return RPUIStroopEffectActivityBody(answerFormat, (result) {
+          this.currentActivityBodyResult = result;
+        });  
       default:
         return Container();
     }

@@ -25,7 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   research_package:
     path:
-      /Users/madsvedelsaabychristensen/Development/Bachelor/research.package
+      \Users\daman\Desktop\Uni\flutter\research.package
       # git:
       #   url: git://github.com/cph-cachet/research.package.git
 
