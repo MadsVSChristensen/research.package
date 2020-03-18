@@ -152,18 +152,27 @@ RPActivityStep activityStepTrail = RPActivityStep.withAnswerFormat(
 RPActivityStep activityStepLetterTapping = RPActivityStep.withAnswerFormat(
     'identifier', 'title', letterTappingAnswerFormat);
 
-RPPairedAssociatesLearningAnswerFormat pairedAssociatesLearningAnswerFormat = RPPairedAssociatesLearningAnswerFormat.withParams();
+RPPairedAssociatesLearningAnswerFormat pairedAssociatesLearningAnswerFormat =
+    RPPairedAssociatesLearningAnswerFormat.withParams();
 
 RPActivityStep pairedAssociatesLearningStep = RPActivityStep.withAnswerFormat(
     'activity step ID', 'Title', pairedAssociatesLearningAnswerFormat);
 
+RPCorsiBlockTappingAnswerFormat corsiBlockTappingAnswerFormat =
+    RPCorsiBlockTappingAnswerFormat.withParams();
+
+RPActivityStep corsiBlockTapping = RPActivityStep.withAnswerFormat(
+    'identifier', 'title', corsiBlockTappingAnswerFormat);
+
 RPOrderedTask surveyTask = RPOrderedTask(
   "surveyTaskID",
   [
-    reactionTimeStep,
+    corsiBlockTapping,
     pairedAssociatesLearningStep,
+    reactionTimeStep,
     activityStepLetterTapping,
     activityStepTrail,
+    activityStepLetterTapping,
     rapidVisualInfoProcessingStep,
     tappingStep,
     sliderQuestionStep,

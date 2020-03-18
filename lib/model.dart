@@ -30,6 +30,7 @@ part 'src/model/answerformat/RPLetterTappingAnswerFormat.dart';
 part 'src/model/answerformat/RPReactionTimeAnswerFormat.dart';
 part 'src/model/answerformat/RPRapidVisualInfoProcessingAnswerFormat.dart';
 part 'src/model/answerformat/RPPairedAssociatesLearningAnswerFormat.dart';
+part 'src/model/answerformat/RPCorsiBlockTappingAnswerFormat.dart';
 
 part 'src/model/consent/RPConsentDocument.dart';
 part 'src/model/consent/RPConsentSection.dart';

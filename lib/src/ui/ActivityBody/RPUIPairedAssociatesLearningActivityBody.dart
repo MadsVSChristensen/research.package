@@ -1,18 +1,19 @@
 part of research_package_ui;
 
-class RPUIPairedAssociatesLearningBody extends StatefulWidget {
+class RPUIPairedAssociatesLearningActivityBody extends StatefulWidget {
   final RPPairedAssociatesLearningAnswerFormat answerFormat;
   final Function(dynamic) onResultChange;
 
-  RPUIPairedAssociatesLearningBody(this.answerFormat, this.onResultChange);
+  RPUIPairedAssociatesLearningActivityBody(
+      this.answerFormat, this.onResultChange);
 
   @override
-  _RPUIPairedAssociatesLearningBody createState() =>
-      _RPUIPairedAssociatesLearningBody();
+  _RPUIPairedAssociatesLearningActivityBody createState() =>
+      _RPUIPairedAssociatesLearningActivityBody();
 }
 
-class _RPUIPairedAssociatesLearningBody
-    extends State<RPUIPairedAssociatesLearningBody> {
+class _RPUIPairedAssociatesLearningActivityBody
+    extends State<RPUIPairedAssociatesLearningActivityBody> {
   final _random = new Random();
   bool testBegin = true;
   bool testLive = false;
@@ -193,8 +194,7 @@ class _RPUIPairedAssociatesLearningBody
   Widget build(BuildContext context) {
     //consists of a column with 5 rows of content
     if (testBegin) {
-      return Expanded(
-          child: Row(
+      return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Column(
@@ -209,13 +209,12 @@ class _RPUIPairedAssociatesLearningBody
                     style: TextStyle(fontSize: 16)),
               ]),
         ],
-      ));
+      );
     } else if (testLive) {
-      return Expanded(
-          child: Column(
-              //layout - consists of a column with 5 rows sctructuring the test screen. can rotate screen
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
+      return Column(
+          //layout - consists of a column with 5 rows sctructuring the test screen. can rotate screen
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, //upper most
                 children: <Widget>[
                   _makeButton(0),
@@ -255,7 +254,7 @@ class _RPUIPairedAssociatesLearningBody
                 children: <Widget>[
                   _makeButton(5),
                 ]),
-          ]));
+          ]);
     } else {
       return Container(
           padding: EdgeInsets.all(20),
