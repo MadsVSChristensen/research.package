@@ -164,9 +164,16 @@ RPCorsiBlockTappingAnswerFormat corsiBlockTappingAnswerFormat =
 RPActivityStep corsiBlockTapping = RPActivityStep.withAnswerFormat(
     'identifier', 'title', corsiBlockTappingAnswerFormat);
 
+RPStroopEffectAnswerFormat stroopEffectAnswerFormat =
+    RPStroopEffectAnswerFormat.withParams();
+
+RPActivityStep stroopEffect = RPActivityStep.withAnswerFormat(
+    'identifier', 'title', stroopEffectAnswerFormat);
+
 RPOrderedTask surveyTask = RPOrderedTask(
   "surveyTaskID",
   [
+    stroopEffect,
     corsiBlockTapping,
     pairedAssociatesLearningStep,
     reactionTimeStep,
