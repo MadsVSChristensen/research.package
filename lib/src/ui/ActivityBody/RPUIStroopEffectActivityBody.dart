@@ -82,11 +82,13 @@ class _RPUIStroopEffectActivityBodyState
         });
         await Future.delayed(
             Duration(milliseconds: delayTime)); //delay before showing next word
+        if (this.mounted){
         setState(() {
           cWord = possColorsString[_random.nextInt(
               possColorsString.length)]; //pick word and color for display
           wColor = possColors[_random.nextInt(possColors.length)];
         });
+        }
         disableButton = false;
       }
     }
