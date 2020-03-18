@@ -26,22 +26,6 @@ class _RPUIPairedAssociatesLearningActivityBody
   int testDuration = 30; //test duration in seconds - time untill window changes
   Timer t = new Timer(Duration(seconds: 0),
       () {}); //construct for further control of timer. Cancel at window collapse.
-  /* List<Color> containers = [
-    Colors.white,
-    Colors.white,
-    Colors.white,
-    Colors.white,
-    Colors.white,
-    Colors.white
-  ]; //a container can be empty, default values, or have a shape 
-  List<Color> containerHide = [
-    Colors.green,
-    Colors.green,
-    Colors.green,
-    Colors.green,
-    Colors.green,
-    Colors.green
-  ];*/
   List<String> containers = [
     'assets/images/nothing.png',
     'assets/images/nothing.png',
@@ -68,12 +52,10 @@ class _RPUIPairedAssociatesLearningActivityBody
     'assets/images/shape2.png',
     'assets/images/shape3.png'
   ];
-  List<Color> shapes3 = [Colors.red, Colors.blue, Colors.yellow];
-  List<Color> shapes4 = [Colors.red, Colors.blue, Colors.yellow, Colors.purple];
   List<List> levels = []; //list of all levels. Add in init.
   String matchObject = '';
 
-//feedback on clicking right or wrong... and shapessssss
+//feedback on clicking right or wrong... and shapes
 
   void testStarter() {
     //begin test by changing window and starting timer.
@@ -185,7 +167,7 @@ class _RPUIPairedAssociatesLearningActivityBody
   @override
   initState() {
     super.initState();
-    levels.addAll([shapes0, shapes1, shapes2]); //hard add all levels?? :/
+    levels.addAll([shapes0, shapes1, shapes2]); //hard add all levels...
     containerContent(
         levels[successes]); //call containerContent with 0 before beginning.
   }
@@ -307,10 +289,6 @@ class _RPUIPairedAssociatesLearningActivityBody
           shape: RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(5),
               side: BorderSide(color: Colors.black, width: 3)),
-          height: 60,
-          minWidth: 60,
-          /* color: containerHide[
-            buttonNumber], //let containerHide control the look of button */
           onPressed: () {
             if (!buttonsDisabled) {
               buttonsDisabled = true;

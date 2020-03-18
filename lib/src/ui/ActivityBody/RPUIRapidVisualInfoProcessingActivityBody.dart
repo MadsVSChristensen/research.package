@@ -16,8 +16,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
     extends State<RPUIRapidVisualInfoProcessingActivityBody> {
   final _random = new Random();
   String texthint = 'Click button to begin';
-  int interval = 3; //interval in which numbers appear (should be 9 (0-9))
-  int testDuration = 5; //test duration in seconds - time untill window changes
+  int interval = 7; //interval in which numbers appear (should be 9 (0-9))
+  int testDuration = 40; //test duration in seconds - time untill window changes
   int newNum = 0; //int for next random generated number on screen
   int goodTaps = 0; //number of taps that were correct
   int badTaps = 0; //number of taps that were wrong
@@ -25,7 +25,6 @@ class _RPUIRapidVisualInfoProcessingActivityBody
       0; //number of times the given sequence passed: cap for good taps
   Duration displayTime =
       new Duration(seconds: 1); //amount of time each number is displayed
-  DateTime time; //current time
   bool testLive = false; //whether the test is in progress or not
   bool seqPassed =
       false; //if a sequence has passed or not, meaning a tap would be a correct tap if true
@@ -33,7 +32,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   List<bool> listIndexes = [
     true
   ]; //booleans for keeping track of lowest index - for registering a sequence has passed
-  List<int> seq1 = [1, 2, 3]; //sequence of numbers that we wish to track
+  List<int> seq1 = [1, 4, 7]; //sequence of numbers that we wish to track
   List<int> curSeq = []; //numbers that have appeared on screen in a list
   List<int> delaysList =
       []; //list of delay from seqPassed is set true, to button is pressed
@@ -45,7 +44,6 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   @override
   initState() {
     super.initState();
-    time = DateTime.now();
     testLive = true; //test currently starts right away
     for (int i = 0; i < seq1.length; i++) {
       //adds bools according to sequence lengths
@@ -54,7 +52,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   }
 
   void timerBody() {
-    new Timer.periodic(
+    Timer.periodic(
         //periodic timer to update number on screen - starts in init currently.
         displayTime, (Timer t) {
       if (this.mounted) {
