@@ -14,53 +14,67 @@ class RPUITappingActivityBody extends StatefulWidget {
 class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   int taps = 0;
   DateTime time;
+  int testDuration = 30;
+  bool testLive = true;
 
   @override
   initState() {
     super.initState();
-    time = DateTime.now();
+    Timer(Duration(seconds: testDuration), () {
+      //when time is up, change window and set result
+      testLive = false;
+      if (this.mounted) {
+        setState(() {});
+        widget.onResultChange(0);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(time.difference(DateTime.now()).inSeconds);
-    return (DateTime.now().difference(time).inSeconds < 30)
-        ? Container(
-            padding: EdgeInsets.all(8),
-            alignment: Alignment.topLeft,
-            child: Column(
-              children: <Widget>[
-                Text(
-                  'Tap us with index and middle finger as fast as you can for 30 seconds!',
-                  style: TextStyle(fontSize: 18),
-                ),
-                Text(
-                  '$taps',
-                  style: TextStyle(fontSize: 18),
-                ),
-                Row(
-                  children: <Widget>[
-                    OutlineButton(
-                      onPressed: () {
-                        setState(() {
-                          taps++;
-                          print('tapped');
-                        });
-                      },
-                    ),
-                    OutlineButton(
-                      onPressed: () {
-                        setState(() {
-                          taps++;
-                          print('tapped2');
-                        });
-                      },
-                    ),
-                  ],
-                )
-              ],
-            ))
+    return (testLive)
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                  padding: EdgeInsets.all(8),
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        'Tap us with index and middle finger as fast as you can for 30 seconds!',
+                        style: TextStyle(fontSize: 18),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        '$taps',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          OutlineButton(
+                            onPressed: () {
+                              setState(() {
+                                taps++;
+                              });
+                            },
+                          ),
+                          OutlineButton(
+                            onPressed: () {
+                              setState(() {
+                                taps++;
+                              });
+                            },
+                          ),
+                        ],
+                      )
+                    ],
+                  ))
+            ],
+          )
         : Container(
+          alignment: Alignment.center,
             child: Text('$taps was your final score!'),
           );
   }
