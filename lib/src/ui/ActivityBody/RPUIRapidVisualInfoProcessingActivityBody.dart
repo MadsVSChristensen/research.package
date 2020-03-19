@@ -55,9 +55,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
     Timer.periodic(
         //periodic timer to update number on screen - starts in init currently.
         displayTime, (Timer t) {
-      if (this.mounted) {
         //make sure window is mounted and that test is live before setting state.
-        if (testLive) {
+        if (testLive && this.mounted) {
           setState(() {
             numGenerator();
             sequenceChecker(
@@ -66,7 +65,6 @@ class _RPUIRapidVisualInfoProcessingActivityBody
         } else {
           t.cancel();
         }
-      }
     });
     Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result

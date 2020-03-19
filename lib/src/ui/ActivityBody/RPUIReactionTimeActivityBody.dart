@@ -21,20 +21,18 @@ class _RPUIReactionTimeActivityBodyState
       4; //max interval between screen changes minus 1. (interval = 4 means color change happens in 1 to 5 seconds)
   int testDuration = 10; //test duration in seconds - time untill window changes
   final _random = new Random();
-  DateTime time;
   bool lightOn = false; //If light is on, screen is green and should be tapped.
-  bool testLive = false;
+  bool testLive = true;
   bool first =
       true; //flag for extra time - so test doesn't just start right away
   final _sw = new Stopwatch();
   List<int> rtList = []; //delay times list
-  double result = 0;
+  int result = 0;
   //wrong taps currently do nothing.
 
   @override
   initState() {
     super.initState();
-    testLive = true;
   }
 
   void lightRegulator() {
@@ -62,7 +60,7 @@ class _RPUIReactionTimeActivityBodyState
         for (int i = 0; i < rtList.length; i++) {
           result += (rtList[i]);
         }
-        result = result / rtList.length; //calculate average delay from test.
+        result = (result / rtList.length).round(); //calculate average delay from test.
         if (this.mounted) {
           widget.onResultChange(result);
         }
@@ -72,8 +70,15 @@ class _RPUIReactionTimeActivityBodyState
 
   @override
   Widget build(BuildContext context) {
-    if (DateTime.now().difference(time).inSeconds < testDuration) {
-      return Expanded(
+    if (testLive) {
+      return
+      Flex(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        verticalDirection: VerticalDirection.down,
+        direction: Axis.horizontal,
+        children: <Widget>[
+       Expanded(
           child: InkWell(
               onTap: () {
                 if (first) {
@@ -116,7 +121,7 @@ class _RPUIReactionTimeActivityBodyState
                       Text('$texthint',
                           style: TextStyle(fontSize: 18, color: Colors.white)),
                     ],
-                  ))));
+                  ))))]);
     } else {
       return Container(
         padding: EdgeInsets.all(40),
