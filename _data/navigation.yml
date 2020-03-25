@@ -7,8 +7,12 @@ main:
         url: /consent
       - title: "Creating a Survey"
         url: /survey
+      - title: "Creating Cognitive Tests"
+        url: /create-cognitive-tests
   - title: "Answer Formats"
     url: /answer-formats
+  - title: "Cognitive Tests"
+    url: /cognitive-tests
 #  - title: "About"
 #    url: /about-research-package
 ## Sublink as below
