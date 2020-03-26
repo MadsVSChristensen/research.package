@@ -111,7 +111,9 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   @override
   Widget build(BuildContext context) {
     if (testLive) {
-      return Expanded(
+      return Column( mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget> [
+      Expanded(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -146,11 +148,14 @@ class _RPUIRapidVisualInfoProcessingActivityBody
             }
           })
         ],
-      ));
+      ))
+      ]);
     } else {
       return Container(
           padding: EdgeInsets.all(20),
-          child: Column(children: <Widget>[
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
             Text('The test is done!', style: TextStyle(fontSize: 22)),
             Text(
               'You had $goodTaps correct taps and $badTaps wrong ones',
