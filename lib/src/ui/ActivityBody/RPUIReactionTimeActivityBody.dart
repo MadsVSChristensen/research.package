@@ -22,7 +22,7 @@ class _RPUIReactionTimeActivityBodyState
   int testDuration = 10; //test duration in seconds - time untill window changes
   final _random = new Random();
   bool lightOn = false; //If light is on, screen is green and should be tapped.
-  bool testLive = true;
+  ActivityStatus activityStatus;
   bool first =
       true; //flag for extra time - so test doesn't just start right away
   final _sw = new Stopwatch();
@@ -33,6 +33,7 @@ class _RPUIReactionTimeActivityBodyState
   @override
   initState() {
     super.initState();
+    activityStatus = ActivityStatus.Instruction;
   }
 
   void lightRegulator() {
@@ -51,7 +52,7 @@ class _RPUIReactionTimeActivityBodyState
   void testTimer() {
     //times the test and calculates result when done.
     Timer(Duration(seconds: testDuration), () {
-      testLive = false;
+      activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         if (rtList.isEmpty) {
           //if nothing was pressed during the whole test, add 0.
@@ -60,7 +61,8 @@ class _RPUIReactionTimeActivityBodyState
         for (int i = 0; i < rtList.length; i++) {
           result += (rtList[i]);
         }
-        result = (result / rtList.length).round(); //calculate average delay from test.
+        result = (result / rtList.length)
+            .round(); //calculate average delay from test.
         if (this.mounted) {
           widget.onResultChange(result);
         }
@@ -70,66 +72,91 @@ class _RPUIReactionTimeActivityBodyState
 
   @override
   Widget build(BuildContext context) {
-    if (testLive) {
-      return
-      Flex(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        verticalDirection: VerticalDirection.down,
-        direction: Axis.horizontal,
-        children: <Widget>[
-       Expanded(
-          child: InkWell(
-              onTap: () {
-                if (first) {
-                  first = false;
-                  setState(() {
-                    texthint = ''; //remove text hint when test starts.
-                  });
-                  testTimer();
-                  lightRegulator();
-                } else {
-                  //on tap depends on if light is on. If so, record time, turn light off, and call lightRegulator.
-                  if (lightOn) {
-                    setState(() {
-                      lightOn = false;
-                      correctTaps++;
-                      _sw.stop();
-                      rtList.add(
-                          _sw.elapsedMilliseconds); //add delay for current tap.
-                      _sw.reset();
-                    });
-                    lightRegulator();
-                  } else {
-                    wrongTaps++;
-                    //penalty for wrong taps. WrongTaps are not actually used
-                    rtList.add(1000);
-                  }
-                }
-              },
-              child: Container(
-                  color: lightOn ? Colors.green : Colors.red,
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Tap the screen when it turns green',
-                        style: TextStyle(
-                            fontSize: 22, color: Colors.white.withOpacity(1.0)),
-                      ),
-                      Text('$texthint',
-                          style: TextStyle(fontSize: 18, color: Colors.white)),
-                    ],
-                  ))))]);
-    } else {
-      return Container(
-        padding: EdgeInsets.all(40),
-        child: Text(
-          'The time is up! $result was your final score. (Average reaction time in milliseconds)',
-          style: TextStyle(fontSize: 22),
-        ),
-      );
+    switch (activityStatus) {
+      case ActivityStatus.Instruction:
+        return Row(
+          //entry screen with rules and start button
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Container(
+              width: 400,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'tap the screen every time it turns from red to green as fast as possible',
+                      style: TextStyle(fontSize: 16),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    ),
+                    OutlineButton(onPressed: () {
+                      activityStatus = ActivityStatus.Task;
+                      testTimer();
+                      lightRegulator();
+                    }),
+                    Text(
+                      'Tap the button when ready.',
+                      style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
+                    ),
+                  ]),
+            )
+          ],
+        );
+      case ActivityStatus.Task:
+        return Flex(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            verticalDirection: VerticalDirection.down,
+            direction: Axis.horizontal,
+            children: <Widget>[
+              Expanded(
+                  child: InkWell(
+                      onTap: () {
+                        //on tap depends on if light is on. If so, record time, turn light off, and call lightRegulator.
+                        if (lightOn) {
+                          setState(() {
+                            lightOn = false;
+                            correctTaps++;
+                            _sw.stop();
+                            rtList.add(_sw
+                                .elapsedMilliseconds); //add delay for current tap.
+                            _sw.reset();
+                          });
+                          lightRegulator();
+                        } else {
+                          wrongTaps++;
+                          //penalty for wrong taps. WrongTaps are not actually used
+                          rtList.add(1000);
+                        }
+                      },
+                      child: Container(
+                          color: lightOn ? Colors.green : Colors.red,
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'Tap the screen when it turns green',
+                                style: TextStyle(
+                                    fontSize: 22,
+                                    color: Colors.white.withOpacity(1.0)),
+                              ),
+                              Text('$texthint',
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white)),
+                            ],
+                          ))))
+            ]);
+      case ActivityStatus.Result:
+        return Container(
+          padding: EdgeInsets.all(40),
+          child: Text(
+            'The time is up! $result was your final score. (Average reaction time in milliseconds)',
+            style: TextStyle(fontSize: 22),
+          ),
+        );
     }
   }
 }

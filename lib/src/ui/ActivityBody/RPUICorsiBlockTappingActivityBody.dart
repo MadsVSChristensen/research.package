@@ -138,156 +138,30 @@ class _RPUICorsiBlockTappingActivityBodyState
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      color: highlightedBlockID == 0 ? Colors.red : Colors.blue,
-                      child: Center(
-                        child: tapOrder.contains(0) ? Icon(Icons.check) : null,
-                      ),
-                    ),
-                    onTap: readyForTap
-                        ? () {
-                            onBlockTap(0);
-                          }
-                        : null,
-                  ),
-                  InkWell(
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      color: highlightedBlockID == 1 ? Colors.red : Colors.blue,
-                      child: Center(
-                        child: tapOrder.contains(1) ? Icon(Icons.check) : null,
-                      ),
-                    ),
-                    onTap: readyForTap
-                        ? () {
-                            onBlockTap(1);
-                          }
-                        : null,
-                  ),
+                  _makeButton(0),
+                  _makeButton(1)
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      color: highlightedBlockID == 2 ? Colors.red : Colors.blue,
-                      child: Center(
-                        child: tapOrder.contains(2) ? Icon(Icons.check) : null,
-                      ),
-                    ),
-                    onTap: readyForTap
-                        ? () {
-                            onBlockTap(2);
-                          }
-                        : null,
-                  ),
-                  InkWell(
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      color: highlightedBlockID == 3 ? Colors.red : Colors.blue,
-                      child: Center(
-                        child: tapOrder.contains(3) ? Icon(Icons.check) : null,
-                      ),
-                    ),
-                    onTap: readyForTap
-                        ? () {
-                            onBlockTap(3);
-                          }
-                        : null,
-                  ),
+                  _makeButton(2),
+                  _makeButton(3)
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      color: highlightedBlockID == 4 ? Colors.red : Colors.blue,
-                      child: Center(
-                        child: tapOrder.contains(4) ? Icon(Icons.check) : null,
-                      ),
-                    ),
-                    onTap: readyForTap
-                        ? () {
-                            onBlockTap(4);
-                          }
-                        : null,
-                  ),
-                  InkWell(
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      color: highlightedBlockID == 5 ? Colors.red : Colors.blue,
-                      child: Center(
-                        child: tapOrder.contains(5) ? Icon(Icons.check) : null,
-                      ),
-                    ),
-                    onTap: readyForTap
-                        ? () {
-                            onBlockTap(5);
-                          }
-                        : null,
-                  ),
-                  InkWell(
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      color: highlightedBlockID == 6 ? Colors.red : Colors.blue,
-                      child: Center(
-                        child: tapOrder.contains(6) ? Icon(Icons.check) : null,
-                      ),
-                    ),
-                    onTap: readyForTap
-                        ? () {
-                            onBlockTap(6);
-                          }
-                        : null,
-                  ),
+                  _makeButton(4),
+                  _makeButton(5),
+                  _makeButton(6)
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      color: highlightedBlockID == 7 ? Colors.red : Colors.blue,
-                      child: Center(
-                        child: tapOrder.contains(7) ? Icon(Icons.check) : null,
-                      ),
-                    ),
-                    onTap: readyForTap
-                        ? () {
-                            onBlockTap(7);
-                          }
-                        : null,
-                  ),
-                  InkWell(
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      color: highlightedBlockID == 8 ? Colors.red : Colors.blue,
-                      child: Center(
-                        child: tapOrder.contains(8) ? Icon(Icons.check) : null,
-                      ),
-                    ),
-                    onTap: readyForTap
-                        ? () {
-                            onBlockTap(8);
-                          }
-                        : null,
-                  ),
+                  _makeButton(7),
+                  _makeButton(8)
                 ],
               ),
             ],
@@ -302,6 +176,22 @@ class _RPUICorsiBlockTappingActivityBodyState
         return Container();
     }
   }
-}
 
-enum ActivityStatus { Instruction, Task, Result }
+  Widget _makeButton(int buttonNum) {
+    return InkWell(
+      child: Container(
+        height: 60,
+        width: 60,
+        color: highlightedBlockID == buttonNum ? Colors.red : Colors.blue,
+        child: Center(
+          child: tapOrder.contains(buttonNum) ? Icon(Icons.check) : null,
+        ),
+      ),
+      onTap: readyForTap
+          ? () {
+              onBlockTap(buttonNum);
+            }
+          : null,
+    );
+  }
+}

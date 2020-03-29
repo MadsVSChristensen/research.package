@@ -15,8 +15,7 @@ class RPUIPairedAssociatesLearningActivityBody extends StatefulWidget {
 class _RPUIPairedAssociatesLearningActivityBody
     extends State<RPUIPairedAssociatesLearningActivityBody> {
   final _random = new Random();
-  bool testBegin = true;
-  bool testLive = false;
+  ActivityStatus activityStatus;
   bool buttonsDisabled =
       false; //diable when peaking tiles and when checking result
   int correct =
@@ -55,18 +54,25 @@ class _RPUIPairedAssociatesLearningActivityBody
   List<List> levels = []; //list of all levels. Add in init.
   String matchObject = '';
 
-//feedback on clicking right or wrong... and shapes
+ @override
+  initState() {
+    super.initState();
+    activityStatus = ActivityStatus.Instruction;
+    levels.addAll([shapes0, shapes1, shapes2]); //hard add all levels...
+    containerContent(
+        levels[successes]); //call containerContent with 0 before beginning.
+  }
+
 
   void testStarter() {
     //begin test by changing window and starting timer.
     setState(() {
-      testBegin = false; //set flags to go to next screen
-      testLive = true;
+      activityStatus = ActivityStatus.Task;
     });
     containerPeaker();
     t = Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
-      testLive = false;
+      activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         widget.onResultChange(0);
       }
@@ -145,7 +151,7 @@ class _RPUIPairedAssociatesLearningActivityBody
         t.cancel();
         widget.onResultChange(0);
         setState(() {
-          testLive = false; //if all levels completed within time, end the test.
+          activityStatus = ActivityStatus.Result; //if all levels completed within time, end the test.
         });
       }
     } else {
@@ -165,17 +171,10 @@ class _RPUIPairedAssociatesLearningActivityBody
   }
 
   @override
-  initState() {
-    super.initState();
-    levels.addAll([shapes0, shapes1, shapes2]); //hard add all levels...
-    containerContent(
-        levels[successes]); //call containerContent with 0 before beginning.
-  }
-
-  @override
   Widget build(BuildContext context) {
     //consists of a column with 5 rows of content
-    if (testBegin) {
+    switch (activityStatus) {
+      case ActivityStatus.Instruction:
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -192,7 +191,7 @@ class _RPUIPairedAssociatesLearningActivityBody
               ]),
         ],
       );
-    } else if (testLive) {
+    case ActivityStatus.Task:
       return Column(
           //layout - consists of a column with 5 rows sctructuring the test screen. can rotate screen
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -237,7 +236,7 @@ class _RPUIPairedAssociatesLearningActivityBody
                   _makeButton(5),
                 ]),
           ]);
-    } else {
+    case ActivityStatus.Result:
       return Container(
           padding: EdgeInsets.all(20),
           child: Row(
