@@ -13,16 +13,19 @@ class RPUITappingActivityBody extends StatefulWidget {
 
 class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   int taps = 0;
-  DateTime time;
   int testDuration = 30;
-  bool testLive = true;
+  ActivityStatus activityStatus;
 
   @override
   initState() {
     super.initState();
+    activityStatus = ActivityStatus.Instruction;
+  }
+
+  void testControl() {
     Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
-      testLive = false;
+      activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         setState(() {});
         widget.onResultChange(0);
@@ -32,50 +35,78 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
 
   @override
   Widget build(BuildContext context) {
-    return (testLive)
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  padding: EdgeInsets.all(8),
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        'Tap us with index and middle finger as fast as you can for 30 seconds!',
-                        style: TextStyle(fontSize: 18),
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        '$taps',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          OutlineButton(
-                            onPressed: () {
-                              setState(() {
-                                taps++;
-                              });
-                            },
-                          ),
-                          OutlineButton(
-                            onPressed: () {
-                              setState(() {
-                                taps++;
-                              });
-                            },
-                          ),
-                        ],
-                      )
-                    ],
-                  ))
-            ],
-          )
-        : Container(
-            alignment: Alignment.center,
-            child: Text('$taps was your final score!'),
-          );
+    switch (activityStatus) {
+      case ActivityStatus.Instruction:
+        return Row(
+          //entry screen with rules and start button
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Container(
+              width: 400,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Tap us with index and middle finger as fast as you can for 30 seconds!',
+                      style: TextStyle(fontSize: 16),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    ),
+                    OutlineButton(onPressed: () {
+                      activityStatus = ActivityStatus.Task;
+                      testControl();
+                    }),
+                    Text(
+                      'Tap the button when ready.',
+                      style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
+                    ),
+                  ]),
+            )
+          ],
+        );
+      case ActivityStatus.Task:
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+                padding: EdgeInsets.all(8),
+                alignment: Alignment.center,
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      '$taps',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        OutlineButton(
+                          onPressed: () {
+                            setState(() {
+                              taps++;
+                            });
+                          },
+                        ),
+                        OutlineButton(
+                          onPressed: () {
+                            setState(() {
+                              taps++;
+                            });
+                          },
+                        ),
+                      ],
+                    )
+                  ],
+                ))
+          ],
+        );
+      case ActivityStatus.Result:
+        return Container(
+          alignment: Alignment.center,
+          child: Text('$taps was your final score!'),
+        );
+    }
   }
 }

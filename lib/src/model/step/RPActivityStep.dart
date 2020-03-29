@@ -25,3 +25,6 @@ class RPActivityStep extends RPStep {
   @override
   Widget get stepWidget => RPUIActivityStep(this);
 }
+
+//Possible step each test can consist of
+enum ActivityStatus { Instruction, Task, Result }
