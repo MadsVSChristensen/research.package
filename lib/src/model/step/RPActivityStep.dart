@@ -5,45 +5,19 @@ part of research_package_model;
 /// When a Task Widget presents an Activity Step object, it instantiates an [RPUIActivityStep] object to present the step. The actual visual presentation depends on the answer format ([RPAnswerFormat]).
 /// When you need to present more than one Activity at the same time, it can be appropriate to use [RPFormStep] instead of [RPActivityStep].
 class RPActivityStep extends RPStep {
-  RPAnswerFormat _answerFormat;
-  String _placeholder;
-
   /// Boolean controlling whether to show the intruction before the test.
   /// You may include your own RPInstructionStep before, if you wish to display other instructions.
-  bool includeInstruction;
+  bool includeInstructions;
 
   /// Boolean controlling whether to show the results after the test.
   bool includeResults;
 
-  /// The basic constructor which returns a Activity Step with only the identifier filled out
+  /// The basic constructor which returns a Activity Step.
+  /// The identifier is required for ID purposes.
+  /// The optional parameters can be used exclude the non-test sections of the step.
   RPActivityStep(String identifier,
-      {this.includeInstruction = true, this.includeResults = true})
+      {this.includeInstructions = true, this.includeResults = true})
       : super(identifier);
-
-  /// Returns a Activity Step populated with title (text of the Activity)
-  RPActivityStep.withTitle(String identifier, String title)
-      : super.withTitle(identifier, title);
-
-  /// Returns a Activity Step populated with title (text of the Activity) and answer format on which the
-  /// actual layout depends
-  RPActivityStep.withAnswerFormat(
-      String identifier, String title, this._answerFormat,
-      {this.includeInstruction = true, this.includeResults = true})
-      : super.withTitle(identifier, title);
-
-  /// The answer format which describes the format how a Activity can be answered.
-  RPAnswerFormat get answerFormat => _answerFormat;
-
-  /// The placeholder text for the Activity Steps using an answer format which requires text entry
-  String get placeholder => _placeholder;
-
-  set answerFormat(RPAnswerFormat answerFormat) {
-    this._answerFormat = answerFormat;
-  }
-
-  set placeholder(String placeholder) {
-    this._placeholder = placeholder;
-  }
 
   /// The widget (UI representation) of the step.
   ///

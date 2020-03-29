@@ -1,10 +1,10 @@
 part of research_package_ui;
 
 class RPUIStroopEffectActivityBody extends StatefulWidget {
-  final RPStroopEffectAnswerFormat answerFormat;
+  final RPStroopEffectActivity activity;
   final Function(dynamic) onResultChange;
 
-  RPUIStroopEffectActivityBody(this.answerFormat, this.onResultChange);
+  RPUIStroopEffectActivityBody(this.activity, this.onResultChange);
 
   @override
   _RPUIStroopEffectActivityBodyState createState() =>

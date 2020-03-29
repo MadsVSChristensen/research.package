@@ -37,7 +37,8 @@ class _RPUIFormStepState extends State<RPUIFormStep> {
 
     // Filling up the results with nulls
     widget.formStep.steps.forEach((item) {
-      stepResult.setResultForIdentifier(item.identifier, RPStepResult.withParams(item));
+      stepResult.setResultForIdentifier(
+          item.identifier, RPStepResult.withParams(item));
     });
 
     readyToProceed = false;
@@ -78,7 +79,10 @@ class _RPUIFormStepState extends State<RPUIFormStep> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(widget.formStep.steps[index].title, style: RPStyles.h3,),
+            child: Text(
+              widget.formStep.steps[index].title,
+              style: RPStyles.h3,
+            ),
           ),
           Card(
             elevation: 4,
@@ -99,7 +103,8 @@ class _RPUIFormStepState extends State<RPUIFormStep> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${recentTaskProgress.current} of ${recentTaskProgress.total}"),
+        title: Text(
+            "${recentTaskProgress.current} of ${recentTaskProgress.total}"),
         automaticallyImplyLeading: false,
       ),
       body: Padding(
@@ -153,6 +158,6 @@ class _RPUIFormStepState extends State<RPUIFormStep> {
   @override
   void createAndSendResult() {
     // In this case the result is already created, the only needed thing left is to send it
-    blocTask.sendStepResult(stepResult);
+    blocTask.sendResult(stepResult);
   }
 }

@@ -650,3 +650,31 @@ Map<String, dynamic> _$RPSignatureResultToJson(RPSignatureResult instance) {
   writeNotNull('signature_image', instance.signatureImage);
   return val;
 }
+
+RPActivityResult _$RPActivityResultFromJson(Map<String, dynamic> json) {
+  return RPActivityResult()
+    ..identifier = json['identifier'] as String
+    ..startDate = json['start_date'] == null
+        ? null
+        : DateTime.parse(json['start_date'] as String)
+    ..endDate = json['end_date'] == null
+        ? null
+        : DateTime.parse(json['end_date'] as String)
+    ..results = json['results'] as Map<String, dynamic>;
+}
+
+Map<String, dynamic> _$RPActivityResultToJson(RPActivityResult instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('identifier', instance.identifier);
+  writeNotNull('start_date', instance.startDate?.toIso8601String());
+  writeNotNull('end_date', instance.endDate?.toIso8601String());
+  writeNotNull('results', instance.results);
+  return val;
+}

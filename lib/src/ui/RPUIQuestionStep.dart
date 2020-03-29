@@ -12,7 +12,8 @@ class RPUIQuestionStep extends StatefulWidget {
   _RPUIQuestionStepState createState() => _RPUIQuestionStepState();
 }
 
-class _RPUIQuestionStepState extends State<RPUIQuestionStep> with CanSaveResult {
+class _RPUIQuestionStepState extends State<RPUIQuestionStep>
+    with CanSaveResult {
   // Dynamic because we don't know what value the RPChoice will have
   dynamic _currentQuestionBodyResult;
   bool readyToProceed;
@@ -75,7 +76,8 @@ class _RPUIQuestionStepState extends State<RPUIQuestionStep> with CanSaveResult 
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text("${recentTaskProgress.current} of ${recentTaskProgress.total}"),
+        title: Text(
+            "${recentTaskProgress.current} of ${recentTaskProgress.total}"),
         automaticallyImplyLeading: false,
       ),
       body: ListView(
@@ -139,6 +141,6 @@ class _RPUIQuestionStepState extends State<RPUIQuestionStep> with CanSaveResult 
   void createAndSendResult() {
     // Populate the result object with value and end the time tracker (set endDate)
     result.setResult(_currentQuestionBodyResult);
-    blocTask.sendStepResult(result);
+    blocTask.sendResult(result);
   }
 }

@@ -1,10 +1,10 @@
 part of research_package_ui;
 
 class RPUITappingActivityBody extends StatefulWidget {
-  final RPTappingAnswerFormat answerFormat;
+  final RPTappingActivity activity;
   final Function(dynamic) onResultChange;
 
-  RPUITappingActivityBody(this.answerFormat, this.onResultChange);
+  RPUITappingActivityBody(this.activity, this.onResultChange);
 
   @override
   _RPUITappingActivityBodyState createState() =>
@@ -74,7 +74,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
             ],
           )
         : Container(
-          alignment: Alignment.center,
+            alignment: Alignment.center,
             child: Text('$taps was your final score!'),
           );
   }

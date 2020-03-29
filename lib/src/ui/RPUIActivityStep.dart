@@ -17,7 +17,7 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   // Dynamic because we don't know what value the RPChoice will have
   dynamic _currentActivityBodyResult;
   bool readyToProceed;
-  RPStepResult result;
+  RPActivityResult result;
   RPTaskProgress recentTaskProgress;
 
   set currentActivityBodyResult(dynamic currentActivityBodyResult) {
@@ -36,7 +36,7 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   @override
   void initState() {
     // Instantiating the result object here to start the time counter (startDate)
-    result = RPStepResult.withParams(widget.step);
+    result = RPActivityResult.withParams(widget.step);
     readyToProceed = false;
     recentTaskProgress = blocTask.lastProgressValue;
 
@@ -44,41 +44,41 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   }
 
   // Returning the according step body widget based on the answerFormat of the step
-  Widget stepBody(RPAnswerFormat answerFormat) {
-    switch (answerFormat.runtimeType) {
-      case RPTrailMakingAnswerFormat:
-        return RPUITrailMakingActivityBody(answerFormat, (result) {
+  Widget stepBody(RPActivityStep activityStep) {
+    switch (activityStep.runtimeType) {
+      case RPTrailMakingActivity:
+        return RPUITrailMakingActivityBody(activityStep, (result) {
           this.currentActivityBodyResult = result;
         });
-      case RPTappingAnswerFormat:
-        return RPUITappingActivityBody(answerFormat, (result) {
+      case RPTappingActivity:
+        return RPUITappingActivityBody(activityStep, (result) {
           this.currentActivityBodyResult = result;
         });
-      case RPLetterTappingAnswerFormat:
-        return RPUILetterTappingActivityBody(answerFormat, (result) {
+      case RPLetterTappingActivity:
+        return RPUILetterTappingActivityBody(activityStep, (result) {
           this.currentActivityBodyResult = result;
         });
-      case RPReactionTimeAnswerFormat:
-        return RPUIReactionTimeActivityBody(answerFormat, (result) {
+      case RPReactionTimeActivity:
+        return RPUIReactionTimeActivityBody(activityStep, (result) {
           this.currentActivityBodyResult = result;
         });
-      case RPRapidVisualInfoProcessingAnswerFormat:
-        return RPUIRapidVisualInfoProcessingActivityBody(answerFormat,
+      case RPRapidVisualInfoProcessingActivity:
+        return RPUIRapidVisualInfoProcessingActivityBody(activityStep,
             (result) {
           this.currentActivityBodyResult = result;
         });
-      case RPPairedAssociatesLearningAnswerFormat:
-        return RPUIPairedAssociatesLearningActivityBody(answerFormat, (result) {
+      case RPPairedAssociatesLearningActivity:
+        return RPUIPairedAssociatesLearningActivityBody(activityStep, (result) {
           this.currentActivityBodyResult = result;
         });
-      case RPCorsiBlockTappingAnswerFormat:
-        return RPUICorsiBlockTappingActivityBody(answerFormat, (result) {
+      case RPCorsiBlockTappingActivity:
+        return RPUICorsiBlockTappingActivityBody(activityStep, (result) {
           this.currentActivityBodyResult = result;
         });
-      case RPStroopEffectAnswerFormat:
-        return RPUIStroopEffectActivityBody(answerFormat, (result) {
+      case RPStroopEffectActivity:
+        return RPUIStroopEffectActivityBody(activityStep, (result) {
           this.currentActivityBodyResult = result;
-        });  
+        });
       default:
         return Container();
     }
@@ -90,7 +90,7 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Container(
-          child: stepBody(widget.step.answerFormat),
+          child: stepBody(widget.step),
         ),
       ),
       persistentFooterButtons: <Widget>[

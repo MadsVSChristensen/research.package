@@ -1,10 +1,10 @@
 part of research_package_ui;
 
 class RPUICorsiBlockTappingActivityBody extends StatefulWidget {
-  final RPCorsiBlockTappingAnswerFormat answerFormat;
+  final RPCorsiBlockTappingActivity activity;
   final Function(dynamic) onResultChange;
 
-  RPUICorsiBlockTappingActivityBody(this.answerFormat, this.onResultChange);
+  RPUICorsiBlockTappingActivityBody(this.activity, this.onResultChange);
 
   @override
   _RPUICorsiBlockTappingActivityBodyState createState() =>
@@ -13,7 +13,7 @@ class RPUICorsiBlockTappingActivityBody extends StatefulWidget {
 
 class _RPUICorsiBlockTappingActivityBodyState
     extends State<RPUICorsiBlockTappingActivityBody> {
-  ActivityStatus activityStatus;
+  ActivityStepStatus activityStatus;
   int corsiSpan = 0;
   int highlightedBlockID;
   List<int> blocks;
@@ -27,7 +27,7 @@ class _RPUICorsiBlockTappingActivityBodyState
   @override
   initState() {
     super.initState();
-    activityStatus = ActivityStatus.Instruction;
+    activityStatus = ActivityStepStatus.Instruction;
     blocks = List.generate(9, (index) => index);
   }
 
@@ -70,7 +70,7 @@ class _RPUICorsiBlockTappingActivityBodyState
           this.widget.onResultChange(corsiSpan);
           await Future.delayed(Duration(milliseconds: 700));
           setState(() {
-            activityStatus = ActivityStatus.Result;
+            activityStatus = ActivityStepStatus.Result;
           });
         } else {
           failedLast = true;
@@ -95,7 +95,7 @@ class _RPUICorsiBlockTappingActivityBodyState
   @override
   Widget build(BuildContext context) {
     switch (activityStatus) {
-      case ActivityStatus.Instruction:
+      case ActivityStepStatus.Instruction:
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -110,7 +110,7 @@ class _RPUICorsiBlockTappingActivityBodyState
               child: Text('Ready'),
               onPressed: () {
                 setState(() {
-                  activityStatus = ActivityStatus.Task;
+                  activityStatus = ActivityStepStatus.Task;
                 });
                 startTest();
               },
@@ -118,7 +118,7 @@ class _RPUICorsiBlockTappingActivityBodyState
           ],
         );
         break;
-      case ActivityStatus.Task:
+      case ActivityStepStatus.Task:
         return Padding(
           padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: Column(
@@ -294,7 +294,7 @@ class _RPUICorsiBlockTappingActivityBodyState
           ),
         );
         break;
-      case ActivityStatus.Result:
+      case ActivityStepStatus.Result:
         return Center(
           child: Text('Your Corsi Span was $corsiSpan'),
         );
@@ -304,4 +304,4 @@ class _RPUICorsiBlockTappingActivityBodyState
   }
 }
 
-enum ActivityStatus { Instruction, Task, Result }
+enum ActivityStepStatus { Instruction, Task, Result }

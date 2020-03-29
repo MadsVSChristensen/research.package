@@ -1,10 +1,10 @@
 part of research_package_ui;
 
 class RPUITrailMakingActivityBody extends StatefulWidget {
-  final RPTrailMakingAnswerFormat answerFormat;
+  final RPTrailMakingActivity activity;
   final Function(dynamic) onResultChange;
 
-  RPUITrailMakingActivityBody(this.answerFormat, this.onResultChange);
+  RPUITrailMakingActivityBody(this.activity, this.onResultChange);
 
   @override
   _RPUITrailMakingActivityBodyState createState() =>

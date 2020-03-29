@@ -1,11 +1,10 @@
 part of research_package_ui;
 
 class RPUIPairedAssociatesLearningActivityBody extends StatefulWidget {
-  final RPPairedAssociatesLearningAnswerFormat answerFormat;
+  final RPPairedAssociatesLearningActivity activity;
   final Function(dynamic) onResultChange;
 
-  RPUIPairedAssociatesLearningActivityBody(
-      this.answerFormat, this.onResultChange);
+  RPUIPairedAssociatesLearningActivityBody(this.activity, this.onResultChange);
 
   @override
   _RPUIPairedAssociatesLearningActivityBody createState() =>

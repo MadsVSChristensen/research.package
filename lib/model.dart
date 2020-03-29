@@ -33,6 +33,15 @@ part 'src/model/answerformat/RPPairedAssociatesLearningAnswerFormat.dart';
 part 'src/model/answerformat/RPCorsiBlockTappingAnswerFormat.dart';
 part 'src/model/answerformat/RPStroopEffectAnswerFormat.dart';
 
+part 'src/model/step/activity_steps/RPCorsiBlockTappingActivity.dart';
+part 'src/model/step/activity_steps/RPLetterTappingActivity.dart';
+part 'src/model/step/activity_steps/RPPairedAssociatesLearningActivity.dart';
+part 'src/model/step/activity_steps/RPRapidVisualInfoProcessingActivity.dart';
+part 'src/model/step/activity_steps/RPReactionTimeActivity.dart';
+part 'src/model/step/activity_steps/RPStroopEffectActivity.dart';
+part 'src/model/step/activity_steps/RPTappingActivity.dart';
+part 'src/model/step/activity_steps/RPTrailMakingActivity.dart';
+
 part 'src/model/consent/RPConsentDocument.dart';
 part 'src/model/consent/RPConsentSection.dart';
 part 'src/model/consent/RPConsentSignature.dart';
@@ -55,6 +64,7 @@ part 'src/model/result/RPStepResult.dart';
 //part 'src/model/result/RPQuestionBodyResult.dart';
 part 'src/model/result/RPConsentSignatureResult.dart';
 part 'src/model/result/RPSignatureResult.dart';
+part 'src/model/result/RPActivityResult.dart';
 
 // Protocols
 part 'src/model/Abstracts.dart';

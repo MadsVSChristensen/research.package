@@ -1,10 +1,10 @@
 part of research_package_ui;
 
 class RPUILetterTappingActivityBody extends StatefulWidget {
-  final RPLetterTappingAnswerFormat answerFormat;
+  final RPLetterTappingActivity activity;
   final Function(dynamic) onResultChange;
 
-  RPUILetterTappingActivityBody(this.answerFormat, this.onResultChange);
+  RPUILetterTappingActivityBody(this.activity, this.onResultChange);
 
   @override
   _RPUILetterTappingActivityBodyState createState() =>

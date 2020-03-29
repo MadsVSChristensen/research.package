@@ -1,11 +1,10 @@
 part of research_package_ui;
 
 class RPUIRapidVisualInfoProcessingActivityBody extends StatefulWidget {
-  final RPRapidVisualInfoProcessingAnswerFormat answerFormat;
+  final RPRapidVisualInfoProcessingActivity activity;
   final Function(dynamic) onResultChange;
 
-  RPUIRapidVisualInfoProcessingActivityBody(
-      this.answerFormat, this.onResultChange);
+  RPUIRapidVisualInfoProcessingActivityBody(this.activity, this.onResultChange);
 
   @override
   _RPUIRapidVisualInfoProcessingActivityBody createState() =>
@@ -55,16 +54,16 @@ class _RPUIRapidVisualInfoProcessingActivityBody
     Timer.periodic(
         //periodic timer to update number on screen - starts in init currently.
         displayTime, (Timer t) {
-        //make sure window is mounted and that test is live before setting state.
-        if (testLive && this.mounted) {
-          setState(() {
-            numGenerator();
-            sequenceChecker(
-                seq1); //check for sequence - could be for looped through multiple sequences if wanted, displayng current one.
-          });
-        } else {
-          t.cancel();
-        }
+      //make sure window is mounted and that test is live before setting state.
+      if (testLive && this.mounted) {
+        setState(() {
+          numGenerator();
+          sequenceChecker(
+              seq1); //check for sequence - could be for looped through multiple sequences if wanted, displayng current one.
+        });
+      } else {
+        t.cancel();
+      }
     });
     Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
@@ -111,57 +110,58 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   @override
   Widget build(BuildContext context) {
     if (testLive) {
-      return Column( mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget> [
-      Expanded(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text('Click the button when the sequence has passed:',
-              style: TextStyle(fontSize: 18)),
-          Text('$seq1', style: TextStyle(fontSize: 18)),
-          Container(height: 40),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('$newNum', style: TextStyle(fontSize: 30)),
-              Text('$texthint', style: TextStyle(fontSize: 16)),
-            ],
-          ),
-          OutlineButton(onPressed: () {
-            //on pressed - time is tracked if sequence has actually passed, otherwise no
-            if (first) {
-              //first press on button starts the test
-              texthint = '';
-              first = false;
-              timerBody();
-            } else {
-              if (seqPassed) {
-                seqPassed = false;
-                goodTaps++;
-                _sw.stop();
-                delaysList.add(_sw.elapsedMilliseconds);
-                _sw.reset();
-              } else {
-                badTaps++;
-              }
-            }
-          })
-        ],
-      ))
-      ]);
+      return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Click the button when the sequence has passed:',
+                    style: TextStyle(fontSize: 18)),
+                Text('$seq1', style: TextStyle(fontSize: 18)),
+                Container(height: 40),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('$newNum', style: TextStyle(fontSize: 30)),
+                    Text('$texthint', style: TextStyle(fontSize: 16)),
+                  ],
+                ),
+                OutlineButton(onPressed: () {
+                  //on pressed - time is tracked if sequence has actually passed, otherwise no
+                  if (first) {
+                    //first press on button starts the test
+                    texthint = '';
+                    first = false;
+                    timerBody();
+                  } else {
+                    if (seqPassed) {
+                      seqPassed = false;
+                      goodTaps++;
+                      _sw.stop();
+                      delaysList.add(_sw.elapsedMilliseconds);
+                      _sw.reset();
+                    } else {
+                      badTaps++;
+                    }
+                  }
+                })
+              ],
+            ))
+          ]);
     } else {
       return Container(
           padding: EdgeInsets.all(20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-            Text('The test is done!', style: TextStyle(fontSize: 22)),
-            Text(
-              'You had $goodTaps correct taps and $badTaps wrong ones',
-              style: TextStyle(fontSize: 20),
-            )
-          ]));
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('The test is done!', style: TextStyle(fontSize: 22)),
+                Text(
+                  'You had $goodTaps correct taps and $badTaps wrong ones',
+                  style: TextStyle(fontSize: 20),
+                )
+              ]));
     }
   }
 }

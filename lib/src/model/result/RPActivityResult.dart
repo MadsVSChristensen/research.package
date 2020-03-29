@@ -2,36 +2,25 @@ part of research_package_model;
 
 /// The result object a Step creates
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class RPStepResult extends RPResult {
+class RPActivityResult extends RPResult {
   Map<String, dynamic> _results;
 
-  /// The Answer Format ([RPAnswerFormat]) which generated this result.
-  ///
-  /// It stores the details about the question (e.g. the available choices) therefore it's
-  /// necessary for understanding the value of the result which usually doesn't tell a lot in itself.
-  RPAnswerFormat answerFormat;
-
-  //When StepResult only has a single value, pair that value with the following key
+  //When ActivityResult only has a single value, pair that value with the following key
   /// The default key for the results map. It's used when there's only one answer result.
   /// In that case the result value is saved under this key in the map.
   @JsonKey(ignore: true)
   static const String DEFAULT_KEY = "answer";
 
-  RPStepResult();
+  RPActivityResult();
 
-  /// Returns an [RPStepResult] with a given identifier and an empty map of results.
+  /// Returns an [RPActivityResult] with a given identifier and an empty map of results.
   ///
   /// It sets [startDate] to the ```DateTime.now()```. Since these objects are instantiated
-  /// together with the Step it belongs to so it can be used for measuring how much
-  /// time the participant spent the given Step.
-  RPStepResult.withParams(RPStep step) : super.withIdentifier(step.identifier) {
+  /// together with the Activity it belongs to so it can be used for measuring how much
+  /// time the participant spent the given Activity.
+  RPActivityResult.withParams(RPStep step)
+      : super.withIdentifier(step.identifier) {
     this._results = Map();
-
-    try {
-      this.answerFormat = (step as RPQuestionStep).answerFormat;
-    } catch (e) {
-      print(e);
-    }
 
     startDate = DateTime.now();
   }
@@ -63,7 +52,7 @@ class RPStepResult extends RPResult {
     this.endDate = DateTime.now();
   }
 
-  factory RPStepResult.fromJson(Map<String, dynamic> json) =>
-      _$RPStepResultFromJson(json);
-  Map<String, dynamic> toJson() => _$RPStepResultToJson(this);
+  factory RPActivityResult.fromJson(Map<String, dynamic> json) =>
+      _$RPActivityResultFromJson(json);
+  Map<String, dynamic> toJson() => _$RPActivityResultToJson(this);
 }
