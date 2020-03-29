@@ -8,8 +8,17 @@ class RPActivityStep extends RPStep {
   RPAnswerFormat _answerFormat;
   String _placeholder;
 
+  /// Boolean controlling whether to show the intruction before the test.
+  /// You may include your own RPInstructionStep before, if you wish to display other instructions.
+  bool includeInstruction;
+
+  /// Boolean controlling whether to show the results after the test.
+  bool includeResults;
+
   /// The basic constructor which returns a Activity Step with only the identifier filled out
-  RPActivityStep(String identifier) : super(identifier);
+  RPActivityStep(String identifier,
+      {this.includeInstruction = true, this.includeResults = true})
+      : super(identifier);
 
   /// Returns a Activity Step populated with title (text of the Activity)
   RPActivityStep.withTitle(String identifier, String title)
@@ -18,7 +27,8 @@ class RPActivityStep extends RPStep {
   /// Returns a Activity Step populated with title (text of the Activity) and answer format on which the
   /// actual layout depends
   RPActivityStep.withAnswerFormat(
-      String identifier, String title, this._answerFormat)
+      String identifier, String title, this._answerFormat,
+      {this.includeInstruction = true, this.includeResults = true})
       : super.withTitle(identifier, title);
 
   /// The answer format which describes the format how a Activity can be answered.
