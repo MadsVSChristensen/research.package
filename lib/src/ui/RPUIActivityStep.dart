@@ -138,6 +138,6 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   void createAndSendResult() {
     // Populate the result object with value and end the time tracker (set endDate)
     result.setResult(_currentActivityBodyResult);
-    blocTask.sendStepResult(result);
+    blocTask.sendResult(result);
   }
 }
