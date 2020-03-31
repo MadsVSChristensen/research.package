@@ -127,9 +127,11 @@ class _RPUILetterTappingActivityBodyState
                   onPressed: isPlaying
                       ? null
                       : () async {
+                        if (this.mounted){
                           setState(() {
                             isPlaying = true;
                           });
+                        }
                           await Future.delayed(Duration(seconds: 2));
                           for (String letter in mocaTestList) {
                             player.play('$letter.mp3');
@@ -139,10 +141,12 @@ class _RPUILetterTappingActivityBodyState
                           updateLetter('');
 
                           // TODO: SetState error when survey is canceled
+                          if(this.mounted) {
                           setState(() {
                             isPlaying = false;
                             isFinished = true;
                           });
+                          }
                           widget.onResultChange(errors);
                         },
                 ),

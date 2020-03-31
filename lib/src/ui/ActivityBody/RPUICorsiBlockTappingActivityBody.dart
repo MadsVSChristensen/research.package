@@ -40,16 +40,20 @@ class _RPUICorsiBlockTappingActivityBodyState
     });
     await Future.delayed(Duration(seconds: 1));
     for (int i = 0; i < numberOfBlocks; i++) {
+      if (activityStatus == ActivityStatus.Task && this.mounted) {
       setState(() {
         highlightedBlockID = blocks[i];
       });
+      }
       await Future.delayed(Duration(milliseconds: 1000));
     }
+    if (activityStatus == ActivityStatus.Task && this.mounted) {
     setState(() {
       highlightedBlockID = null;
       readyForTap = true;
       taskInfo = 'Go';
     });
+    }
   }
 
   void onBlockTap(int index) async {
