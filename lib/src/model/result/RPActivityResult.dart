@@ -5,11 +5,15 @@ part of research_package_model;
 class RPActivityResult extends RPResult {
   Map<String, dynamic> _results;
 
+  Map<String, DateTime> _stepTimes;
+  Map<String, DateTime> _interactionTimes;
+
   //When ActivityResult only has a single value, pair that value with the following key
   /// The default key for the results map. It's used when there's only one answer result.
   /// In that case the result value is saved under this key in the map.
   @JsonKey(ignore: true)
-  static const String DEFAULT_KEY = "answer";
+  static const String STEP_TIMES_KEY = "step_times";
+  static const String INTERACTION_TIMES_KEY = "interaction_times";
 
   RPActivityResult();
 
@@ -47,8 +51,8 @@ class RPActivityResult extends RPResult {
   /// Creates an entry for the [results] map with the default key.
   ///
   /// Usually it's used when there's only one result produced by the Question Body
-  void setResult(dynamic result) {
-    setResultForIdentifier(DEFAULT_KEY, result);
+  void setFinalResult(dynamic result) {
+    setResultForIdentifier('key here', result);
     this.endDate = DateTime.now();
   }
 
