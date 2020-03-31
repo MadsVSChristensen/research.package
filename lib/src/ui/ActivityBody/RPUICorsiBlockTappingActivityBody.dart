@@ -13,7 +13,7 @@ class RPUICorsiBlockTappingActivityBody extends StatefulWidget {
 
 class _RPUICorsiBlockTappingActivityBodyState
     extends State<RPUICorsiBlockTappingActivityBody> {
-  ActivityStepStatus activityStatus;
+  ActivityStatus activityStatus;
   int corsiSpan = 0;
   int highlightedBlockID;
   List<int> blocks;
@@ -27,7 +27,7 @@ class _RPUICorsiBlockTappingActivityBodyState
   @override
   initState() {
     super.initState();
-    activityStatus = ActivityStepStatus.Instruction;
+    activityStatus = ActivityStatus.Instruction;
     blocks = List.generate(9, (index) => index);
   }
 
@@ -70,7 +70,7 @@ class _RPUICorsiBlockTappingActivityBodyState
           this.widget.onResultChange(corsiSpan);
           await Future.delayed(Duration(milliseconds: 700));
           setState(() {
-            activityStatus = ActivityStepStatus.Result;
+            activityStatus = ActivityStatus.Result;
           });
         } else {
           failedLast = true;
@@ -95,7 +95,7 @@ class _RPUICorsiBlockTappingActivityBodyState
   @override
   Widget build(BuildContext context) {
     switch (activityStatus) {
-      case ActivityStepStatus.Instruction:
+      case ActivityStatus.Instruction:
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -110,7 +110,7 @@ class _RPUICorsiBlockTappingActivityBodyState
               child: Text('Ready'),
               onPressed: () {
                 setState(() {
-                  activityStatus = ActivityStepStatus.Task;
+                  activityStatus = ActivityStatus.Task;
                 });
                 startTest();
               },
@@ -118,7 +118,7 @@ class _RPUICorsiBlockTappingActivityBodyState
           ],
         );
         break;
-      case ActivityStepStatus.Task:
+      case ActivityStatus.Task:
         return Padding(
           padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: Column(
@@ -168,7 +168,7 @@ class _RPUICorsiBlockTappingActivityBodyState
           ),
         );
         break;
-      case ActivityStepStatus.Result:
+      case ActivityStatus.Result:
         return Center(
           child: Text('Your Corsi Span was $corsiSpan'),
         );
