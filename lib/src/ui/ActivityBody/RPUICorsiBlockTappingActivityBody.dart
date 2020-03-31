@@ -137,32 +137,19 @@ class _RPUICorsiBlockTappingActivityBodyState
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _makeButton(0),
-                  _makeButton(1)
-                ],
+                children: [_makeButton(0), _makeButton(1)],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _makeButton(2),
-                  _makeButton(3)
-                ],
+                children: [_makeButton(2), _makeButton(3)],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _makeButton(4),
-                  _makeButton(5),
-                  _makeButton(6)
-                ],
+                children: [_makeButton(4), _makeButton(5), _makeButton(6)],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _makeButton(7),
-                  _makeButton(8)
-                ],
+                children: [_makeButton(7), _makeButton(8)],
               ),
             ],
           ),
