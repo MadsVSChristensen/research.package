@@ -27,7 +27,7 @@ class _RPUIOrderedTaskState extends State<RPUIOrderedTask> with CanSaveResult {
   int currentQuestionIndex = 1;
 
   StreamSubscription<StepStatus> stepStatusSubscription;
-  StreamSubscription<RPStepResult> stepResultSubscription;
+  StreamSubscription<RPResult> stepResultSubscription;
 
   bool consentTask = false;
 
