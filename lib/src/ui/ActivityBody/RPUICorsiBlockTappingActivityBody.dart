@@ -101,16 +101,16 @@ class _RPUICorsiBlockTappingActivityBodyState
     switch (activityStatus) {
       case ActivityStatus.Instruction:
         return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.all(20),
               child: Text(
                 'You will see 9 blocks. An increasing number of the blocks will be highlighted in order. When the light is green, you should press the blocks in the same order as they were highlighted.',
                 style: TextStyle(fontSize: 20),
               ),
             ),
-            FlatButton(
+            OutlineButton(
               child: Text('Ready'),
               onPressed: () {
                 setState(() {

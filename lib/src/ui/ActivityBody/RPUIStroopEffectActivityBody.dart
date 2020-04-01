@@ -86,15 +86,15 @@ class _RPUIStroopEffectActivityBodyState
       setState(() {
         cWord = '----';
         wColor = Colors.black;
+        backgroundButtons = [
+          Colors.white,
+          Colors.white,
+          Colors.white,
+          Colors.white
+        ]; //reset feedback
       });
       await Future.delayed(
           Duration(milliseconds: delayTime)); //delay before showing next word
-      backgroundButtons = [
-        Colors.white,
-        Colors.white,
-        Colors.white,
-        Colors.white
-      ]; //reset feedback
       if (this.mounted && activityStatus == ActivityStatus.Task) {
         setState(() {
           cWord = possColorsString[_random.nextInt(possColorsString.length)];
@@ -122,95 +122,81 @@ class _RPUIStroopEffectActivityBodyState
   Widget build(BuildContext context) {
     switch (activityStatus) {
       case ActivityStatus.Instruction:
-      return Row(
-        //entry screen with rules and start button
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Container(
-            width: 400,
-            child: Column(
+        return Column(
+          //entry screen with rules and start button
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                'Tap the name of the color, of the word you see on screen. E.g. tap the box that says "yellow" when a yellow word appears',
+                style: TextStyle(fontSize: 20),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 20,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            OutlineButton(
+                onPressed: () {
+                  testControl();
+                },
+                child: Text('Ready')),
+          ],
+        );
+      case ActivityStatus.Task:
+        //main screen for test - contains word and buttons to push
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Container(
+                      height: 60,
+                      width: 200,
+                      child: Text(
+                        cWord,
+                        style: TextStyle(fontSize: 45, color: wColor),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  ]),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    _makeButton(0),
+                    _makeButton(1),
+                    _makeButton(2),
+                    _makeButton(3),
+                  ])
+            ]);
+      case ActivityStatus.Result:
+        return Container(
+            //result screen
+            padding: EdgeInsets.all(20),
+            child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    'Tap the name of the color, of the word you see on screen.',
-                    style: TextStyle(fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'E.g. tap the box that says "yellow" when a yellow word appears',
-                    style: TextStyle(fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
-                    textAlign: TextAlign.center,
-                  ),
-                  OutlineButton(onPressed: () {
-                    testControl();
-                  }),
-                  Text(
-                    'Tap the button when ready.',
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-          )
-        ],
-      );
-    case ActivityStatus.Task:
-      //main screen for test - contains word and buttons to push
-      return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Container(
-                    height: 60,
-                    width: 200,
-                    child: Text(
-                      cWord,
-                      style: TextStyle(fontSize: 45, color: wColor),
-                      textAlign: TextAlign.center,
-                    ),
-                  )
-                ]),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  _makeButton(0),
-                  _makeButton(1),
-                  _makeButton(2),
-                  _makeButton(3),
-                ])
-          ]);
-    case ActivityStatus.Result:
-      return Container(
-          //result screen
-          padding: EdgeInsets.all(20),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'The test is done!',
-                        style: TextStyle(fontSize: 22),
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        'Correct answers: $correctTaps',
-                        style: TextStyle(fontSize: 18),
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        'Wrong answers or missed words: $mistakes',
-                        style: TextStyle(fontSize: 18),
-                        textAlign: TextAlign.center,
-                      ),
-                    ]),
-              ]));
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'The test is done!',
+                          style: TextStyle(fontSize: 22),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          'Correct answers: $correctTaps',
+                          style: TextStyle(fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          'Wrong answers or missed words: $mistakes',
+                          style: TextStyle(fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                      ]),
+                ]));
     }
   }
 
@@ -238,7 +224,6 @@ class _RPUIStroopEffectActivityBodyState
                         Colors.green; //set feedback color
                   });
                 }
-                wordPulse();
               } else {
                 mistakes++;
                 if (this.mounted && activityStatus == ActivityStatus.Task) {
@@ -246,8 +231,8 @@ class _RPUIStroopEffectActivityBodyState
                     backgroundButtons[buttonNum] = Colors.red;
                   });
                 }
-                wordPulse();
               }
+              //wordPulse(); //this one instantly give new word if something is clicked.
             }
           },
           child: Text('$buttonCode', style: TextStyle(fontSize: 12)),

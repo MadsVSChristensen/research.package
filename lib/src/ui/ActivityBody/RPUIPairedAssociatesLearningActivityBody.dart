@@ -21,7 +21,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       0; //introduce int that can be 0, 1 and 2 for three possibilities. (indicates if, and which icon to show)
   int successes = 0;
   int mistakes = 0;
-  int testDuration = 30; //test duration in seconds - time untill window changes
+  int testDuration = 40; //test duration in seconds - time untill window changes
   Timer t = new Timer(Duration(seconds: 0),
       () {}); //construct for further control of timer. Cancel at window collapse.
   List<String> containers = [
@@ -53,7 +53,7 @@ class _RPUIPairedAssociatesLearningActivityBody
   List<List> levels = []; //list of all levels. Add in init.
   String matchObject = '';
 
- @override
+  @override
   initState() {
     super.initState();
     activityStatus = ActivityStatus.Instruction;
@@ -61,7 +61,6 @@ class _RPUIPairedAssociatesLearningActivityBody
     containerContent(
         levels[successes]); //call containerContent with 0 before beginning.
   }
-
 
   void testStarter() {
     //begin test by changing window and starting timer.
@@ -150,7 +149,8 @@ class _RPUIPairedAssociatesLearningActivityBody
         t.cancel();
         widget.onResultChange(0);
         setState(() {
-          activityStatus = ActivityStatus.Result; //if all levels completed within time, end the test.
+          activityStatus = ActivityStatus
+              .Result; //if all levels completed within time, end the test.
         });
       }
     } else {
@@ -174,81 +174,87 @@ class _RPUIPairedAssociatesLearningActivityBody
     //consists of a column with 5 rows of content
     switch (activityStatus) {
       case ActivityStatus.Instruction:
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("Click the corresponding tile",
-                    style: TextStyle(fontSize: 16)),
-                OutlineButton(onPressed: () {
-                  testStarter();
-                }),
-                Text("Tap the button when ready.",
-                    style: TextStyle(fontSize: 16)),
-              ]),
-        ],
-      );
-    case ActivityStatus.Task:
-      return Column(
-          //layout - consists of a column with 5 rows sctructuring the test screen. can rotate screen
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, //upper most
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                "A screen with 6 tiles will appear. Whats underneath will be revealed one by one. Click the tile matching the object in the middle, when the reveal is done.",
+                style: TextStyle(fontSize: 20),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 20,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            OutlineButton(
+              onPressed: () {
+                testStarter();
+              },
+              child: Text('Ready'),
+            ),
+          ],
+        );
+      case ActivityStatus.Task:
+        return Column(
+            //layout - consists of a column with 5 rows sctructuring the test screen. can rotate screen
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, //upper most
+                  children: <Widget>[
+                    _makeButton(0),
+                  ]),
+              Row(
+                  //double row 1
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    _makeButton(1),
+                    Container(
+                      width: 30,
+                    ),
+                    _makeButton(2),
+                  ]),
+              Row(
+                  //row with container for object
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      decoration: objectDecor(),
+                      height: 60,
+                      width: 60,
+                      child: _getIcon(),
+                    )
+                  ]),
+              Row(
+                  //double row 2
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    _makeButton(3),
+                    Container(
+                      width: 30,
+                    ),
+                    _makeButton(4),
+                  ]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, //lower most
+                  children: <Widget>[
+                    _makeButton(5),
+                  ]),
+            ]);
+      case ActivityStatus.Result:
+        return Container(
+            padding: EdgeInsets.all(20),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  _makeButton(0),
-                ]),
-            Row(
-                //double row 1
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  _makeButton(1),
-                  Container(
-                    width: 30,
-                  ),
-                  _makeButton(2),
-                ]),
-            Row(
-                //row with container for object
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    decoration: objectDecor(),
-                    height: 60,
-                    width: 60,
-                    child: _getIcon(),
-                  )
-                ]),
-            Row(
-                //double row 2
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  _makeButton(3),
-                  Container(
-                    width: 30,
-                  ),
-                  _makeButton(4),
-                ]),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, //lower most
-                children: <Widget>[
-                  _makeButton(5),
-                ]),
-          ]);
-    case ActivityStatus.Result:
-      return Container(
-          padding: EdgeInsets.all(20),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('The test is done!', style: TextStyle(fontSize: 22)),
-                      Text('Correct: $successes, Wrong: $mistakes',
-                          style: TextStyle(fontSize: 22)),
-                    ]),
-              ]));
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('The test is done!',
+                            style: TextStyle(fontSize: 22)),
+                        Text('Correct: $successes, Wrong: $mistakes',
+                            style: TextStyle(fontSize: 22)),
+                      ]),
+                ]));
     }
   }
 

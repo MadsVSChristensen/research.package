@@ -22,7 +22,6 @@ class _RPUITrailMakingActivityBodyState
     activityStatus = ActivityStatus.Instruction;
   }
 
-
   void _onPanStart(DragStartDetails start) {
     print('onPanStart');
     Offset pos = (context.findRenderObject() as RenderBox)
@@ -45,62 +44,58 @@ class _RPUITrailMakingActivityBodyState
 
   @override
   Widget build(BuildContext context) {
-  switch (activityStatus) {
+    switch (activityStatus) {
       case ActivityStatus.Instruction:
-        return Row(
+        return Column(
           //entry screen with rules and start button
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Container(
-              width: 400,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Connect the different boxes to each other in the right order',
-                      style: TextStyle(fontSize: 16),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                    ),
-                    OutlineButton(onPressed: () {
-                      setState(() {
-                      activityStatus = ActivityStatus.Task;  
-                      });
-                    }),
-                    Text(
-                      'Tap the button when ready.',
-                      style: TextStyle(fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
-                  ]),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                'Connect the different boxes to each other in the right order',
+                style: TextStyle(fontSize: 16),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            OutlineButton(
+              onPressed: () {
+                setState(() {
+                  activityStatus = ActivityStatus.Task;
+                });
+              },
+              child: Text(
+                'Ready',
+              ),
             )
           ],
         );
-case ActivityStatus.Task:
-    return Container(
-      height:
-          MediaQuery.of(context).size.height - AppBar().preferredSize.height,
-      width: MediaQuery.of(context).size.width,
-      child: GestureDetector(
-        onPanStart: _onPanStart,
-        onPanUpdate: _onPanUpdate,
-        onPanEnd: _onPanEnd,
-        child: ClipRect(
-          child: CustomPaint(
-            painter: _TrailPainter(_pathTracker),
+      case ActivityStatus.Task:
+        return Container(
+          height: MediaQuery.of(context).size.height -
+              AppBar().preferredSize.height,
+          width: MediaQuery.of(context).size.width,
+          child: GestureDetector(
+            onPanStart: _onPanStart,
+            onPanUpdate: _onPanUpdate,
+            onPanEnd: _onPanEnd,
+            child: ClipRect(
+              child: CustomPaint(
+                painter: _TrailPainter(_pathTracker),
+              ),
+            ),
           ),
-        ),
-      ),
-    );
-    case ActivityStatus.Result:
-    return Container(
+        );
+      case ActivityStatus.Result:
+        return Container(
           alignment: Alignment.center,
           child: Text('Youre done, or time slipped up'),
         );
+    }
   }
 }
-    }
 
 class _TrailPainter extends CustomPainter {
   _PathTracker _pathsTracker;

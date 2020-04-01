@@ -10,10 +10,12 @@ class RPUIRapidVisualInfoProcessingActivityBody extends StatefulWidget {
   _RPUIRapidVisualInfoProcessingActivityBody createState() =>
       _RPUIRapidVisualInfoProcessingActivityBody();
 }
+
 class _RPUIRapidVisualInfoProcessingActivityBody
     extends State<RPUIRapidVisualInfoProcessingActivityBody> {
   final _random = new Random();
-  String texthint = 'Click button to begin';
+  String texthint =
+      'A sequence will be shown on screen, along with a changing number. Whenever the whole sequence has passed (does not have to be right after each other), tap the button. E.g. if the sequence is 3-6-9, a valid press of the button is 3-4-1-6-9. They must be ordered but need not be in succession. ';
   int interval = 7; //interval in which numbers appear (should be 9 (0-9))
   int testDuration = 40; //test duration in seconds - time untill window changes
   int newNum = 0; //int for next random generated number on screen
@@ -41,7 +43,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   @override
   initState() {
     super.initState();
-    activityStatus = ActivityStatus.Instruction; //test currently starts right away
+    activityStatus =
+        ActivityStatus.Instruction; 
     for (int i = 0; i < seq1.length; i++) {
       //adds bools according to sequence lengths
       listIndexes.add(false);
@@ -52,16 +55,16 @@ class _RPUIRapidVisualInfoProcessingActivityBody
     Timer.periodic(
         //periodic timer to update number on screen - starts in init currently.
         displayTime, (Timer t) {
-        //make sure window is mounted and that test is live before setting state.
-        if (activityStatus == ActivityStatus.Task && this.mounted) {
-          setState(() {
-            numGenerator();
-            sequenceChecker(
-                seq1); //check for sequence - could be for looped through multiple sequences if wanted, displayng current one.
-          });
-        } else {
-          t.cancel();
-        }
+      //make sure window is mounted and that test is live before setting state.
+      if (activityStatus == ActivityStatus.Task && this.mounted) {
+        setState(() {
+          numGenerator();
+          sequenceChecker(
+              seq1); //check for sequence - could be for looped through multiple sequences if wanted, displayng current one.
+        });
+      } else {
+        t.cancel();
+      }
     });
     Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
@@ -109,77 +112,72 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   Widget build(BuildContext context) {
     switch (activityStatus) {
       case ActivityStatus.Instruction:
-      return Row(
-        //entry screen with rules and start button
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Container(
-            width: 400,
+        return Column(
+          //entry screen with rules and start button
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                '$texthint',
+                style: TextStyle(fontSize: 20),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 20,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            OutlineButton(
+              onPressed: () {
+                activityStatus = ActivityStatus.Task;
+                timerBody();
+              },
+              child: Text('Ready'),
+            ),
+          ],
+        );
+      case ActivityStatus.Task:
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('$seq1', style: TextStyle(fontSize: 18)),
+                  Container(height: 40),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('$newNum', style: TextStyle(fontSize: 30)),
+                    ],
+                  ),
+                  OutlineButton(onPressed: () {
+                    //on pressed - time is tracked if sequence has actually passed, otherwise no
+                    if (seqPassed) {
+                      seqPassed = false;
+                      goodTaps++;
+                      _sw.stop();
+                      delaysList.add(_sw.elapsedMilliseconds);
+                      _sw.reset();
+                    } else {
+                      badTaps++;
+                    }
+                  })
+                ],
+              ))
+            ]);
+      case ActivityStatus.Result:
+        return Container(
+            padding: EdgeInsets.all(20),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Text('The test is done!', style: TextStyle(fontSize: 22)),
                   Text(
-                    '$texthint',
-                    style: TextStyle(fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
-                  ),
-                  OutlineButton(onPressed: () {
-                    activityStatus = ActivityStatus.Task;
-                    timerBody();
-                  }),
-                  Text(
-                    'Tap the button when ready.',
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-          )
-        ],
-      );
-    case ActivityStatus.Task:
-      return Column( mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget> [
-      Expanded(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text('$seq1', style: TextStyle(fontSize: 18)),
-          Container(height: 40),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('$newNum', style: TextStyle(fontSize: 30)),
-            ],
-          ),
-          OutlineButton(onPressed: () {
-            //on pressed - time is tracked if sequence has actually passed, otherwise no
-              if (seqPassed) {
-                seqPassed = false;
-                goodTaps++;
-                _sw.stop();
-                delaysList.add(_sw.elapsedMilliseconds);
-                _sw.reset();
-              } else {
-                badTaps++;
-              }
-          })
-        ],
-      ))
-      ]);
-    case ActivityStatus.Result:
-      return Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('The test is done!', style: TextStyle(fontSize: 22)),
-                Text(
-                  'You had $goodTaps correct taps and $badTaps wrong ones',
-                  style: TextStyle(fontSize: 20),
-                )
-              ]));
+                    'You had $goodTaps correct taps and $badTaps wrong ones',
+                    style: TextStyle(fontSize: 20),
+                  )
+                ]));
     }
   }
 }
