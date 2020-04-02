@@ -16,7 +16,8 @@ class RPUIRapidVisualInfoProcessingActivityBody extends StatefulWidget {
 class _RPUIRapidVisualInfoProcessingActivityBody
     extends State<RPUIRapidVisualInfoProcessingActivityBody> {
   final _random = new Random();
-  String texthint = 'Click button to begin';
+  String texthint =
+      'A sequence will be shown on screen, along with a changing number. Whenever the whole sequence has passed (does not have to be right after each other), tap the button. E.g. if the sequence is 3-6-9, a valid press of the button is 3-4-1-6-9. They must be ordered but need not be in succession. ';
   int interval = 7; //interval in which numbers appear (should be 9 (0-9))
   int testDuration = 40; //test duration in seconds - time untill window changes
   int newNum = 0; //int for next random generated number on screen
@@ -45,7 +46,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   initState() {
     super.initState();
     activityStatus =
-        ActivityStatus.Instruction; //test currently starts right away
+        ActivityStatus.Instruction; 
     for (int i = 0; i < seq1.length; i++) {
       //adds bools according to sequence lengths
       listIndexes.add(false);
@@ -113,33 +114,27 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   Widget build(BuildContext context) {
     switch (activityStatus) {
       case ActivityStatus.Instruction:
-        return Row(
+        return Column(
           //entry screen with rules and start button
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              width: 400,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      '$texthint',
-                      style: TextStyle(fontSize: 16),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                    ),
-                    OutlineButton(onPressed: () {
-                      activityStatus = ActivityStatus.Task;
-                      timerBody();
-                    }),
-                    Text(
-                      'Tap the button when ready.',
-                      style: TextStyle(fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
-                  ]),
-            )
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                '$texthint',
+                style: TextStyle(fontSize: 20),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 20,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            OutlineButton(
+              onPressed: () {
+                activityStatus = ActivityStatus.Task;
+                timerBody();
+              },
+              child: Text('Ready'),
+            ),
           ],
         );
       case ActivityStatus.Task:

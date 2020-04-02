@@ -17,8 +17,6 @@ class _RPUILetterTappingActivityBodyState
     extends State<RPUILetterTappingActivityBody> {
   AudioCache player;
   AudioPlayer audioPlayer;
-  bool isPlaying = false;
-  bool isFinished = false;
   String currentLetter;
   String lastLetter;
   int errors = 0;
@@ -26,6 +24,7 @@ class _RPUILetterTappingActivityBodyState
   bool shouldTap;
   bool lastWasTapped;
   bool wasTapped;
+  ActivityStatus activityStatus;
   List<String> alphabet = [
     'A',
     'B',
@@ -89,6 +88,9 @@ class _RPUILetterTappingActivityBodyState
   @override
   initState() {
     super.initState();
+    setState(() {
+      activityStatus = ActivityStatus.Instruction;
+    });
     currentLetter = '';
     lastLetter = '';
     audioPlayer = AudioPlayer();
@@ -96,6 +98,25 @@ class _RPUILetterTappingActivityBodyState
         prefix: 'packages/research_package/assets/sounds/',
         fixedPlayer: audioPlayer);
     player.loadAll(alphabet.map((item) => (item + '.mp3')).toList());
+  }
+
+  void testControl() async {
+    setState(() {
+      activityStatus = ActivityStatus.Task;
+    });
+    await Future.delayed(Duration(seconds: 2));
+    for (String letter in mocaTestList) {
+      player.play('$letter.mp3');
+      updateLetter(letter);
+      await Future.delayed(Duration(milliseconds: 1000));
+    }
+    updateLetter('');
+    widget.onResultChange(errors);
+    if (this.mounted) {
+      setState(() {
+        activityStatus = ActivityStatus.Result;
+      });
+    }
   }
 
   void updateLetter(String newLetter) {
@@ -112,91 +133,86 @@ class _RPUILetterTappingActivityBodyState
 
   @override
   Widget build(BuildContext context) {
-    return isFinished
-        ? Container(
-            child: Center(
-              child: Text('You had $errors mistakes'),
+    switch (activityStatus) {
+      case ActivityStatus.Instruction:
+        return Column(
+          //entry screen with rules and start button
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                'On the next screen, tap the button whenever you hear the letter "A" being said.',
+                style: TextStyle(fontSize: 20),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 20,
+                textAlign: TextAlign.center,
+              ),
             ),
-          )
-        : Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text('Press the start button to begin'),
-                FlatButton(
-                  child: Icon(Icons.play_arrow),
-                  onPressed: isPlaying
-                      ? null
-                      : () async {
-                          if (this.mounted) {
-                            setState(() {
-                              isPlaying = true;
-                            });
-                          }
-                          await Future.delayed(Duration(seconds: 2));
-                          for (String letter in mocaTestList) {
-                            player.play('$letter.mp3');
-                            updateLetter(letter);
-                            await Future.delayed(Duration(milliseconds: 1000));
-                          }
-                          updateLetter('');
-
-                          // TODO: SetState error when survey is canceled
-                          if (this.mounted) {
-                            setState(() {
-                              isPlaying = false;
-                              isFinished = true;
-                            });
-                          }
-                          widget.onResultChange(errors);
-                        },
-                ),
-                FlatButton(
-                  child: Icon(Icons.restaurant),
-                  onPressed: !isPlaying
-                      ? null
-                      : () {
-                          // X - X
-                          if (currentLetter != 'A' && lastLetter != 'A') {
+            OutlineButton(
+                onPressed: () {
+                  testControl();
+                },
+                child: Text('Ready')),
+          ],
+        );
+      case ActivityStatus.Task:
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 100,
+              height: 60,
+              child: OutlineButton(
+                child: Icon(Icons.done),
+                onPressed: () {
+                        // X - X
+                        if (currentLetter != 'A' && lastLetter != 'A') {
+                          errors += 1;
+                          print(
+                              'Error at $lastLetter $currentLetter - Tapped while current letter and last letter were not A');
+                        }
+                        // A - A
+                        if (lastLetter == 'A' && currentLetter == 'A') {
+                          if (!lastWasTapped) {
+                            lastWasTapped = true;
+                          } else if (lastWasTapped && !wasTapped) {
+                            wasTapped = true;
+                          } else {
                             errors += 1;
                             print(
-                                'Error at $lastLetter $currentLetter - Tapped while current letter and last letter were not A');
+                                'Error at $lastLetter $currentLetter - Last and current were already tapped');
                           }
-                          // A - A
-                          if (lastLetter == 'A' && currentLetter == 'A') {
-                            if (!lastWasTapped) {
-                              lastWasTapped = true;
-                            } else if (lastWasTapped && !wasTapped) {
-                              wasTapped = true;
-                            } else {
-                              errors += 1;
-                              print(
-                                  'Error at $lastLetter $currentLetter - Last and current were already tapped');
-                            }
+                        }
+                        // A - X
+                        if (lastLetter == 'A' && currentLetter != 'A') {
+                          if (lastWasTapped) {
+                            errors += 1;
+                            print(
+                                'Error at $lastLetter $currentLetter - Tapped last letter as it was A, but it was already tapped');
                           }
-                          // A - X
-                          if (lastLetter == 'A' && currentLetter != 'A') {
-                            if (lastWasTapped) {
-                              errors += 1;
-                              print(
-                                  'Error at $lastLetter $currentLetter - Tapped last letter as it was A, but it was already tapped');
-                            }
+                        }
+                        // X - A
+                        if (lastLetter != 'A' && currentLetter == 'A') {
+                          if (wasTapped) {
+                            errors += 1;
+                            print(
+                                'Error at $lastLetter $currentLetter - Tapped current letter A while wasTapped = true');
+                          } else {
+                            wasTapped = true;
                           }
-                          // X - A
-                          if (lastLetter != 'A' && currentLetter == 'A') {
-                            if (wasTapped) {
-                              errors += 1;
-                              print(
-                                  'Error at $lastLetter $currentLetter - Tapped current letter A while wasTapped = true');
-                            } else {
-                              wasTapped = true;
-                            }
-                          }
-                        },
-                )
-              ],
-            ),
-          );
+                        }
+                      },
+              ),
+            )
+          ],
+        );
+      case ActivityStatus.Result:
+        return Container(
+          child: Center(
+            child: Text('You had $errors mistakes'),
+          ),
+        );
+    }
   }
 }

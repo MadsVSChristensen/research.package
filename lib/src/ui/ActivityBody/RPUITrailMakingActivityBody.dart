@@ -49,35 +49,29 @@ class _RPUITrailMakingActivityBodyState
   Widget build(BuildContext context) {
     switch (activityStatus) {
       case ActivityStatus.Instruction:
-        return Row(
+        return Column(
           //entry screen with rules and start button
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Container(
-              width: 400,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Connect the different boxes to each other in the right order',
-                      style: TextStyle(fontSize: 16),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                    ),
-                    OutlineButton(onPressed: () {
-                      widget.gestureController.instructionEnded();
-                      widget.gestureController.testStarted();
-                      setState(() {
-                        activityStatus = ActivityStatus.Task;
-                      });
-                    }),
-                    Text(
-                      'Tap the button when ready.',
-                      style: TextStyle(fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
-                  ]),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                'Connect the different boxes to each other in the right order',
+                style: TextStyle(fontSize: 16),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            OutlineButton(
+              onPressed: () {
+                setState(() {
+                  activityStatus = ActivityStatus.Task;
+                });
+              },
+              child: Text(
+                'Ready',
+              ),
             )
           ],
         );

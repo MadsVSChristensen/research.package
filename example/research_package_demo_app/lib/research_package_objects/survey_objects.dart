@@ -34,16 +34,16 @@ RPActivityStep corsiBlockTapping = RPCorsiBlockTappingActivity(
 RPActivityStep stroopEffect = RPStroopEffectActivity(
   'Stroop Effect step ID',
 );
-
+  
 RPOrderedTask surveyTask = RPOrderedTask(
   "surveyTaskID",
   [
-    stroopEffect,
-    corsiBlockTapping,
     pairedAssociatesLearningStep,
-    activityStepTrail,
     rapidVisualInfoProcessingStep,
+    stroopEffect, 
+    corsiBlockTapping,
     reactionTimeStep,
+    activityStepTrail,
     activityStepLetterTapping,
     tappingStep,
   ],

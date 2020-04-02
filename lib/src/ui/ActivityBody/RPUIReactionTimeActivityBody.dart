@@ -21,12 +21,10 @@ class _RPUIReactionTimeActivityBodyState
   int timer = 0;
   int interval =
       4; //max interval between screen changes minus 1. (interval = 4 means color change happens in 1 to 5 seconds)
-  int testDuration = 10; //test duration in seconds - time untill window changes
+  int testDuration = 5; //test duration in seconds - time untill window changes
   final _random = new Random();
   bool lightOn = false; //If light is on, screen is green and should be tapped.
   ActivityStatus activityStatus;
-  bool first =
-      true; //flag for extra time - so test doesn't just start right away
   final _sw = new Stopwatch();
   List<int> rtList = []; //delay times list
   int result = 0;
@@ -76,34 +74,32 @@ class _RPUIReactionTimeActivityBodyState
   Widget build(BuildContext context) {
     switch (activityStatus) {
       case ActivityStatus.Instruction:
-        return Row(
+        return Column(
           //entry screen with rules and start button
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              width: 400,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'tap the screen every time it turns from red to green as fast as possible',
-                      style: TextStyle(fontSize: 16),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                    ),
-                    OutlineButton(onPressed: () {
-                      activityStatus = ActivityStatus.Task;
-                      testTimer();
-                      lightRegulator();
-                    }),
-                    Text(
-                      'Tap the button when ready.',
-                      style: TextStyle(fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
-                  ]),
-            )
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                'Tap the screen every time it turns from red to green, as fast as possible',
+                style: TextStyle(fontSize: 20),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            OutlineButton(
+              onPressed: () {
+                if (this.mounted) {
+                  setState(() {
+                    activityStatus = ActivityStatus.Task;
+                  });
+                }
+                testTimer();
+                lightRegulator();
+              },
+              child: Text('Ready'),
+            ),
           ],
         );
       case ActivityStatus.Task:
@@ -140,24 +136,26 @@ class _RPUIReactionTimeActivityBodyState
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                'Tap the screen when it turns green',
+                                'Tap me if I\'m green!',
                                 style: TextStyle(
                                     fontSize: 22,
                                     color: Colors.white.withOpacity(1.0)),
                               ),
-                              Text('$texthint',
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.white)),
                             ],
                           ))))
             ]);
       case ActivityStatus.Result:
-        return Container(
-          padding: EdgeInsets.all(40),
-          child: Text(
-            'The time is up! $result was your final score. (Average reaction time in milliseconds)',
-            style: TextStyle(fontSize: 22),
-          ),
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(40),
+              child: Text(
+                'The time is up! $result was your final score. (Average reaction time in milliseconds)',
+                style: TextStyle(fontSize: 22),
+              ),
+            )
+          ],
         );
     }
   }

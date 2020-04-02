@@ -26,6 +26,10 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   }
 
   void testControl() {
+    if (this.mounted) {
+      setState(() {});
+      activityStatus = ActivityStatus.Task;
+    }
     Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
       activityStatus = ActivityStatus.Result;
@@ -42,35 +46,26 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   Widget build(BuildContext context) {
     switch (activityStatus) {
       case ActivityStatus.Instruction:
-        return Row(
+        return Column(
           //entry screen with rules and start button
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              width: 400,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Tap us with index and middle finger as fast as you can for 30 seconds!',
-                      style: TextStyle(fontSize: 16),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                    ),
-                    OutlineButton(onPressed: () {
-                      activityStatus = ActivityStatus.Task;
-                      widget.gestureController.instructionEnded();
-                      widget.gestureController.testStarted();
-                      testControl();
-                    }),
-                    Text(
-                      'Tap the button when ready.',
-                      style: TextStyle(fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
-                  ]),
-            )
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                'Tap the two buttons which will appear on screen, with index and middle finger as fast as you can for 30 seconds',
+                style: TextStyle(fontSize: 20),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 20,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            OutlineButton(
+                onPressed: () {
+                  activityStatus = ActivityStatus.Task;
+                  testControl();
+                },
+                child: Text('Ready')),
           ],
         );
       case ActivityStatus.Task:
