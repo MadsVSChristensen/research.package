@@ -63,6 +63,8 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
             OutlineButton(
                 onPressed: () {
                   activityStatus = ActivityStatus.Task;
+                  widget.gestureController.instructionEnded();
+                  widget.gestureController.testStarted();
                   testControl();
                 },
                 child: Text('Ready')),
