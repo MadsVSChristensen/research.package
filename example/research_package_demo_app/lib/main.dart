@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Text(
-                'Click to enable database',
+                'Tap to toggle database',
                 style: TextStyle(fontSize: 16),
               ),
             ]),
