@@ -3,8 +3,10 @@ part of research_package_ui;
 class RPUICorsiBlockTappingActivityBody extends StatefulWidget {
   final RPCorsiBlockTappingActivity activity;
   final Function(dynamic) onResultChange;
+  final RPActivityGestureController gestureController;
 
-  RPUICorsiBlockTappingActivityBody(this.activity, this.onResultChange);
+  RPUICorsiBlockTappingActivityBody(
+      this.activity, this.gestureController, this.onResultChange);
 
   @override
   _RPUICorsiBlockTappingActivityBodyState createState() =>
@@ -29,6 +31,7 @@ class _RPUICorsiBlockTappingActivityBodyState
     super.initState();
     activityStatus = ActivityStatus.Instruction;
     blocks = List.generate(9, (index) => index);
+    widget.gestureController.testStarted();
   }
 
   void startTest() async {
@@ -41,18 +44,18 @@ class _RPUICorsiBlockTappingActivityBodyState
     await Future.delayed(Duration(seconds: 1));
     for (int i = 0; i < numberOfBlocks; i++) {
       if (activityStatus == ActivityStatus.Task && this.mounted) {
-      setState(() {
-        highlightedBlockID = blocks[i];
-      });
+        setState(() {
+          highlightedBlockID = blocks[i];
+        });
       }
       await Future.delayed(Duration(milliseconds: 1000));
     }
     if (activityStatus == ActivityStatus.Task && this.mounted) {
-    setState(() {
-      highlightedBlockID = null;
-      readyForTap = true;
-      taskInfo = 'Go';
-    });
+      setState(() {
+        highlightedBlockID = null;
+        readyForTap = true;
+        taskInfo = 'Go';
+      });
     }
   }
 

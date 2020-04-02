@@ -3,8 +3,10 @@ part of research_package_ui;
 class RPUILetterTappingActivityBody extends StatefulWidget {
   final RPLetterTappingActivity activity;
   final Function(dynamic) onResultChange;
+  final RPActivityGestureController gestureController;
 
-  RPUILetterTappingActivityBody(this.activity, this.onResultChange);
+  RPUILetterTappingActivityBody(
+      this.activity, this.gestureController, this.onResultChange);
 
   @override
   _RPUILetterTappingActivityBodyState createState() =>
@@ -127,11 +129,11 @@ class _RPUILetterTappingActivityBodyState
                   onPressed: isPlaying
                       ? null
                       : () async {
-                        if (this.mounted){
-                          setState(() {
-                            isPlaying = true;
-                          });
-                        }
+                          if (this.mounted) {
+                            setState(() {
+                              isPlaying = true;
+                            });
+                          }
                           await Future.delayed(Duration(seconds: 2));
                           for (String letter in mocaTestList) {
                             player.play('$letter.mp3');
@@ -141,11 +143,11 @@ class _RPUILetterTappingActivityBodyState
                           updateLetter('');
 
                           // TODO: SetState error when survey is canceled
-                          if(this.mounted) {
-                          setState(() {
-                            isPlaying = false;
-                            isFinished = true;
-                          });
+                          if (this.mounted) {
+                            setState(() {
+                              isPlaying = false;
+                              isFinished = true;
+                            });
                           }
                           widget.onResultChange(errors);
                         },
@@ -198,4 +200,3 @@ class _RPUILetterTappingActivityBodyState
           );
   }
 }
-

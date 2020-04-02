@@ -3,8 +3,10 @@ part of research_package_ui;
 class RPUIReactionTimeActivityBody extends StatefulWidget {
   final RPReactionTimeActivity activity;
   final Function(dynamic) onResultChange;
+  final RPActivityGestureController gestureController;
 
-  RPUIReactionTimeActivityBody(this.activity, this.onResultChange);
+  RPUIReactionTimeActivityBody(
+      this.activity, this.gestureController, this.onResultChange);
 
   @override
   _RPUIReactionTimeActivityBodyState createState() =>

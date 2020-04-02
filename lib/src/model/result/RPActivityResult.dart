@@ -25,12 +25,16 @@ class RPActivityResult extends RPResult {
   RPActivityResult.withParams(RPStep step)
       : super.withIdentifier(step.identifier) {
     this._results = Map();
+    this._stepTimes = Map();
+    this._interactionTimes = Map();
 
     startDate = DateTime.now();
   }
 
   /// The map of results with a String as identifier and generic type as value
   Map<String, dynamic> get results => _results;
+  Map<String, dynamic> get stepTimes => _stepTimes;
+  Map<String, dynamic> get interactionTimes => _interactionTimes;
 
   set results(Map<String, dynamic> results) {
     this._results = results;

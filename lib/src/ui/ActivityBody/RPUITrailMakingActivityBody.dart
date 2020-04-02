@@ -3,8 +3,10 @@ part of research_package_ui;
 class RPUITrailMakingActivityBody extends StatefulWidget {
   final RPTrailMakingActivity activity;
   final Function(dynamic) onResultChange;
+  final RPActivityGestureController gestureController;
 
-  RPUITrailMakingActivityBody(this.activity, this.onResultChange);
+  RPUITrailMakingActivityBody(
+      this.activity, this.gestureController, this.onResultChange);
 
   @override
   _RPUITrailMakingActivityBodyState createState() =>
@@ -20,8 +22,8 @@ class _RPUITrailMakingActivityBodyState
   initState() {
     super.initState();
     activityStatus = ActivityStatus.Instruction;
+    widget.gestureController.instructionStarted();
   }
-
 
   void _onPanStart(DragStartDetails start) {
     print('onPanStart');
@@ -45,7 +47,7 @@ class _RPUITrailMakingActivityBodyState
 
   @override
   Widget build(BuildContext context) {
-  switch (activityStatus) {
+    switch (activityStatus) {
       case ActivityStatus.Instruction:
         return Row(
           //entry screen with rules and start button
@@ -64,8 +66,10 @@ class _RPUITrailMakingActivityBodyState
                       textAlign: TextAlign.center,
                     ),
                     OutlineButton(onPressed: () {
+                      widget.gestureController.instructionEnded();
+                      widget.gestureController.testStarted();
                       setState(() {
-                      activityStatus = ActivityStatus.Task;  
+                        activityStatus = ActivityStatus.Task;
                       });
                     }),
                     Text(
@@ -77,30 +81,30 @@ class _RPUITrailMakingActivityBodyState
             )
           ],
         );
-case ActivityStatus.Task:
-    return Container(
-      height:
-          MediaQuery.of(context).size.height - AppBar().preferredSize.height,
-      width: MediaQuery.of(context).size.width,
-      child: GestureDetector(
-        onPanStart: _onPanStart,
-        onPanUpdate: _onPanUpdate,
-        onPanEnd: _onPanEnd,
-        child: ClipRect(
-          child: CustomPaint(
-            painter: _TrailPainter(_pathTracker),
+      case ActivityStatus.Task:
+        return Container(
+          height: MediaQuery.of(context).size.height -
+              AppBar().preferredSize.height,
+          width: MediaQuery.of(context).size.width,
+          child: GestureDetector(
+            onPanStart: _onPanStart,
+            onPanUpdate: _onPanUpdate,
+            onPanEnd: _onPanEnd,
+            child: ClipRect(
+              child: CustomPaint(
+                painter: _TrailPainter(_pathTracker),
+              ),
+            ),
           ),
-        ),
-      ),
-    );
-    case ActivityStatus.Result:
-    return Container(
+        );
+      case ActivityStatus.Result:
+        return Container(
           alignment: Alignment.center,
           child: Text('Youre done, or time slipped up'),
         );
+    }
   }
 }
-    }
 
 class _TrailPainter extends CustomPainter {
   _PathTracker _pathsTracker;

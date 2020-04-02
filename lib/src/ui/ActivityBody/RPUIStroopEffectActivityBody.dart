@@ -3,8 +3,10 @@ part of research_package_ui;
 class RPUIStroopEffectActivityBody extends StatefulWidget {
   final RPStroopEffectActivity activity;
   final Function(dynamic) onResultChange;
+  final RPActivityGestureController gestureController;
 
-  RPUIStroopEffectActivityBody(this.activity, this.onResultChange);
+  RPUIStroopEffectActivityBody(
+      this.activity, this.gestureController, this.onResultChange);
 
   @override
   _RPUIStroopEffectActivityBodyState createState() =>
@@ -122,95 +124,95 @@ class _RPUIStroopEffectActivityBodyState
   Widget build(BuildContext context) {
     switch (activityStatus) {
       case ActivityStatus.Instruction:
-      return Row(
-        //entry screen with rules and start button
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Container(
-            width: 400,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Tap the name of the color, of the word you see on screen.',
-                    style: TextStyle(fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'E.g. tap the box that says "yellow" when a yellow word appears',
-                    style: TextStyle(fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
-                    textAlign: TextAlign.center,
-                  ),
-                  OutlineButton(onPressed: () {
-                    testControl();
-                  }),
-                  Text(
-                    'Tap the button when ready.',
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-          )
-        ],
-      );
-    case ActivityStatus.Task:
-      //main screen for test - contains word and buttons to push
-      return Column(
+        return Row(
+          //entry screen with rules and start button
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Container(
-                    height: 60,
-                    width: 200,
-                    child: Text(
-                      cWord,
-                      style: TextStyle(fontSize: 45, color: wColor),
+            Container(
+              width: 400,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Tap the name of the color, of the word you see on screen.',
+                      style: TextStyle(fontSize: 16),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                       textAlign: TextAlign.center,
                     ),
-                  )
-                ]),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Text(
+                      'E.g. tap the box that says "yellow" when a yellow word appears',
+                      style: TextStyle(fontSize: 16),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      textAlign: TextAlign.center,
+                    ),
+                    OutlineButton(onPressed: () {
+                      testControl();
+                    }),
+                    Text(
+                      'Tap the button when ready.',
+                      style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
+                    ),
+                  ]),
+            )
+          ],
+        );
+      case ActivityStatus.Task:
+        //main screen for test - contains word and buttons to push
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Container(
+                      height: 60,
+                      width: 200,
+                      child: Text(
+                        cWord,
+                        style: TextStyle(fontSize: 45, color: wColor),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  ]),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    _makeButton(0),
+                    _makeButton(1),
+                    _makeButton(2),
+                    _makeButton(3),
+                  ])
+            ]);
+      case ActivityStatus.Result:
+        return Container(
+            //result screen
+            padding: EdgeInsets.all(20),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  _makeButton(0),
-                  _makeButton(1),
-                  _makeButton(2),
-                  _makeButton(3),
-                ])
-          ]);
-    case ActivityStatus.Result:
-      return Container(
-          //result screen
-          padding: EdgeInsets.all(20),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'The test is done!',
-                        style: TextStyle(fontSize: 22),
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        'Correct answers: $correctTaps',
-                        style: TextStyle(fontSize: 18),
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        'Wrong answers or missed words: $mistakes',
-                        style: TextStyle(fontSize: 18),
-                        textAlign: TextAlign.center,
-                      ),
-                    ]),
-              ]));
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'The test is done!',
+                          style: TextStyle(fontSize: 22),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          'Correct answers: $correctTaps',
+                          style: TextStyle(fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          'Wrong answers or missed words: $mistakes',
+                          style: TextStyle(fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                      ]),
+                ]));
     }
   }
 
