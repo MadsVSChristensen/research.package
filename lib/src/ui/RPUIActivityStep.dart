@@ -19,6 +19,7 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   bool readyToProceed;
   RPActivityResult result;
   RPTaskProgress recentTaskProgress;
+  RPActivityGestureController gestureController;
 
   set currentActivityBodyResult(dynamic currentActivityBodyResult) {
     this._currentActivityBodyResult = currentActivityBodyResult;
@@ -37,6 +38,7 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   void initState() {
     // Instantiating the result object here to start the time counter (startDate)
     result = RPActivityResult.withParams(widget.step);
+    gestureController = RPActivityGestureController(result);
     readyToProceed = false;
     recentTaskProgress = blocTask.lastProgressValue;
 
@@ -47,36 +49,43 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   Widget stepBody(RPActivityStep activityStep) {
     switch (activityStep.runtimeType) {
       case RPTrailMakingActivity:
-        return RPUITrailMakingActivityBody(activityStep, (result) {
-          this.currentActivityBodyResult = result;
-        });
-      case RPTappingActivity:
-        return RPUITappingActivityBody(activityStep, (result) {
-          this.currentActivityBodyResult = result;
-        });
-      case RPLetterTappingActivity:
-        return RPUILetterTappingActivityBody(activityStep, (result) {
-          this.currentActivityBodyResult = result;
-        });
-      case RPReactionTimeActivity:
-        return RPUIReactionTimeActivityBody(activityStep, (result) {
-          this.currentActivityBodyResult = result;
-        });
-      case RPRapidVisualInfoProcessingActivity:
-        return RPUIRapidVisualInfoProcessingActivityBody(activityStep,
+        return RPUITrailMakingActivityBody(activityStep, gestureController,
             (result) {
           this.currentActivityBodyResult = result;
         });
+      case RPTappingActivity:
+        return RPUITappingActivityBody(activityStep, gestureController,
+            (result) {
+          this.currentActivityBodyResult = result;
+        });
+      case RPLetterTappingActivity:
+        return RPUILetterTappingActivityBody(activityStep, gestureController,
+            (result) {
+          this.currentActivityBodyResult = result;
+        });
+      case RPReactionTimeActivity:
+        return RPUIReactionTimeActivityBody(activityStep, gestureController,
+            (result) {
+          this.currentActivityBodyResult = result;
+        });
+      case RPRapidVisualInfoProcessingActivity:
+        return RPUIRapidVisualInfoProcessingActivityBody(
+            activityStep, gestureController, (result) {
+          this.currentActivityBodyResult = result;
+        });
       case RPPairedAssociatesLearningActivity:
-        return RPUIPairedAssociatesLearningActivityBody(activityStep, (result) {
+        return RPUIPairedAssociatesLearningActivityBody(
+            activityStep, gestureController, (result) {
           this.currentActivityBodyResult = result;
         });
       case RPCorsiBlockTappingActivity:
-        return RPUICorsiBlockTappingActivityBody(activityStep, (result) {
+        return RPUICorsiBlockTappingActivityBody(
+            activityStep, gestureController, (result) {
           this.currentActivityBodyResult = result;
         });
       case RPStroopEffectActivity:
-        return RPUIStroopEffectActivityBody(activityStep, (result) {
+        return RPUIStroopEffectActivityBody(activityStep, gestureController,
+            (result) {
           this.currentActivityBodyResult = result;
         });
       default:

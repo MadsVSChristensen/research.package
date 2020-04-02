@@ -3,8 +3,10 @@ part of research_package_ui;
 class RPUIPairedAssociatesLearningActivityBody extends StatefulWidget {
   final RPPairedAssociatesLearningActivity activity;
   final Function(dynamic) onResultChange;
+  final RPActivityGestureController gestureController;
 
-  RPUIPairedAssociatesLearningActivityBody(this.activity, this.onResultChange);
+  RPUIPairedAssociatesLearningActivityBody(
+      this.activity, this.gestureController, this.onResultChange);
 
   @override
   _RPUIPairedAssociatesLearningActivityBody createState() =>

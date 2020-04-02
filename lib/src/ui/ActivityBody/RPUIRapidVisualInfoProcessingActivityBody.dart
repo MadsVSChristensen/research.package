@@ -3,8 +3,10 @@ part of research_package_ui;
 class RPUIRapidVisualInfoProcessingActivityBody extends StatefulWidget {
   final RPRapidVisualInfoProcessingActivity activity;
   final Function(dynamic) onResultChange;
+  final RPActivityGestureController gestureController;
 
-  RPUIRapidVisualInfoProcessingActivityBody(this.activity, this.onResultChange);
+  RPUIRapidVisualInfoProcessingActivityBody(
+      this.activity, this.gestureController, this.onResultChange);
 
   @override
   _RPUIRapidVisualInfoProcessingActivityBody createState() =>

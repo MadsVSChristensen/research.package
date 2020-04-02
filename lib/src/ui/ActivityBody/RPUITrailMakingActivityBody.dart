@@ -3,8 +3,10 @@ part of research_package_ui;
 class RPUITrailMakingActivityBody extends StatefulWidget {
   final RPTrailMakingActivity activity;
   final Function(dynamic) onResultChange;
+  final RPActivityGestureController gestureController;
 
-  RPUITrailMakingActivityBody(this.activity, this.onResultChange);
+  RPUITrailMakingActivityBody(
+      this.activity, this.gestureController, this.onResultChange);
 
   @override
   _RPUITrailMakingActivityBodyState createState() =>
@@ -20,6 +22,7 @@ class _RPUITrailMakingActivityBodyState
   initState() {
     super.initState();
     activityStatus = ActivityStatus.Instruction;
+    widget.gestureController.instructionStarted();
   }
 
   void _onPanStart(DragStartDetails start) {

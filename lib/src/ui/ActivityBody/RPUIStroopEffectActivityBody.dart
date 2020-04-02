@@ -3,8 +3,10 @@ part of research_package_ui;
 class RPUIStroopEffectActivityBody extends StatefulWidget {
   final RPStroopEffectActivity activity;
   final Function(dynamic) onResultChange;
+  final RPActivityGestureController gestureController;
 
-  RPUIStroopEffectActivityBody(this.activity, this.onResultChange);
+  RPUIStroopEffectActivityBody(
+      this.activity, this.gestureController, this.onResultChange);
 
   @override
   _RPUIStroopEffectActivityBodyState createState() =>

@@ -50,3 +50,5 @@ part 'src/ui/ActivityBody/RPUIRapidVisualInfoProcessingActivityBody.dart';
 part 'src/ui/ActivityBody/RPUIPairedAssociatesLearningActivityBody.dart';
 part 'src/ui/ActivityBody/RPUICorsiBlockTappingActivityBody.dart';
 part 'src/ui/ActivityBody/RPUIStroopEffectActivityBody.dart';
+
+part 'src/ui/Controllers/RPActivityGestureController.dart';
