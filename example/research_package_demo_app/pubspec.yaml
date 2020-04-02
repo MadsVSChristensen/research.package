@@ -27,12 +27,11 @@ dependencies:
     path:
       \Users\daman\Desktop\Uni\flutter\research.package
       # git:
-      #   url: git://github.com/cph-cachet/research.package.git
+      #   url: git://github.com/cph-cachet/research.package.git 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

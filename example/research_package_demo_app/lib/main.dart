@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'firebase/auth.dart';
 import 'survey_page.dart';
 
 void main() => runApp(MyApp());
@@ -8,7 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light().copyWith(primaryColor: Colors.deepPurple, accentColor: Colors.deepOrangeAccent),
+      theme: ThemeData.light().copyWith(
+          primaryColor: Colors.deepPurple,
+          accentColor: Colors.deepOrangeAccent),
       title: 'Research Package Demo',
       home: MyHomePage(),
       debugShowCheckedModeBanner: false,
@@ -22,6 +25,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool fireBase = false;
+  final FBAuth _auth = FBAuth();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,22 +60,65 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SurveyPage()));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => SurveyPage()));
                   },
                 ),
               ),
             ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                width: 60,
+                height: 50,
+                child: OutlineButton(
+                  child: _getIcon(),
+                  onPressed: () async {
+                    if (fireBase) {
+                      setState(() {
+                        fireBase = false;
+                      });
+                      await _auth.signOut();
+                      print("sign out");
+                    } else {
+                      setState(() {
+                        fireBase = true;
+                      });
+                        dynamic response = await _auth.anonSignIn();
+                        if (response == null) {
+                          print('error');
+                        } else {
+                          print('dingdong');
+                          print(response.uid);
+                        }
+                    }
+                  },
+                ),
+              ),
+              Text(
+                'Click to enable database',
+                style: TextStyle(fontSize: 16),
+              ),
+            ]),
           ],
         ),
       ),
       bottomNavigationBar: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(22.0),
-            child: Image.asset(
-        "assets/images/cachet.png",
-        height: 40,
-      ),
-          )),
+        padding: const EdgeInsets.all(22.0),
+        child: Image.asset(
+          "assets/images/cachet.png",
+          height: 40,
+        ),
+      )),
     );
+  }
+
+  Widget _getIcon() {
+    if (fireBase) {
+      return Icon(Icons.check, size: 18);
+    } else {
+      return Icon(Icons.whatshot, size: 18);
+    }
   }
 }
