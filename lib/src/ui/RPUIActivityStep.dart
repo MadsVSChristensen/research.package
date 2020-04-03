@@ -77,6 +77,8 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
         return RPUIPairedAssociatesLearningActivityBody(
             activityStep, gestureController, (result) {
           this.currentActivityBodyResult = result;
+          print(result);
+          print("Pal result");
         });
       case RPCorsiBlockTappingActivity:
         return RPUICorsiBlockTappingActivityBody(

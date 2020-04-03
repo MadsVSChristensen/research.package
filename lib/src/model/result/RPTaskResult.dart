@@ -10,7 +10,6 @@ class RPTaskResult extends RPResult {
   Map<String, RPResult> results;
 
   RPTaskResult();
-
   /// Returns an [RPTaskResult] with a given identifier and an empty map of results.
   ///
   /// [identifier] should always be the identifier of the "parent" task.

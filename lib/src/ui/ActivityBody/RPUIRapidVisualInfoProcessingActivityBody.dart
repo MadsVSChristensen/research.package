@@ -19,7 +19,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   String texthint =
       'A sequence will be shown on screen, along with a changing number. Whenever the whole sequence has passed (does not have to be right after each other), tap the button. E.g. if the sequence is 3-6-9, a valid press of the button is 3-4-1-6-9. They must be ordered but need not be in succession. ';
   int interval = 7; //interval in which numbers appear (should be 9 (0-9))
-  int testDuration = 40; //test duration in seconds - time untill window changes
+  int testDuration = 5; //test duration in seconds - time untill window changes
   int newNum = 0; //int for next random generated number on screen
   int goodTaps = 0; //number of taps that were correct
   int badTaps = 0; //number of taps that were wrong
@@ -72,7 +72,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
       //when time is up, change window and set result
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
-        widget.onResultChange(0);
+        widget.onResultChange(goodTaps);
       }
     });
   }
