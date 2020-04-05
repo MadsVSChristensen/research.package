@@ -74,7 +74,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       //when time is up, change window and set result
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
-        widget.onResultChange(successes);
+        widget.onResultChange({"successes": successes, "mistakes": mistakes});
       }
     });
   }

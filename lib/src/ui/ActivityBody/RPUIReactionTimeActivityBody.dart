@@ -64,7 +64,11 @@ class _RPUIReactionTimeActivityBodyState
         result = (result / rtList.length)
             .round(); //calculate average delay from test.
         if (this.mounted) {
-          widget.onResultChange(result);
+          widget.onResultChange({
+            "avg. reaction time": result,
+            "Wrong taps": wrongTaps,
+            "Correct taps": correctTaps
+          });
         }
       }
     });

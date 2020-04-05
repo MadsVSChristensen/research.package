@@ -73,7 +73,7 @@ class _RPUIStroopEffectActivityBodyState
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         setState(() {});
-        widget.onResultChange(0);
+        widget.onResultChange({"mistakes" : mistakes, "correct taps": correctTaps});
       }
     });
     wordPulse();

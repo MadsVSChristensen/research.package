@@ -4,29 +4,38 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class DBService {
-  final String palResults;
+  final String testResults;
+  /* final String palResults;
   final String corsiResults;
   final String rvipResults;
   final String tappingResults;
   final String trailResults;
   final String stroopResults;
   final String reactionResults;
-  final String letterAResults;
+  final String letterAResults; */
 
   DBService(
-      {this.palResults,
+      {
+      this.testResults,
+      /* this.palResults,
       this.corsiResults,
       this.rvipResults,
       this.letterAResults,
       this.trailResults,
       this.tappingResults,
       this.stroopResults,
-      this.reactionResults});
+      this.reactionResults */});
 
   final CollectionReference testResultCollection =
       Firestore.instance.collection('Test data');
 
-  Future updatePALData(String results) async {
+
+  Future updateDBData(String results) async {
+      return await testResultCollection.document(testResults).setData({
+        'PAL test results': results,
+      });
+    }
+  /* Future updatePALData(String results) async {
     return await testResultCollection.document(palResults).setData({
       'PAL test results': results,
     });
@@ -66,5 +75,5 @@ class DBService {
     return await testResultCollection.document(reactionResults).setData({
       'Reaction test results': results,
     });
-  }
+  } */
 }

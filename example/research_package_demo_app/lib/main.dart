@@ -26,6 +26,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool fireBase = false;
+  bool buttonReady = true;
   final FBAuth _auth = FBAuth();
 
   @override
@@ -74,23 +75,27 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: OutlineButton(
                   child: _getIcon(),
                   onPressed: () async {
-                    if (fireBase) {
-                      setState(() {
-                        fireBase = false;
-                      });
-                      await _auth.signOut();
-                      print("sign out");
-                    } else {
-                      setState(() {
-                        fireBase = true;
-                      });
+                    if (buttonReady) {
+                      if (fireBase) { //if firebase is enabled, on click disables it.
+                        setState(() {
+                          fireBase = false;
+                        });
+                        await _auth.signOut();
+                        print("sign out");
+                      } else {  //enable firebase if not.
+                        setState(() {
+                          fireBase = true;
+                        });
+                        buttonReady = false; //make button un-clickable while signing in
                         dynamic response = await _auth.anonSignIn();
+                        buttonReady = true;
                         if (response == null) {
                           print('error');
                         } else {
                           print('dingdong');
                           print(response.uid);
                         }
+                      }
                     }
                   },
                 ),

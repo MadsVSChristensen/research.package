@@ -3,10 +3,12 @@ part of research_package_ui;
 class RPUICorsiBlockTappingActivityBody extends StatefulWidget {
   final RPCorsiBlockTappingActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureController gestureController;
+  //final RPActivityGestureController gestureController;
 
   RPUICorsiBlockTappingActivityBody(
-      this.activity, this.gestureController, this.onResultChange);
+      this.activity, this.onResultChange);
+/*this.gestureController,*/
+
 
   @override
   _RPUICorsiBlockTappingActivityBodyState createState() =>
@@ -31,7 +33,7 @@ class _RPUICorsiBlockTappingActivityBodyState
     super.initState();
     activityStatus = ActivityStatus.Instruction;
     blocks = List.generate(9, (index) => index);
-    widget.gestureController.testStarted();
+    //widget.gestureController.testStarted();
   }
 
   void startTest() async {
@@ -74,6 +76,7 @@ class _RPUICorsiBlockTappingActivityBodyState
           setState(() {
             taskInfo = 'Finished';
           });
+          //this.widget.onResultChange({"Corsi span" : corsiSpan});
           this.widget.onResultChange(corsiSpan);
           await Future.delayed(Duration(milliseconds: 700));
           setState(() {

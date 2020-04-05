@@ -57,11 +57,14 @@ flutter:
     - assets/images/ok.png
     - assets/images/happy.png
     - assets/images/very-happy.png
+
+    # Test image assets for PAL
     - assets/images/nothing.png
     - assets/images/hidden.png
     - assets/images/shape1.png
     - assets/images/shape2.png
     - assets/images/shape3.png
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

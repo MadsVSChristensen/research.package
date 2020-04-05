@@ -45,8 +45,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   @override
   initState() {
     super.initState();
-    activityStatus =
-        ActivityStatus.Instruction; 
+    activityStatus = ActivityStatus.Instruction;
     for (int i = 0; i < seq1.length; i++) {
       //adds bools according to sequence lengths
       listIndexes.add(false);
@@ -72,7 +71,11 @@ class _RPUIRapidVisualInfoProcessingActivityBody
       //when time is up, change window and set result
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
-        widget.onResultChange(goodTaps);
+        widget.onResultChange({
+          "Correct taps": goodTaps,
+          "incorrect taps": badTaps,
+          "passed sequences": seqPassed
+        });
       }
     });
   }

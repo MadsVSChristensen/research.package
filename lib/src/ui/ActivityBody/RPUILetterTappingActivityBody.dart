@@ -3,10 +3,11 @@ part of research_package_ui;
 class RPUILetterTappingActivityBody extends StatefulWidget {
   final RPLetterTappingActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureController gestureController;
+  //final RPActivityGestureController gestureController;
 
   RPUILetterTappingActivityBody(
-      this.activity, this.gestureController, this.onResultChange);
+      this.activity, this.onResultChange);
+//this.gestureController,
 
   @override
   _RPUILetterTappingActivityBodyState createState() =>
@@ -111,7 +112,7 @@ class _RPUILetterTappingActivityBodyState
       await Future.delayed(Duration(milliseconds: 1000));
     }
     updateLetter('');
-    widget.onResultChange(errors);
+    widget.onResultChange({"Errors" : errors});
     if (this.mounted) {
       setState(() {
         activityStatus = ActivityStatus.Result;
