@@ -42,9 +42,9 @@ RPOrderedTask surveyTask = RPOrderedTask(
   "surveyTaskID",
   [
     //activityStepLetterTapping,  
-    corsiBlockTapping,
-    activityStepTrail,
     tappingStep,
+    activityStepTrail,
+    corsiBlockTapping,
     pairedAssociatesLearningStep,
     rapidVisualInfoProcessingStep,
     stroopEffect, 

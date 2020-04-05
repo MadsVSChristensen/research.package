@@ -16,7 +16,7 @@ class RPUITappingActivityBody extends StatefulWidget {
 
 class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   int taps = 0;
-  int testDuration = 5;
+  int testDuration = 30;
   ActivityStatus activityStatus;
 
   @override
@@ -87,6 +87,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        Container(width: 140, height: 70, child:
                         OutlineButton(
                           onPressed: () {
                             //widget.gestureController.addCorrectGesture(
@@ -96,6 +97,8 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                             });
                           },
                         ),
+                        ),
+                        Container(width: 140, height: 70, child:
                         OutlineButton(
                           onPressed: () {
                             //widget.gestureController.addCorrectGesture(
@@ -104,6 +107,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                               taps++;
                             });
                           },
+                        ),
                         ),
                       ],
                     )

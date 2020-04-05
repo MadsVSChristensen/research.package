@@ -175,14 +175,14 @@ class _PathTracker extends ChangeNotifier {
     _locations = List<_Location>();
     _locations.add(_Location('A', Offset(30, 500),
         Rect.fromCircle(center: Offset(30, 500), radius: 20)));
-    _locations.add(_Location('B', Offset(350, 550),
-        Rect.fromCircle(center: Offset(350, 550), radius: 20)));
+    _locations.add(_Location('B', Offset(300, 500),
+        Rect.fromCircle(center: Offset(300, 500), radius: 20)));
     _locations.add(_Location('C', Offset(250, 400),
         Rect.fromCircle(center: Offset(250, 400), radius: 20)));
     _locations.add(_Location('D', Offset(100, 50),
         Rect.fromCircle(center: Offset(100, 50), radius: 20)));
-    _locations.add(_Location('E', Offset(350, 100),
-        Rect.fromCircle(center: Offset(350, 100), radius: 20)));
+    _locations.add(_Location('E', Offset(320, 100),
+        Rect.fromCircle(center: Offset(320, 100), radius: 20)));
     _isDraging = false;
     taskStarted = false;
     prevLocation = _locations.first;

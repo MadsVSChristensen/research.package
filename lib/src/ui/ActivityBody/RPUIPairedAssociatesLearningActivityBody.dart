@@ -23,7 +23,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       0; //introduce int that can be 0, 1 and 2 for three possibilities. (indicates if, and which icon to show)
   int successes = 0;
   int mistakes = 0;
-  int testDuration = 10; //test duration in seconds - time untill window changes
+  int testDuration = 40; //test duration in seconds - time untill window changes
   Timer t = new Timer(Duration(seconds: 0),
       () {}); //construct for further control of timer. Cancel at window collapse.
   List<String> containers = [

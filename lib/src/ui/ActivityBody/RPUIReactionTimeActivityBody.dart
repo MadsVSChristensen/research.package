@@ -21,7 +21,7 @@ class _RPUIReactionTimeActivityBodyState
   int timer = 0;
   int interval =
       4; //max interval between screen changes minus 1. (interval = 4 means color change happens in 1 to 5 seconds)
-  int testDuration = 5; //test duration in seconds - time untill window changes
+  int testDuration = 50; //test duration in seconds - time untill window changes
   final _random = new Random();
   bool lightOn = false; //If light is on, screen is green and should be tapped.
   ActivityStatus activityStatus;

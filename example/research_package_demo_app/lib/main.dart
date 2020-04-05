@@ -92,7 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         if (response == null) {
                           print('error');
                         } else {
-                          print('dingdong');
                           print(response.uid);
                         }
                       }

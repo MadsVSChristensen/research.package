@@ -17,7 +17,7 @@ class _RPUIStroopEffectActivityBodyState
     extends State<RPUIStroopEffectActivityBody> {
   int mistakes = 0;
   int correctTaps = 0;
-  int testDuration = 5; //test duration in seconds - time untill window changes
+  int testDuration = 50; //test duration in seconds - time untill window changes
   final _random = new Random();
   int displayTime =
       1250; //amount of time each word is displayed in milliseconds
