@@ -66,40 +66,40 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            // Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            //   Container(
-            //     padding: const EdgeInsets.all(5.0),
-            //     width: 60,
-            //     height: 50,
-            //     child: OutlineButton(
-            //       child: _getIcon(),
-            //       onPressed: () async {
-            //         if (fireBase) {
-            //           setState(() {
-            //             fireBase = false;
-            //           });
-            //           await _auth.signOut();
-            //           print("sign out");
-            //         } else {
-            //           setState(() {
-            //             fireBase = true;
-            //           });
-            //             dynamic response = await _auth.anonSignIn();
-            //             if (response == null) {
-            //               print('error');
-            //             } else {
-            //               print('dingdong');
-            //               print(response.uid);
-            //             }
-            //         }
-            //       },
-            //     ),
-            //   ),
-            //   Text(
-            //     'Click to enable database',
-            //     style: TextStyle(fontSize: 16),
-            //   ),
-            // ]),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                width: 60,
+                height: 50,
+                child: OutlineButton(
+                  child: _getIcon(),
+                  onPressed: () async {
+                    if (fireBase) {
+                      setState(() {
+                        fireBase = false;
+                      });
+                      await _auth.signOut();
+                      print("sign out");
+                    } else {
+                      setState(() {
+                        fireBase = true;
+                      });
+                        dynamic response = await _auth.anonSignIn();
+                        if (response == null) {
+                          print('error');
+                        } else {
+                          print('dingdong');
+                          print(response.uid);
+                        }
+                    }
+                  },
+                ),
+              ),
+              Text(
+                'Tap to toggle database',
+                style: TextStyle(fontSize: 16),
+              ),
+            ]),
           ],
         ),
       ),

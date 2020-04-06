@@ -1,5 +1,9 @@
 import 'package:research_package/model.dart';
 
+RPCompletionStep completionStep = RPCompletionStep("completionID")
+..title = "Finished"
+..text = "Thank you for taking the tests";
+
 RPActivityStep tappingStep = RPTappingActivity(
   'Tapping step ID',
 );
@@ -39,11 +43,13 @@ RPOrderedTask surveyTask = RPOrderedTask(
   [
     pairedAssociatesLearningStep,
     rapidVisualInfoProcessingStep,
-    // stroopEffect,
-    // corsiBlockTapping,
-    // reactionTimeStep,
-    // activityStepTrail,
-    // activityStepLetterTapping,
-    // tappingStep,
+    /* stroopEffect, 
+    corsiBlockTapping,
+    reactionTimeStep,
+    activityStepTrail,
+    activityStepLetterTapping,
+    tappingStep, */
+    completionStep,
+    
   ],
 );
