@@ -6,7 +6,7 @@ class RPActivityResult extends RPResult {
   Map<String, dynamic> _results;
 
   Map<String, DateTime> _stepTimes;
-  Map<String, DateTime> _interactionTimes;
+  List _interactions;
 
   //When ActivityResult only has a single value, pair that value with the following key
   /// The default key for the results map. It's used when there's only one answer result.
@@ -26,7 +26,7 @@ class RPActivityResult extends RPResult {
       : super.withIdentifier(step.identifier) {
     this._results = Map();
     this._stepTimes = Map();
-    this._interactionTimes = Map();
+    this._interactions = List();
 
     startDate = DateTime.now();
   }
@@ -34,7 +34,7 @@ class RPActivityResult extends RPResult {
   /// The map of results with a String as identifier and generic type as value
   Map<String, dynamic> get results => _results;
   Map<String, dynamic> get stepTimes => _stepTimes;
-  Map<String, dynamic> get interactionTimes => _interactionTimes;
+  List get interactions => _interactions;
 
   set results(Map<String, dynamic> results) {
     this._results = results;
@@ -49,6 +49,8 @@ class RPActivityResult extends RPResult {
   /// Also used at Form Steps where there are multiple questions asked during a single step.
   void setResultForIdentifier(String identifier, dynamic result) {
     this._results[identifier] = result;
+    this._results['steptimes'] = _stepTimes;
+    this._results['interactions'] = _interactions;
     this.endDate = DateTime.now();
   }
 
@@ -56,11 +58,29 @@ class RPActivityResult extends RPResult {
   ///
   /// Usually it's used when there's only one result produced by the Question Body
   void setFinalResult(dynamic result) {
-    setResultForIdentifier('key here', result);
+    setResultForIdentifier('Main result', result);
     this.endDate = DateTime.now();
   }
 
   factory RPActivityResult.fromJson(Map<String, dynamic> json) =>
       _$RPActivityResultFromJson(json);
   Map<String, dynamic> toJson() => _$RPActivityResultToJson(this);
+}
+
+/// Class representing an interaction with the app
+@JsonSerializable(fieldRename: FieldRename.snake)
+class Interaction {
+  /* final */ DateTime time;
+  /* final */ String correctness;
+  /* final */ String type;
+  /* final */ String description;
+
+  Interaction();
+
+  Interaction.withData(
+      this.time, this.correctness, this.type, this.description);
+
+  factory Interaction.fromJson(Map<String, dynamic> json) =>
+      _$InteractionFromJson(json);
+  Map<String, dynamic> toJson() => _$InteractionToJson(this);
 }

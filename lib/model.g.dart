@@ -366,10 +366,7 @@ RPTaskResult _$RPTaskResultFromJson(Map<String, dynamic> json) {
     ..endDate = json['end_date'] == null
         ? null
         : DateTime.parse(json['end_date'] as String)
-    ..results = (json['results'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
-          e == null ? null : RPStepResult.fromJson(e as Map<String, dynamic>)),
-    );
+    ..results = json['results'] as Map<String, dynamic>;
 }
 
 Map<String, dynamic> _$RPTaskResultToJson(RPTaskResult instance) {
@@ -508,3 +505,20 @@ Map<String, dynamic> _$RPActivityResultToJson(RPActivityResult instance) {
   writeNotNull('results', instance.results);
   return val;
 }
+
+Interaction _$InteractionFromJson(Map<String, dynamic> json) {
+  return Interaction()
+    ..time =
+        json['time'] == null ? null : DateTime.parse(json['time'] as String)
+    ..correctness = json['correctness'] as String
+    ..type = json['type'] as String
+    ..description = json['description'] as String;
+}
+
+Map<String, dynamic> _$InteractionToJson(Interaction instance) =>
+    <String, dynamic>{
+      'time': instance.time?.toIso8601String(),
+      'correctness': instance.correctness,
+      'type': instance.type,
+      'description': instance.description,
+    };

@@ -276,6 +276,8 @@ class _RPUIPairedAssociatesLearningActivityBody
     if (correct == 0) {
       //nothing happens - no icon to show
     } else if (correct == 1) {
+      widget.gestureController.addCorrectGesture(
+          "Button press", "Correct choice of hidden picture");
       return Icon(Icons.check, size: 50);
     } else {
       return Icon(Icons.clear, size: 50);

@@ -7,7 +7,7 @@ class RPTaskResult extends RPResult {
   ///
   /// Each entry represents a Step's result ([RPStepResult]).
   /// The keys are strings with the identifiers of the corresponding Step.
-  Map<String, RPResult> results;
+  Map<String, dynamic> results;
 
   RPTaskResult();
 

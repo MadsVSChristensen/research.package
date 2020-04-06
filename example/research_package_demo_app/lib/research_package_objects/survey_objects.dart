@@ -1,4 +1,3 @@
-
 import 'package:research_package/model.dart';
 
 RPActivityStep tappingStep = RPTappingActivity(
@@ -34,17 +33,17 @@ RPActivityStep corsiBlockTapping = RPCorsiBlockTappingActivity(
 RPActivityStep stroopEffect = RPStroopEffectActivity(
   'Stroop Effect step ID',
 );
-  
+
 RPOrderedTask surveyTask = RPOrderedTask(
   "surveyTaskID",
   [
     pairedAssociatesLearningStep,
     rapidVisualInfoProcessingStep,
-    stroopEffect, 
-    corsiBlockTapping,
-    reactionTimeStep,
-    activityStepTrail,
-    activityStepLetterTapping,
-    tappingStep,
+    // stroopEffect,
+    // corsiBlockTapping,
+    // reactionTimeStep,
+    // activityStepTrail,
+    // activityStepLetterTapping,
+    // tappingStep,
   ],
 );
