@@ -58,6 +58,7 @@ class _RPUIPairedAssociatesLearningActivityBody
   @override
   initState() {
     super.initState();
+    widget.gestureController.instructionStarted();
     activityStatus = ActivityStatus.Instruction;
     levels.addAll([shapes0, shapes1, shapes2]); //hard add all levels...
     containerContent(
@@ -65,6 +66,8 @@ class _RPUIPairedAssociatesLearningActivityBody
   }
 
   void testStarter() {
+    widget.gestureController.instructionEnded();
+    widget.gestureController.testStarted();
     //begin test by changing window and starting timer.
     setState(() {
       activityStatus = ActivityStatus.Task;
@@ -73,6 +76,8 @@ class _RPUIPairedAssociatesLearningActivityBody
     t = Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
       activityStatus = ActivityStatus.Result;
+      widget.gestureController.testEnded();
+      widget.gestureController.resultsShown();
       if (this.mounted) {
         widget.onResultChange(successes);
       }

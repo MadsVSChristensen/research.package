@@ -45,6 +45,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   @override
   initState() {
     super.initState();
+    widget.gestureController.instructionStarted();
     activityStatus =
         ActivityStatus.Instruction; 
     for (int i = 0; i < seq1.length; i++) {
@@ -72,6 +73,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
       //when time is up, change window and set result
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
+        widget.gestureController.testEnded();
+        widget.gestureController.resultsShown();
         widget.onResultChange(goodTaps);
       }
     });
@@ -130,6 +133,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
             ),
             OutlineButton(
               onPressed: () {
+                widget.gestureController.instructionEnded();
+                widget.gestureController.testStarted();
                 activityStatus = ActivityStatus.Task;
                 timerBody();
               },

@@ -8,31 +8,31 @@ class RPActivityGestureController {
   void addNewGesture() {}
 
   void testStarted() {
-    result.stepTimes['Test started'] = DateTime.now();
+    result.stepTimes['test_started'] = DateTime.now();
   }
 
   void testShown() {
-    result.stepTimes['Test shown'] = DateTime.now();
+    result.stepTimes['test_shown'] = DateTime.now();
   }
 
   void testEnded() {
-    result.stepTimes['Test ended'] = DateTime.now();
+    result.stepTimes['test_ended'] = DateTime.now();
   }
 
   void instructionStarted() {
-    result.stepTimes['Instruction started'] = DateTime.now();
+    result.stepTimes['instruction_started'] = DateTime.now();
   }
 
   void instructionEnded() {
-    result.stepTimes['Instruction ended'] = DateTime.now();
+    result.stepTimes['instruction_ended'] = DateTime.now();
   }
 
   void resultsShown() {
-    result.stepTimes['results shown'] = DateTime.now();
+    result.stepTimes['results_shown'] = DateTime.now();
   }
 
   void resultsClosed() {
-    result.stepTimes['results closed'] = DateTime.now();
+    result.stepTimes['results_closed'] = DateTime.now();
   }
 
   void addCorrectGesture(String type, String description) {

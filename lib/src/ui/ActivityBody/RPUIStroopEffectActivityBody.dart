@@ -56,6 +56,7 @@ class _RPUIStroopEffectActivityBodyState
   @override
   initState() {
     super.initState();
+    widget.gestureController.instructionStarted();
     activityStatus = ActivityStatus.Instruction;
     cWord = possColorsString[_random.nextInt(possColorsString.length)];
     wColor = possColors[_random.nextInt(possColors.length)];
@@ -63,6 +64,8 @@ class _RPUIStroopEffectActivityBodyState
 
   void testControl() {
     if (this.mounted) {
+      widget.gestureController.instructionEnded();
+      widget.gestureController.testStarted();
       setState(() {
         //change screen
         activityStatus = ActivityStatus.Task;
@@ -70,6 +73,8 @@ class _RPUIStroopEffectActivityBodyState
     }
     Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
+      widget.gestureController.testEnded();
+      widget.gestureController.resultsShown();
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         setState(() {});

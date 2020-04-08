@@ -4,17 +4,17 @@ version: 0.1.2
 homepage: https://github.com/cph-cachet/research.package
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  #
   signature: ^2.0.0
   rxdart: ^0.23.0
   json_annotation: ^3.0.0
   audioplayers: ^0.14.0
   timer_builder: ^1.3.0
-     
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +56,32 @@ flutter:
     - packages/research_package/assets/sounds/X.mp3
     - packages/research_package/assets/sounds/Y.mp3
     - packages/research_package/assets/sounds/Z.mp3
+    - assets/sounds/A.mp3
+    - assets/sounds/B.mp3
+    - assets/sounds/C.mp3
+    - assets/sounds/D.mp3
+    - assets/sounds/E.mp3
+    - assets/sounds/F.mp3
+    - assets/sounds/G.mp3
+    - assets/sounds/H.mp3
+    - assets/sounds/I.mp3
+    - assets/sounds/J.mp3
+    - assets/sounds/K.mp3
+    - assets/sounds/L.mp3
+    - assets/sounds/M.mp3
+    - assets/sounds/N.mp3
+    - assets/sounds/O.mp3
+    - assets/sounds/P.mp3
+    - assets/sounds/Q.mp3
+    - assets/sounds/R.mp3
+    - assets/sounds/S.mp3
+    - assets/sounds/T.mp3
+    - assets/sounds/U.mp3
+    - assets/sounds/V.mp3
+    - assets/sounds/W.mp3
+    - assets/sounds/X.mp3
+    - assets/sounds/Y.mp3
+    - assets/sounds/Z.mp3
   #  - images/a_dot_ham.jpeg
   #
   # For details regarding assets in packages, see

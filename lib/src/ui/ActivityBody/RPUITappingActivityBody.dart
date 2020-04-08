@@ -21,8 +21,8 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   @override
   initState() {
     super.initState();
-    activityStatus = ActivityStatus.Instruction;
     widget.gestureController.instructionStarted();
+    activityStatus = ActivityStatus.Instruction;
   }
 
   void testControl() {
@@ -32,9 +32,9 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
     }
     Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
-      activityStatus = ActivityStatus.Result;
       widget.gestureController.testEnded();
       widget.gestureController.resultsShown();
+      activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         setState(() {});
         widget.onResultChange(0);
@@ -62,9 +62,9 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
             ),
             OutlineButton(
                 onPressed: () {
-                  activityStatus = ActivityStatus.Task;
                   widget.gestureController.instructionEnded();
                   widget.gestureController.testStarted();
+                  activityStatus = ActivityStatus.Task;
                   testControl();
                 },
                 child: Text('Ready')),

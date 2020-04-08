@@ -29,9 +29,9 @@ class _RPUICorsiBlockTappingActivityBodyState
   @override
   initState() {
     super.initState();
+    widget.gestureController.instructionStarted();
     activityStatus = ActivityStatus.Instruction;
     blocks = List.generate(9, (index) => index);
-    widget.gestureController.testStarted();
   }
 
   void startTest() async {
@@ -76,6 +76,7 @@ class _RPUICorsiBlockTappingActivityBodyState
           });
           this.widget.onResultChange(corsiSpan);
           await Future.delayed(Duration(milliseconds: 700));
+          widget.gestureController.testEnded();
           setState(() {
             activityStatus = ActivityStatus.Result;
           });
@@ -89,6 +90,7 @@ class _RPUICorsiBlockTappingActivityBodyState
         }
       } else {
         setState(() {
+          failedLast = false;
           taskInfo = 'Well done';
         });
         corsiSpan = numberOfBlocks;
@@ -116,6 +118,8 @@ class _RPUICorsiBlockTappingActivityBodyState
             OutlineButton(
               child: Text('Ready'),
               onPressed: () {
+                widget.gestureController.instructionEnded();
+                widget.gestureController.testStarted();
                 setState(() {
                   activityStatus = ActivityStatus.Task;
                 });

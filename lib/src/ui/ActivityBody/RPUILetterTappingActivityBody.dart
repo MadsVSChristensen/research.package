@@ -15,6 +15,7 @@ class RPUILetterTappingActivityBody extends StatefulWidget {
 
 class _RPUILetterTappingActivityBodyState
     extends State<RPUILetterTappingActivityBody> {
+  SoundService soundService;
   AudioCache player;
   AudioPlayer audioPlayer;
   String currentLetter;
@@ -88,31 +89,32 @@ class _RPUILetterTappingActivityBodyState
   @override
   initState() {
     super.initState();
+    widget.gestureController.instructionStarted();
+    soundService = SoundService(alphabet.map((item) => ('../packages/research_package/assets/sounds/' + item + '.mp3')).toList());
     setState(() {
       activityStatus = ActivityStatus.Instruction;
     });
     currentLetter = '';
     lastLetter = '';
-    audioPlayer = AudioPlayer();
-    player = AudioCache(
-        prefix: 'packages/research_package/assets/sounds/',
-        fixedPlayer: audioPlayer);
-    player.loadAll(alphabet.map((item) => (item + '.mp3')).toList());
   }
 
   void testControl() async {
+    widget.gestureController.instructionEnded();
+    widget.gestureController.testStarted();
     setState(() {
       activityStatus = ActivityStatus.Task;
     });
     await Future.delayed(Duration(seconds: 2));
     for (String letter in mocaTestList) {
-      player.play('$letter.mp3');
+      soundService.play('../packages/research_package/assets/sounds/$letter.mp3');
       updateLetter(letter);
       await Future.delayed(Duration(milliseconds: 1000));
     }
     updateLetter('');
     widget.onResultChange(errors);
     if (this.mounted) {
+      widget.gestureController.testEnded();
+      widget.gestureController.resultsShown();
       setState(() {
         activityStatus = ActivityStatus.Result;
       });
@@ -215,4 +217,28 @@ class _RPUILetterTappingActivityBodyState
         );
     }
   }
+}
+
+
+class SoundService {
+  final List<String> files;
+
+  SoundService(this.files) {
+    player.loadAll(files);
+  }
+
+  static final player = AudioCache();
+
+  void play(String path) async {
+    player.play(path, mode: PlayerMode.LOW_LATENCY);
+  }
+}
+
+extension on Iterable<String> {
+  List<String> get withoutAssetOnFront =>
+      this.map((e) => e.withoutAssetOnFront).toList();
+}
+
+extension on String {
+  String get withoutAssetOnFront => this.replaceFirst("assets/", "");
 }

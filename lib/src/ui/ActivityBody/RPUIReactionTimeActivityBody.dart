@@ -33,6 +33,7 @@ class _RPUIReactionTimeActivityBodyState
   @override
   initState() {
     super.initState();
+    widget.gestureController.instructionStarted();
     activityStatus = ActivityStatus.Instruction;
   }
 
@@ -52,6 +53,8 @@ class _RPUIReactionTimeActivityBodyState
   void testTimer() {
     //times the test and calculates result when done.
     Timer(Duration(seconds: testDuration), () {
+      widget.gestureController.testEnded();
+      widget.gestureController.resultsShown();
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         if (rtList.isEmpty) {
@@ -91,6 +94,8 @@ class _RPUIReactionTimeActivityBodyState
             OutlineButton(
               onPressed: () {
                 if (this.mounted) {
+                  widget.gestureController.instructionEnded();
+                  widget.gestureController.testStarted();
                   setState(() {
                     activityStatus = ActivityStatus.Task;
                   });

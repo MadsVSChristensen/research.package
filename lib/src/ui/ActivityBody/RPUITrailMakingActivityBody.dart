@@ -21,8 +21,8 @@ class _RPUITrailMakingActivityBodyState
   @override
   initState() {
     super.initState();
-    activityStatus = ActivityStatus.Instruction;
     widget.gestureController.instructionStarted();
+    activityStatus = ActivityStatus.Instruction;
   }
 
   void _onPanStart(DragStartDetails start) {
@@ -36,7 +36,7 @@ class _RPUITrailMakingActivityBodyState
   void _onPanUpdate(DragUpdateDetails update) {
     Offset pos = (context.findRenderObject() as RenderBox)
         .globalToLocal(update.globalPosition);
-    _pathTracker.updateCurrentPath(pos, widget.onResultChange);
+    _pathTracker.updateCurrentPath(pos, widget.onResultChange, widget.gestureController);
     _pathTracker.notifyListeners();
   }
 
@@ -65,6 +65,8 @@ class _RPUITrailMakingActivityBodyState
             ),
             OutlineButton(
               onPressed: () {
+                widget.gestureController.instructionEnded();
+                widget.gestureController.testStarted();
                 setState(() {
                   activityStatus = ActivityStatus.Task;
                 });
@@ -162,6 +164,7 @@ class _PathTracker extends ChangeNotifier {
   List<Path> _paths;
   List<_Location> _locations;
   bool _isDraging;
+  bool _isFinished = false;
   bool goodStart;
   bool taskStarted;
   _Location prevLocation;
@@ -202,7 +205,7 @@ class _PathTracker extends ChangeNotifier {
     }
   }
 
-  void updateCurrentPath(Offset newPos, Function(dynamic) onResultChange) {
+  void updateCurrentPath(Offset newPos, Function(dynamic) onResultChange, RPActivityGestureController gestureController) {
     if (_isDraging) {
       Path path = _paths.last;
       path.lineTo(newPos.dx, newPos.dy);
@@ -235,6 +238,9 @@ class _PathTracker extends ChangeNotifier {
           nextLocation = _locations[index];
         } else {
           print('finished');
+          _isFinished = true;
+          gestureController.testEnded();
+          gestureController.resultsShown();
           int secondsUsed = DateTime.now().difference(startTime).inSeconds;
           onResultChange(secondsUsed);
         }
@@ -246,17 +252,19 @@ class _PathTracker extends ChangeNotifier {
     print('end');
     if (_isDraging) {
       _isDraging = false;
-      Path path = _paths.last;
-      Offset lastPoint = path
-          .computeMetrics()
-          .last
-          .getTangentForOffset(path.computeMetrics().last.length)
-          .position;
-      Offset firstPoint =
-          path.computeMetrics().first.getTangentForOffset(0).position;
-      if (!prevLocation.rect.contains(firstPoint) ||
-          !nextLocation.rect.contains(lastPoint)) {
-        deleteWrong();
+      if (!_isFinished) {
+        Path path = _paths.last;
+        Offset lastPoint = path
+            .computeMetrics()
+            .last
+            .getTangentForOffset(path.computeMetrics().last.length)
+            .position;
+        Offset firstPoint =
+            path.computeMetrics().first.getTangentForOffset(0).position;
+        if (!prevLocation.rect.contains(firstPoint) ||
+            !nextLocation.rect.contains(lastPoint)) {
+          deleteWrong();
+        }
       }
     }
   }

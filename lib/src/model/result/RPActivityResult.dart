@@ -13,6 +13,7 @@ class RPActivityResult extends RPResult {
   /// In that case the result value is saved under this key in the map.
   @JsonKey(ignore: true)
   static const String STEP_TIMES_KEY = "step_times";
+  @JsonKey(ignore: true)
   static const String INTERACTION_TIMES_KEY = "interaction_times";
 
   RPActivityResult();
@@ -49,7 +50,7 @@ class RPActivityResult extends RPResult {
   /// Also used at Form Steps where there are multiple questions asked during a single step.
   void setResultForIdentifier(String identifier, dynamic result) {
     this._results[identifier] = result;
-    this._results['steptimes'] = _stepTimes;
+    this._results['step_times'] = _stepTimes;
     this._results['interactions'] = _interactions;
     this.endDate = DateTime.now();
   }
@@ -58,7 +59,7 @@ class RPActivityResult extends RPResult {
   ///
   /// Usually it's used when there's only one result produced by the Question Body
   void setFinalResult(dynamic result) {
-    setResultForIdentifier('Main result', result);
+    setResultForIdentifier('main_result', result);
     this.endDate = DateTime.now();
   }
 
