@@ -250,8 +250,8 @@ packages:
   research_package:
     dependency: "direct main"
     description:
-      path: "/Users/madsvedelsaabychristensen/Development/Bachelor/research.package"
-      relative: false
+      path: ".."
+      relative: true
     source: path
     version: "0.1.2"
   rxdart:

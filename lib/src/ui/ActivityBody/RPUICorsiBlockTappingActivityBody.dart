@@ -71,16 +71,21 @@ class _RPUICorsiBlockTappingActivityBodyState
       }
       if (!wasCorrect) {
         if (failedLast) {
+          widget.gestureController.addWrongGesture('Button tap',
+              'Test Finished after second fail - Tapped the order: ${tapOrder}. The correct order was: ${blocks.getRange(0, numberOfBlocks)}');
           setState(() {
             taskInfo = 'Finished';
           });
           this.widget.onResultChange(corsiSpan);
           await Future.delayed(Duration(milliseconds: 700));
           widget.gestureController.testEnded();
+          widget.gestureController.resultsShown();
           setState(() {
             activityStatus = ActivityStatus.Result;
           });
         } else {
+          widget.gestureController.addWrongGesture('Button tap',
+              'Failed first try - Tapped the order: ${tapOrder}. The correct order was: ${blocks.getRange(0, numberOfBlocks)}');
           failedLast = true;
           setState(() {
             taskInfo = 'Try again';
@@ -89,6 +94,8 @@ class _RPUICorsiBlockTappingActivityBodyState
           startTest();
         }
       } else {
+        widget.gestureController.addCorrectGesture('Button tap',
+            'Succeeded test in ${!failedLast ? 'first' : 'second'} try. Tap order was: $tapOrder');
         setState(() {
           failedLast = false;
           taskInfo = 'Well done';

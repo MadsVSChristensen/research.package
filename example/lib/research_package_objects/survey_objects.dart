@@ -45,7 +45,7 @@ RPOrderedTask surveyTask = RPOrderedTask(
 //    rapidVisualInfoProcessingStep,
 //    activityStepLetterTapping,
 //     stroopEffect,
-//    corsiBlockTapping,
+    corsiBlockTapping,
 //    reactionTimeStep,
     activityStepTrail,
 //    tappingStep,
