@@ -15,12 +15,25 @@ class RPUITrailMakingActivityBody extends StatefulWidget {
 
 class _RPUITrailMakingActivityBodyState
     extends State<RPUITrailMakingActivityBody> {
-  _PathTracker _pathTracker = _PathTracker();
+  _PathTracker _pathTracker;
   ActivityStatus activityStatus;
+  List _letterLocations = [
+    _Location('A', Offset(30, 500),
+        Rect.fromCircle(center: Offset(30, 500), radius: 20)),
+    _Location('B', Offset(350, 550),
+        Rect.fromCircle(center: Offset(350, 550), radius: 20)),
+    _Location('C', Offset(250, 400),
+        Rect.fromCircle(center: Offset(250, 400), radius: 20)),
+    _Location('D', Offset(100, 50),
+        Rect.fromCircle(center: Offset(100, 50), radius: 20)),
+    _Location('E', Offset(350, 100),
+        Rect.fromCircle(center: Offset(350, 100), radius: 20)),
+  ];
 
   @override
   initState() {
     super.initState();
+    _pathTracker = _PathTracker(widget.gestureController, _letterLocations);
     widget.gestureController.instructionStarted();
     activityStatus = ActivityStatus.Instruction;
   }
@@ -36,7 +49,7 @@ class _RPUITrailMakingActivityBodyState
   void _onPanUpdate(DragUpdateDetails update) {
     Offset pos = (context.findRenderObject() as RenderBox)
         .globalToLocal(update.globalPosition);
-    _pathTracker.updateCurrentPath(pos, widget.onResultChange, widget.gestureController);
+    _pathTracker.updateCurrentPath(pos, widget.onResultChange);
     _pathTracker.notifyListeners();
   }
 
@@ -171,20 +184,11 @@ class _PathTracker extends ChangeNotifier {
   _Location nextLocation;
   int index;
   DateTime startTime;
+  final RPActivityGestureController gestureController;
 
-  _PathTracker() {
+  _PathTracker(this.gestureController, this._locations) {
     _paths = List<Path>();
-    _locations = List<_Location>();
-    _locations.add(_Location('A', Offset(30, 500),
-        Rect.fromCircle(center: Offset(30, 500), radius: 20)));
-    _locations.add(_Location('B', Offset(350, 550),
-        Rect.fromCircle(center: Offset(350, 550), radius: 20)));
-    _locations.add(_Location('C', Offset(250, 400),
-        Rect.fromCircle(center: Offset(250, 400), radius: 20)));
-    _locations.add(_Location('D', Offset(100, 50),
-        Rect.fromCircle(center: Offset(100, 50), radius: 20)));
-    _locations.add(_Location('E', Offset(350, 100),
-        Rect.fromCircle(center: Offset(350, 100), radius: 20)));
+
     _isDraging = false;
     taskStarted = false;
     prevLocation = _locations.first;
@@ -193,7 +197,7 @@ class _PathTracker extends ChangeNotifier {
   }
 
   void addNewPath(Offset pos) {
-    print('Add new pos at $pos');
+//    print('Add new pos at $pos');
     if (!taskStarted) {
       startTime = DateTime.now();
     }
@@ -205,7 +209,7 @@ class _PathTracker extends ChangeNotifier {
     }
   }
 
-  void updateCurrentPath(Offset newPos, Function(dynamic) onResultChange, RPActivityGestureController gestureController) {
+  void updateCurrentPath(Offset newPos, Function(dynamic) onResultChange) {
     if (_isDraging) {
       Path path = _paths.last;
       path.lineTo(newPos.dx, newPos.dy);
@@ -219,6 +223,8 @@ class _PathTracker extends ChangeNotifier {
       for (_Location l in locationCopy) {
         if (l.rect.contains(newPos)) {
           _isDraging = false;
+          gestureController.addWrongGesture('Draw path',
+              'Drew a path which hit ${l.id} instead of the correct, next item ${nextLocation.id}');
           deleteWrong();
           return;
         }
@@ -227,8 +233,8 @@ class _PathTracker extends ChangeNotifier {
       // If dragging directly without lifting finger
       if (prevLocation.rect.contains(firstPoint) &&
           nextLocation.rect.contains(newPos)) {
-        print(
-            'Found a path with start in previous location and end in next location');
+        gestureController.addCorrectGesture('Draw path',
+            'Drew a correct path from ${prevLocation.id} to ${nextLocation.id}');
         Path newPath = Path();
         newPath.moveTo(newPos.dx, newPos.dy);
         _paths.add(newPath);
@@ -261,8 +267,13 @@ class _PathTracker extends ChangeNotifier {
             .position;
         Offset firstPoint =
             path.computeMetrics().first.getTangentForOffset(0).position;
-        if (!prevLocation.rect.contains(firstPoint) ||
-            !nextLocation.rect.contains(lastPoint)) {
+        if (!prevLocation.rect.contains(firstPoint)) {
+          gestureController.addWrongGesture('Draw path',
+              'Drew a path which didnt start in ${prevLocation.id}');
+          deleteWrong();
+        } else if (!nextLocation.rect.contains(lastPoint)) {
+          gestureController.addWrongGesture(
+              'Draw path', 'Drew a path which didnt end in ${nextLocation.id}');
           deleteWrong();
         }
       }
