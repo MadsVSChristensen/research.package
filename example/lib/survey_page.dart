@@ -1,11 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:research_package/research_package.dart';
-import 'research_package_objects/survey_objects.dart';
-import 'dart:convert';
+
 import 'firebase/database.dart';
+import 'research_package_objects/survey_objects.dart';
 
 class SurveyPage extends StatelessWidget {
-  String _encode(Object object) => const JsonEncoder.withIndent(' ').convert(object);
+  String _encode(Object object) =>
+      const JsonEncoder.withIndent(' ').convert(object);
 
   void printWrapped(String text) {
     final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
@@ -18,12 +21,23 @@ class SurveyPage extends StatelessWidget {
     print((result.results.values.first as RPActivityResult).results);
     print((result.results.values.first as RPActivityResult).stepTimes);
     print((result.results.values.first as RPActivityResult).interactions);
+    print((result.results.values.first as RPActivityResult)
+        .interactions
+        .first
+        .toString());
+    print('-------------------------------------------------------');
+    for (RPActivityResult r in result.results.values) {
+      for (Interaction i in r.interactions) {
+        print(i.toJson());
+      }
+    }
+    print('--------------------------------------------------------');
     print(result.results.values.first.toJson());
     // Do anything with the result
 //     print(_encode(result.results));
     printWrapped(_encode(result.results));
     await DBService().updatePALData(_encode(result.results));
-    //make sure in future not to save empty results. 
+    //make sure in future not to save empty results.
   }
 
   @override

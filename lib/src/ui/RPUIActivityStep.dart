@@ -19,7 +19,7 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   bool readyToProceed;
   RPActivityResult result;
   RPTaskProgress recentTaskProgress;
-  RPActivityGestureController gestureController;
+  RPActivityGestureLogger gestureController;
 
   set currentActivityBodyResult(dynamic currentActivityBodyResult) {
     this._currentActivityBodyResult = currentActivityBodyResult;
@@ -38,7 +38,7 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   void initState() {
     // Instantiating the result object here to start the time counter (startDate)
     result = RPActivityResult.withParams(widget.step);
-    gestureController = RPActivityGestureController(result);
+    gestureController = RPActivityGestureLogger(result);
     readyToProceed = false;
     recentTaskProgress = blocTask.lastProgressValue;
 

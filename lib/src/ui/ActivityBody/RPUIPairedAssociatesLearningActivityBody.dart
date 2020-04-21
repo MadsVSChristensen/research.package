@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUIPairedAssociatesLearningActivityBody extends StatefulWidget {
   final RPPairedAssociatesLearningActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureController gestureController;
+  final RPActivityGestureLogger gestureLogger;
 
   RPUIPairedAssociatesLearningActivityBody(
-      this.activity, this.gestureController, this.onResultChange);
+      this.activity, this.gestureLogger, this.onResultChange);
 
   @override
   _RPUIPairedAssociatesLearningActivityBody createState() =>
@@ -58,7 +58,7 @@ class _RPUIPairedAssociatesLearningActivityBody
   @override
   initState() {
     super.initState();
-    widget.gestureController.instructionStarted();
+    widget.gestureLogger.instructionStarted();
     activityStatus = ActivityStatus.Instruction;
     levels.addAll([shapes0, shapes1, shapes2]); //hard add all levels...
     containerContent(
@@ -66,8 +66,8 @@ class _RPUIPairedAssociatesLearningActivityBody
   }
 
   void testStarter() {
-    widget.gestureController.instructionEnded();
-    widget.gestureController.testStarted();
+    widget.gestureLogger.instructionEnded();
+    widget.gestureLogger.testStarted();
     //begin test by changing window and starting timer.
     setState(() {
       activityStatus = ActivityStatus.Task;
@@ -76,8 +76,8 @@ class _RPUIPairedAssociatesLearningActivityBody
     t = Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
       activityStatus = ActivityStatus.Result;
-      widget.gestureController.testEnded();
-      widget.gestureController.resultsShown();
+      widget.gestureLogger.testEnded();
+      widget.gestureLogger.resultsShown();
       if (this.mounted) {
         widget.onResultChange(successes);
       }
@@ -281,7 +281,7 @@ class _RPUIPairedAssociatesLearningActivityBody
     if (correct == 0) {
       //nothing happens - no icon to show
     } else if (correct == 1) {
-      widget.gestureController.addCorrectGesture(
+      widget.gestureLogger.addCorrectGesture(
           "Button press", "Correct choice of hidden picture");
       return Icon(Icons.check, size: 50);
     } else {

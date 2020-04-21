@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUIReactionTimeActivityBody extends StatefulWidget {
   final RPReactionTimeActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureController gestureController;
+  final RPActivityGestureLogger gestureLogger;
 
   RPUIReactionTimeActivityBody(
-      this.activity, this.gestureController, this.onResultChange);
+      this.activity, this.gestureLogger, this.onResultChange);
 
   @override
   _RPUIReactionTimeActivityBodyState createState() =>
@@ -33,7 +33,7 @@ class _RPUIReactionTimeActivityBodyState
   @override
   initState() {
     super.initState();
-    widget.gestureController.instructionStarted();
+    widget.gestureLogger.instructionStarted();
     activityStatus = ActivityStatus.Instruction;
   }
 
@@ -53,8 +53,8 @@ class _RPUIReactionTimeActivityBodyState
   void testTimer() {
     //times the test and calculates result when done.
     Timer(Duration(seconds: testDuration), () {
-      widget.gestureController.testEnded();
-      widget.gestureController.resultsShown();
+      widget.gestureLogger.testEnded();
+      widget.gestureLogger.resultsShown();
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         if (rtList.isEmpty) {
@@ -94,8 +94,8 @@ class _RPUIReactionTimeActivityBodyState
             OutlineButton(
               onPressed: () {
                 if (this.mounted) {
-                  widget.gestureController.instructionEnded();
-                  widget.gestureController.testStarted();
+                  widget.gestureLogger.instructionEnded();
+                  widget.gestureLogger.testStarted();
                   setState(() {
                     activityStatus = ActivityStatus.Task;
                   });

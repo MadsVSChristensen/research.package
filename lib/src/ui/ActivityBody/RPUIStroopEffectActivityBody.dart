@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUIStroopEffectActivityBody extends StatefulWidget {
   final RPStroopEffectActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureController gestureController;
+  final RPActivityGestureLogger gestureLogger;
 
   RPUIStroopEffectActivityBody(
-      this.activity, this.gestureController, this.onResultChange);
+      this.activity, this.gestureLogger, this.onResultChange);
 
   @override
   _RPUIStroopEffectActivityBodyState createState() =>
@@ -56,7 +56,7 @@ class _RPUIStroopEffectActivityBodyState
   @override
   initState() {
     super.initState();
-    widget.gestureController.instructionStarted();
+    widget.gestureLogger.instructionStarted();
     activityStatus = ActivityStatus.Instruction;
     cWord = possColorsString[_random.nextInt(possColorsString.length)];
     wColor = possColors[_random.nextInt(possColors.length)];
@@ -64,8 +64,8 @@ class _RPUIStroopEffectActivityBodyState
 
   void testControl() {
     if (this.mounted) {
-      widget.gestureController.instructionEnded();
-      widget.gestureController.testStarted();
+      widget.gestureLogger.instructionEnded();
+      widget.gestureLogger.testStarted();
       setState(() {
         //change screen
         activityStatus = ActivityStatus.Task;
@@ -73,8 +73,8 @@ class _RPUIStroopEffectActivityBodyState
     }
     Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
-      widget.gestureController.testEnded();
-      widget.gestureController.resultsShown();
+      widget.gestureLogger.testEnded();
+      widget.gestureLogger.resultsShown();
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         setState(() {});

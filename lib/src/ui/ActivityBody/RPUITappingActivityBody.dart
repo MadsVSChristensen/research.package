@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUITappingActivityBody extends StatefulWidget {
   final RPTappingActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureController gestureController;
+  final RPActivityGestureLogger gestureLogger;
 
   RPUITappingActivityBody(
-      this.activity, this.gestureController, this.onResultChange);
+      this.activity, this.gestureLogger, this.onResultChange);
 
   @override
   _RPUITappingActivityBodyState createState() =>
@@ -21,7 +21,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   @override
   initState() {
     super.initState();
-    widget.gestureController.instructionStarted();
+    widget.gestureLogger.instructionStarted();
     activityStatus = ActivityStatus.Instruction;
   }
 
@@ -32,8 +32,8 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
     }
     Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
-      widget.gestureController.testEnded();
-      widget.gestureController.resultsShown();
+      widget.gestureLogger.testEnded();
+      widget.gestureLogger.resultsShown();
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         setState(() {});
@@ -62,8 +62,8 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
             ),
             OutlineButton(
                 onPressed: () {
-                  widget.gestureController.instructionEnded();
-                  widget.gestureController.testStarted();
+                  widget.gestureLogger.instructionEnded();
+                  widget.gestureLogger.testStarted();
                   activityStatus = ActivityStatus.Task;
                   testControl();
                 },
@@ -88,7 +88,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                       children: <Widget>[
                         OutlineButton(
                           onPressed: () {
-                            widget.gestureController.addCorrectGesture(
+                            widget.gestureLogger.addCorrectGesture(
                                 'Button tap', 'Pressed the left button');
                             setState(() {
                               taps++;
@@ -97,7 +97,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                         ),
                         OutlineButton(
                           onPressed: () {
-                            widget.gestureController.addCorrectGesture(
+                            widget.gestureLogger.addCorrectGesture(
                                 'Button tap', 'Pressed the right button');
                             setState(() {
                               taps++;

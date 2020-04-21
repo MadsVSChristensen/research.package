@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUITrailMakingActivityBody extends StatefulWidget {
   final RPTrailMakingActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureController gestureController;
+  final RPActivityGestureLogger gestureLogger;
 
   RPUITrailMakingActivityBody(
-      this.activity, this.gestureController, this.onResultChange);
+      this.activity, this.gestureLogger, this.onResultChange);
 
   @override
   _RPUITrailMakingActivityBodyState createState() =>
@@ -17,7 +17,7 @@ class _RPUITrailMakingActivityBodyState
     extends State<RPUITrailMakingActivityBody> {
   _PathTracker _pathTracker;
   ActivityStatus activityStatus;
-  List _letterLocations = [
+  List<_Location> _letterLocations = [
     _Location('A', Offset(30, 500),
         Rect.fromCircle(center: Offset(30, 500), radius: 20)),
     _Location('B', Offset(350, 550),
@@ -33,8 +33,8 @@ class _RPUITrailMakingActivityBodyState
   @override
   initState() {
     super.initState();
-    _pathTracker = _PathTracker(widget.gestureController, _letterLocations);
-    widget.gestureController.instructionStarted();
+    _pathTracker = _PathTracker(widget.gestureLogger, _letterLocations);
+    widget.gestureLogger.instructionStarted();
     activityStatus = ActivityStatus.Instruction;
   }
 
@@ -78,8 +78,8 @@ class _RPUITrailMakingActivityBodyState
             ),
             OutlineButton(
               onPressed: () {
-                widget.gestureController.instructionEnded();
-                widget.gestureController.testStarted();
+                widget.gestureLogger.instructionEnded();
+                widget.gestureLogger.testStarted();
                 setState(() {
                   activityStatus = ActivityStatus.Task;
                 });
@@ -184,7 +184,7 @@ class _PathTracker extends ChangeNotifier {
   _Location nextLocation;
   int index;
   DateTime startTime;
-  final RPActivityGestureController gestureController;
+  final RPActivityGestureLogger gestureController;
 
   _PathTracker(this.gestureController, this._locations) {
     _paths = List<Path>();

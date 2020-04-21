@@ -34,7 +34,9 @@ class RPActivityResult extends RPResult {
 
   /// The map of results with a String as identifier and generic type as value
   Map<String, dynamic> get results => _results;
+
   Map<String, dynamic> get stepTimes => _stepTimes;
+
   List get interactions => _interactions;
 
   set results(Map<String, dynamic> results) {
@@ -65,23 +67,42 @@ class RPActivityResult extends RPResult {
 
   factory RPActivityResult.fromJson(Map<String, dynamic> json) =>
       _$RPActivityResultFromJson(json);
+
   Map<String, dynamic> toJson() => _$RPActivityResultToJson(this);
 }
 
 /// Class representing an interaction with the app
 @JsonSerializable(fieldRename: FieldRename.snake)
 class Interaction {
-  /* final */ DateTime time;
-  /* final */ String correctness;
-  /* final */ String type;
-  /* final */ String description;
+  /* final */ DateTime _time;
+  /* final */
+  String _correctness;
+  /* final */
+  String _type;
+  /* final */
+  String _description;
 
   Interaction();
 
-  Interaction.withData(
-      this.time, this.correctness, this.type, this.description);
+  Interaction.withData(time, correctness, type, description) {
+    this._time = time;
+    this._correctness = correctness;
+    this._type = type;
+    this._description = description;
+  }
+
+  DateTime get time => _time;
+  String get correctness => _correctness;
+  String get type => _type;
+  String get description => _description;
+
+  set time(DateTime dt) => this._time = dt;
+  set correctness(String s) => this._correctness = s;
+  set type(String s) => this._type = s;
+  set description(String s) => this._description = s;
 
   factory Interaction.fromJson(Map<String, dynamic> json) =>
       _$InteractionFromJson(json);
+
   Map<String, dynamic> toJson() => _$InteractionToJson(this);
 }

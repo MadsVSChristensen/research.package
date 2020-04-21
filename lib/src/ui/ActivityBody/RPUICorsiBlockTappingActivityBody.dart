@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUICorsiBlockTappingActivityBody extends StatefulWidget {
   final RPCorsiBlockTappingActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureController gestureController;
+  final RPActivityGestureLogger gestureLogger;
 
   RPUICorsiBlockTappingActivityBody(
-      this.activity, this.gestureController, this.onResultChange);
+      this.activity, this.gestureLogger, this.onResultChange);
 
   @override
   _RPUICorsiBlockTappingActivityBodyState createState() =>
@@ -29,7 +29,7 @@ class _RPUICorsiBlockTappingActivityBodyState
   @override
   initState() {
     super.initState();
-    widget.gestureController.instructionStarted();
+    widget.gestureLogger.instructionStarted();
     activityStatus = ActivityStatus.Instruction;
     blocks = List.generate(9, (index) => index);
   }
@@ -71,20 +71,20 @@ class _RPUICorsiBlockTappingActivityBodyState
       }
       if (!wasCorrect) {
         if (failedLast) {
-          widget.gestureController.addWrongGesture('Button tap',
+          widget.gestureLogger.addWrongGesture('Button tap',
               'Test Finished after second fail - Tapped the order: ${tapOrder}. The correct order was: ${blocks.getRange(0, numberOfBlocks)}');
           setState(() {
             taskInfo = 'Finished';
           });
           this.widget.onResultChange(corsiSpan);
           await Future.delayed(Duration(milliseconds: 700));
-          widget.gestureController.testEnded();
-          widget.gestureController.resultsShown();
+          widget.gestureLogger.testEnded();
+          widget.gestureLogger.resultsShown();
           setState(() {
             activityStatus = ActivityStatus.Result;
           });
         } else {
-          widget.gestureController.addWrongGesture('Button tap',
+          widget.gestureLogger.addWrongGesture('Button tap',
               'Failed first try - Tapped the order: ${tapOrder}. The correct order was: ${blocks.getRange(0, numberOfBlocks)}');
           failedLast = true;
           setState(() {
@@ -94,7 +94,7 @@ class _RPUICorsiBlockTappingActivityBodyState
           startTest();
         }
       } else {
-        widget.gestureController.addCorrectGesture('Button tap',
+        widget.gestureLogger.addCorrectGesture('Button tap',
             'Succeeded test in ${!failedLast ? 'first' : 'second'} try. Tap order was: $tapOrder');
         setState(() {
           failedLast = false;
@@ -125,8 +125,8 @@ class _RPUICorsiBlockTappingActivityBodyState
             OutlineButton(
               child: Text('Ready'),
               onPressed: () {
-                widget.gestureController.instructionEnded();
-                widget.gestureController.testStarted();
+                widget.gestureLogger.instructionEnded();
+                widget.gestureLogger.testStarted();
                 setState(() {
                   activityStatus = ActivityStatus.Task;
                 });

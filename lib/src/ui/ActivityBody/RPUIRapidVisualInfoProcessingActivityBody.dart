@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUIRapidVisualInfoProcessingActivityBody extends StatefulWidget {
   final RPRapidVisualInfoProcessingActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureController gestureController;
+  final RPActivityGestureLogger gestureLogger;
 
   RPUIRapidVisualInfoProcessingActivityBody(
-      this.activity, this.gestureController, this.onResultChange);
+      this.activity, this.gestureLogger, this.onResultChange);
 
   @override
   _RPUIRapidVisualInfoProcessingActivityBody createState() =>
@@ -45,9 +45,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   @override
   initState() {
     super.initState();
-    widget.gestureController.instructionStarted();
-    activityStatus =
-        ActivityStatus.Instruction; 
+    widget.gestureLogger.instructionStarted();
+    activityStatus = ActivityStatus.Instruction;
     for (int i = 0; i < seq1.length; i++) {
       //adds bools according to sequence lengths
       listIndexes.add(false);
@@ -73,8 +72,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
       //when time is up, change window and set result
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
-        widget.gestureController.testEnded();
-        widget.gestureController.resultsShown();
+        widget.gestureLogger.testEnded();
+        widget.gestureLogger.resultsShown();
         widget.onResultChange(goodTaps);
       }
     });
@@ -133,8 +132,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
             ),
             OutlineButton(
               onPressed: () {
-                widget.gestureController.instructionEnded();
-                widget.gestureController.testStarted();
+                widget.gestureLogger.instructionEnded();
+                widget.gestureLogger.testStarted();
                 activityStatus = ActivityStatus.Task;
                 timerBody();
               },

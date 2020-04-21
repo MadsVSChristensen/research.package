@@ -1,9 +1,9 @@
 part of research_package_ui;
 
-class RPActivityGestureController {
+class RPActivityGestureLogger {
   final RPActivityResult result;
 
-  RPActivityGestureController(this.result);
+  RPActivityGestureLogger(this.result);
 
   void addNewGesture() {}
 
