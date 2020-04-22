@@ -17,7 +17,7 @@ class _RPUIStroopEffectActivityBodyState
     extends State<RPUIStroopEffectActivityBody> {
   int mistakes = 0;
   int correctTaps = 0;
-  int testDuration = 50; //test duration in seconds - time untill window changes
+  int testDuration = 5; //test duration in seconds - time untill window changes
   final _random = new Random();
   int displayTime =
       1250; //amount of time each word is displayed in milliseconds
@@ -73,7 +73,8 @@ class _RPUIStroopEffectActivityBodyState
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         setState(() {});
-        widget.onResultChange({"mistakes" : mistakes, "correct taps": correctTaps});
+        widget.onResultChange(
+            {"mistakes": mistakes, "correct taps": correctTaps});
       }
     });
     wordPulse();
@@ -143,6 +144,17 @@ class _RPUIStroopEffectActivityBodyState
                   testControl();
                 },
                 child: Text('Ready')),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Container(
+                height: 275,
+                width: 325,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/images/Stroopintro.png'))),
+              ),
+            ),
           ],
         );
       case ActivityStatus.Task:

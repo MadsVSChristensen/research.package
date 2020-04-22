@@ -16,7 +16,7 @@ class RPUITappingActivityBody extends StatefulWidget {
 
 class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   int taps = 0;
-  int testDuration = 30;
+  int testDuration = 3;
   ActivityStatus activityStatus;
 
   @override
@@ -69,6 +69,17 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                   testControl();
                 },
                 child: Text('Ready')),
+                Padding(
+              padding: EdgeInsets.all(20),
+              child: Container(
+                height: 225,
+                width: 300,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/images/Tappingintro.png'))),
+              ),
+                ),
           ],
         );
       case ActivityStatus.Task:

@@ -67,6 +67,12 @@ flutter:
 
     # Test intro images
     - assets/images/PALintro.png
+    - assets/images/Corsiintro.png
+    - assets/images/Reactionintro.png
+    - assets/images/RVIPintro.png
+    - assets/images/Stroopintro.png
+    - assets/images/Tappingintro.png
+    - assets/images/Trailintro.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -5,9 +5,8 @@ class RPUITrailMakingActivityBody extends StatefulWidget {
   final Function(dynamic) onResultChange;
   //final RPActivityGestureController gestureController;
 
-  RPUITrailMakingActivityBody(
-      this.activity,this.onResultChange);
- //this.gestureController, 
+  RPUITrailMakingActivityBody(this.activity, this.onResultChange);
+  //this.gestureController,
 
   @override
   _RPUITrailMakingActivityBodyState createState() =>
@@ -73,7 +72,18 @@ class _RPUITrailMakingActivityBodyState
               child: Text(
                 'Ready',
               ),
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Container(
+                height: 75,
+                width: 250,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/images/Trailintro.png'))),
+              ),
+            ),
           ],
         );
       case ActivityStatus.Task:
@@ -238,7 +248,7 @@ class _PathTracker extends ChangeNotifier {
           print('finished');
           int secondsUsed = DateTime.now().difference(startTime).inSeconds;
           //onResultChange(secondsUsed);
-          onResultChange({"completion time" : secondsUsed});
+          onResultChange({"completion time": secondsUsed});
         }
       }
     }
