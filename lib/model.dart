@@ -25,6 +25,15 @@ part 'src/model/answerformat/RPSliderAnswerFormat.dart';
 part 'src/model/answerformat/RPImageChoiceAnswerFormat.dart';
 part 'src/model/answerformat/RPDateTimeAnswerFormat.dart';
 
+part 'src/model/step/activity_steps/RPCorsiBlockTappingActivity.dart';
+part 'src/model/step/activity_steps/RPLetterTappingActivity.dart';
+part 'src/model/step/activity_steps/RPPairedAssociatesLearningActivity.dart';
+part 'src/model/step/activity_steps/RPRapidVisualInfoProcessingActivity.dart';
+part 'src/model/step/activity_steps/RPReactionTimeActivity.dart';
+part 'src/model/step/activity_steps/RPStroopEffectActivity.dart';
+part 'src/model/step/activity_steps/RPTappingActivity.dart';
+part 'src/model/step/activity_steps/RPTrailMakingActivity.dart';
+
 part 'src/model/consent/RPConsentDocument.dart';
 part 'src/model/consent/RPConsentSection.dart';
 part 'src/model/consent/RPConsentSignature.dart';
@@ -36,6 +45,7 @@ part 'src/model/step/RPFormStep.dart';
 part 'src/model/step/RPQuestionStep.dart';
 part 'src/model/step/RPInstructionStep.dart';
 part 'src/model/step/RPCompletionStep.dart';
+part 'src/model/step/RPActivityStep.dart';
 
 part 'src/model/task/RPOrderedTask.dart';
 part 'src/model/task/RPTask.dart';
@@ -46,6 +56,7 @@ part 'src/model/result/RPStepResult.dart';
 //part 'src/model/result/RPQuestionBodyResult.dart';
 part 'src/model/result/RPConsentSignatureResult.dart';
 part 'src/model/result/RPSignatureResult.dart';
+part 'src/model/result/RPActivityResult.dart';
 
 // Protocols
 part 'src/model/Abstracts.dart';

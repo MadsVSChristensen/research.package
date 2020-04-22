@@ -63,6 +63,7 @@ class RPStepResult extends RPResult {
     this.endDate = DateTime.now();
   }
 
-  factory RPStepResult.fromJson(Map<String, dynamic> json) => _$RPStepResultFromJson(json);
+  factory RPStepResult.fromJson(Map<String, dynamic> json) =>
+      _$RPStepResultFromJson(json);
   Map<String, dynamic> toJson() => _$RPStepResultToJson(this);
 }

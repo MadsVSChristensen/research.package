@@ -13,7 +13,8 @@ class RPUIConsentReviewStep extends StatefulWidget {
   _RPUIConsentReviewStepState createState() => _RPUIConsentReviewStepState();
 }
 
-class _RPUIConsentReviewStepState extends State<RPUIConsentReviewStep> with CanSaveResult {
+class _RPUIConsentReviewStepState extends State<RPUIConsentReviewStep>
+    with CanSaveResult {
   RPConsentSignatureResult consentSignatureResult;
   RPSignatureResult signatureResult;
   RPStepResult result;
@@ -34,17 +35,19 @@ class _RPUIConsentReviewStepState extends State<RPUIConsentReviewStep> with CanS
 
   @override
   void createAndSendResult() {
-    consentSignatureResult =
-        RPConsentSignatureResult.withParams(widget.step.identifier, widget.step.consentDocument, signatureResult)
-          ..endDate = DateTime.now();
+    consentSignatureResult = RPConsentSignatureResult.withParams(
+        widget.step.identifier, widget.step.consentDocument, signatureResult)
+      ..endDate = DateTime.now();
 
     consentSignatureResult.consentDocument.signatures == null
-        ? result.setResultForIdentifier("no signature collected", consentSignatureResult)
+        ? result.setResultForIdentifier(
+            "no signature collected", consentSignatureResult)
         : //TODO: modify identifier to match the id of rpconsentsignature
-        result.setResultForIdentifier(consentSignatureResult.consentDocument.signatures.first.identifier,
+        result.setResultForIdentifier(
+            consentSignatureResult.consentDocument.signatures.first.identifier,
             consentSignatureResult); //TODO: modify identifier to match the id of RPConsentSignature
 
-    blocTask.sendStepResult(result);
+    blocTask.sendResult(result);
   }
 
   @override
@@ -55,8 +58,8 @@ class _RPUIConsentReviewStepState extends State<RPUIConsentReviewStep> with CanS
         WidgetBuilder builder;
         switch (settings.name) {
           case 'consent_review/text':
-            builder = (BuildContext _) =>
-                _TextPresenterRoute(widget.step, (signatureResult) => _setSignatureResult(signatureResult));
+            builder = (BuildContext _) => _TextPresenterRoute(widget.step,
+                (signatureResult) => _setSignatureResult(signatureResult));
             break;
           case 'consent_review/signature':
             builder = (BuildContext _) => _SignatureRoute(
@@ -186,7 +189,8 @@ class __TextPresenterRouteState extends State<_TextPresenterRoute> {
                 ? () {
                     // Dismiss pop-up. It uses the root Navigator since it's an overlay
                     Navigator.of(context, rootNavigator: true).pop();
-                    Navigator.of(context).pushReplacementNamed('consent_review/signature');
+                    Navigator.of(context)
+                        .pushReplacementNamed('consent_review/signature');
                   }
                 : () {
                     // Dismiss pop-up. It uses the root Navigator since it's an overlay
@@ -254,14 +258,19 @@ class _SignatureRouteState extends State<_SignatureRoute> {
 
   void _checkNameIsNotEmpty() {
     setState(() {
-      _isNameFilled = (_firstNameController.text != '' && _lastNameController.text != '');
+      _isNameFilled =
+          (_firstNameController.text != '' && _lastNameController.text != '');
     });
   }
 
   @override
   void initState() {
-    widget._consentSignature.requiresSignatureImage ? _isSignatureAdded = false : _isSignatureAdded = true;
-    widget._consentSignature.requiresName ? _isNameFilled = false : _isNameFilled = true;
+    widget._consentSignature.requiresSignatureImage
+        ? _isSignatureAdded = false
+        : _isSignatureAdded = true;
+    widget._consentSignature.requiresName
+        ? _isNameFilled = false
+        : _isNameFilled = true;
     _firstNameController.addListener(_checkNameIsNotEmpty);
     _lastNameController.addListener(_checkNameIsNotEmpty);
 
@@ -280,7 +289,8 @@ class _SignatureRouteState extends State<_SignatureRoute> {
         ),
         TextFormField(
           controller: _lastNameController,
-          decoration: InputDecoration(labelText: "Last Name"), //TODO: Localization
+          decoration:
+              InputDecoration(labelText: "Last Name"), //TODO: Localization
         ),
       ],
     );
@@ -300,10 +310,13 @@ class _SignatureRouteState extends State<_SignatureRoute> {
             Padding(
               padding: EdgeInsets.all(24.0),
               child: Stack(children: [
-                  Positioned(
-                    bottom: 40,
-                    child: Container(height: 2, width: MediaQuery.of(context).size.width * 0.8, color: Colors.grey),
-                  ),
+                Positioned(
+                  bottom: 40,
+                  child: Container(
+                      height: 2,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      color: Colors.grey),
+                ),
                 _signatureCanvas(),
               ]),
             ),
@@ -335,7 +348,9 @@ class _SignatureRouteState extends State<_SignatureRoute> {
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           widget._consentSignature.requiresName ? _nameFields() : Container(),
-          widget._consentSignature.requiresSignatureImage ? _signingField() : Container(),
+          widget._consentSignature.requiresSignatureImage
+              ? _signingField()
+              : Container(),
         ],
       ),
       persistentFooterButtons: <Widget>[

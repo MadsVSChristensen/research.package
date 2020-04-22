@@ -5,7 +5,7 @@ part of research_package_model;
 class BlocTask {
   final _stepStatusController = StreamController<StepStatus>.broadcast();
   // Need to get the information after adding to the sink, that's why BehaviorSubject
-  final _stepResultController = StreamController<RPStepResult>.broadcast();
+  final _stepResultController = StreamController<RPResult>.broadcast();
   final _taskProgressController = BehaviorSubject<RPTaskProgress>();
 
   //Add data to stream
@@ -19,11 +19,12 @@ class BlocTask {
   ///
   /// Usually it's called as part of the [createAndSendResult] implementation in those classes which are
   /// implementing the [CanSaveResult] abstract class
-  Function(RPStepResult) get sendStepResult => _stepResultController.add;
+  Function(RPResult) get sendResult => _stepResultController.add;
 
   /// The function to update the task progress. The task progress is shown in the appbar on top of the screen.
   /// It shows how many questions are there in total and where the participant stands in the process so far.
-  Function(RPTaskProgress) get updateTaskProgress => _taskProgressController.add;
+  Function(RPTaskProgress) get updateTaskProgress =>
+      _taskProgressController.add;
 
   //Retrieve data from stream
 
@@ -31,7 +32,7 @@ class BlocTask {
   Stream<StepStatus> get stepStatus => _stepStatusController.stream;
 
   /// The stream communicating the latest result of the current step
-  Stream<RPStepResult> get stepResult => _stepResultController.stream;
+  Stream<RPResult> get stepResult => _stepResultController.stream;
 
   /// The stream having the latest progress of the task
   Stream<RPTaskProgress> get taskProgress => _taskProgressController.stream;
