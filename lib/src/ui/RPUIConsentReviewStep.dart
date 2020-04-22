@@ -89,6 +89,7 @@ class _TextPresenterRoute extends StatefulWidget {
 
 class __TextPresenterRouteState extends State<_TextPresenterRoute> {
   Widget _reviewCellBuilder(BuildContext context, int index) {
+    RPLocalizations locale = RPLocalizations.of(context);
     // Return the header as the first element.
     if (index == 0) {
       return Column(
@@ -96,7 +97,9 @@ class __TextPresenterRouteState extends State<_TextPresenterRoute> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 64.0),
             child: Text(
-              'Review this form below, and tap AGREE if you\'re ready to continue.',
+              locale?.translate(
+                      'Review this form below, and tap AGREE if you\'re ready to continue.') ??
+                  'Review this form below, and tap AGREE if you\'re ready to continue.',
               style: TextStyle(fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
@@ -112,13 +115,17 @@ class __TextPresenterRouteState extends State<_TextPresenterRoute> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Text(
-              widget.step.consentDocument.sections[index].title,
+              locale?.translate(
+                      widget.step.consentDocument.sections[index].title) ??
+                  widget.step.consentDocument.sections[index].title,
               style: RPStyles.h2,
               textAlign: TextAlign.center,
             ),
           ),
           Text(
-            widget.step.consentDocument.sections[index].content,
+            locale?.translate(
+                    widget.step.consentDocument.sections[index].content) ??
+                widget.step.consentDocument.sections[index].content,
             style: TextStyle(height: 1.1),
           ),
         ],
@@ -128,24 +135,27 @@ class __TextPresenterRouteState extends State<_TextPresenterRoute> {
 
   @override
   Widget build(BuildContext context) {
+    RPLocalizations locale = RPLocalizations.of(context);
     void _showConsentDialog(VoidCallback onPressedCallback) {
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(widget.step.text),
-            content: Text(widget.step.reasonForConsent),
+            title:
+                Text(locale?.translate(widget.step.text) ?? widget.step.text),
+            content: Text(locale?.translate(widget.step.reasonForConsent) ??
+                widget.step.reasonForConsent),
             actions: <Widget>[
               FlatButton(
                 child: Text(
-                  "CANCEL",
+                  locale?.translate('CANCEL') ?? "CANCEL",
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
               FlatButton(
                 child: Text(
-                  "AGREE",
+                  locale?.translate('AGREE') ?? "AGREE",
                   style: TextStyle(color: Theme.of(context).accentColor),
                 ),
                 onPressed: onPressedCallback,
@@ -158,7 +168,8 @@ class __TextPresenterRouteState extends State<_TextPresenterRoute> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Review'), //TODO: Localization
+        title:
+            Text(locale?.translate('Review') ?? 'Review'),
         automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
@@ -169,7 +180,7 @@ class __TextPresenterRouteState extends State<_TextPresenterRoute> {
       persistentFooterButtons: <Widget>[
         FlatButton(
           child: Text(
-            "DISAGREE",
+            locale?.translate('DISAGREE') ?? "DISAGREE",
             style: TextStyle(
               color: Theme.of(context).accentColor,
             ),
@@ -181,7 +192,7 @@ class __TextPresenterRouteState extends State<_TextPresenterRoute> {
         RaisedButton(
           color: Theme.of(context).primaryColor,
           child: Text(
-            "AGREE",
+            locale?.translate('AGREE') ?? "AGREE",
             style: RPStyles.whiteText,
           ),
           onPressed: () => _showConsentDialog(
@@ -199,7 +210,7 @@ class __TextPresenterRouteState extends State<_TextPresenterRoute> {
                     blocTask.sendStatus(StepStatus.Finished);
                   },
           ),
-        ), //TODO: Localization
+        ),
       ],
     );
   }
@@ -277,33 +288,37 @@ class _SignatureRouteState extends State<_SignatureRoute> {
     super.initState();
   }
 
-  Widget _nameFields() {
+  Widget _nameFields(BuildContext context) {
+    RPLocalizations locale = RPLocalizations.of(context);
     return Column(
       children: <Widget>[
         TextFormField(
           autofocus: true,
           controller: _firstNameController,
           decoration: InputDecoration(
-            labelText: "First Name",
-          ), //TODO: Localization
+            labelText: locale?.translate('First Name') ?? "First Name",
+          ),
         ),
         TextFormField(
           controller: _lastNameController,
-          decoration:
-              InputDecoration(labelText: "Last Name"), //TODO: Localization
+          decoration: InputDecoration(
+              labelText: locale?.translate('Last Name') ?? "Last Name"),
         ),
       ],
     );
   }
 
-  Widget _signingField() {
+  Widget _signingField(BuildContext context) {
+    RPLocalizations locale = RPLocalizations.of(context);
     return Center(
       child: Padding(
         padding: EdgeInsets.only(top: 24.0),
         child: Column(
           children: <Widget>[
             Text(
-              'Please sign using your finger on the line below', //TODO: Localization
+              locale?.translate(
+                      'Please sign using your finger on the line below') ??
+                  'Please sign using your finger on the line below',
               style: RPStyles.bodyText,
               textAlign: TextAlign.center,
             ),
@@ -321,7 +336,7 @@ class _SignatureRouteState extends State<_SignatureRoute> {
               ]),
             ),
             FlatButton(
-              child: Text("Clear"),
+              child: Text(locale?.translate('Clear') ?? "Clear"),
               onPressed: _isSignatureAdded
                   ? () {
                       _signature.clear();
@@ -339,17 +354,20 @@ class _SignatureRouteState extends State<_SignatureRoute> {
 
   @override
   Widget build(BuildContext context) {
+    RPLocalizations locale = RPLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget._title),
+        title: Text(locale?.translate(widget._title) ?? widget._title),
       ),
       body: ListView(
         padding: EdgeInsets.all(12),
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
-          widget._consentSignature.requiresName ? _nameFields() : Container(),
+          widget._consentSignature.requiresName
+              ? _nameFields(context)
+              : Container(),
           widget._consentSignature.requiresSignatureImage
-              ? _signingField()
+              ? _signingField(context)
               : Container(),
         ],
       ),
@@ -385,7 +403,7 @@ class _SignatureRouteState extends State<_SignatureRoute> {
                   blocTask.sendStatus(StepStatus.Finished);
                 }
               : null,
-          child: Text('NEXT'),
+          child: Text(locale?.translate('NEXT') ?? 'NEXT'),
         )
       ],
     );

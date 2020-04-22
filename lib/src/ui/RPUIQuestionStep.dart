@@ -22,15 +22,17 @@ class _RPUIQuestionStepState extends State<RPUIQuestionStep>
 
   set currentQuestionBodyResult(dynamic currentQuestionBodyResult) {
     this._currentQuestionBodyResult = currentQuestionBodyResult;
+    createAndSendResult();
     if (this._currentQuestionBodyResult != null) {
-      setState(() {
-        readyToProceed = true;
-      });
+      blocQuestion.sendReadyToProceed(true);
     } else {
-      setState(() {
-        readyToProceed = false;
-      });
+      blocQuestion.sendReadyToProceed(false);
     }
+  }
+
+  skipQuestion() {
+    blocTask.sendStatus(StepStatus.Finished);
+    this.currentQuestionBodyResult = null;
   }
 
   @override
@@ -38,6 +40,7 @@ class _RPUIQuestionStepState extends State<RPUIQuestionStep>
     // Instantiating the result object here to start the time counter (startDate)
     result = RPStepResult.withParams(widget.step);
     readyToProceed = false;
+    blocQuestion.sendReadyToProceed(false);
     recentTaskProgress = blocTask.lastProgressValue;
 
     super.initState();
@@ -66,6 +69,10 @@ class _RPUIQuestionStepState extends State<RPUIQuestionStep>
         return RPUIDateTimeQuestionBody(answerFormat, (result) {
           this.currentQuestionBodyResult = result;
         });
+      case RPBooleanAnswerFormat:
+        return RPUIBooleanQuestionBody(answerFormat, (result) {
+          this.currentQuestionBodyResult = result;
+        });
       default:
         return Container();
     }
@@ -73,74 +80,65 @@ class _RPUIQuestionStepState extends State<RPUIQuestionStep>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        title: Text(
-            "${recentTaskProgress.current} of ${recentTaskProgress.total}"),
-        automaticallyImplyLeading: false,
-      ),
-      body: ListView(
-        padding: EdgeInsets.all(8),
-        children: [
-          title(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: stepBody(widget.step.answerFormat),
-              ),
+    RPLocalizations locale = RPLocalizations.of(context);
+    return ListView(
+      padding: EdgeInsets.all(8),
+      children: [
+        (widget.step.title != null)
+            ? Padding(
+                padding: const EdgeInsets.only(bottom: 24, left: 8, right: 8, top: 8),
+                child: Text(
+                  locale?.translate(widget.step.title) ?? widget.step.title,
+                  style: RPStyles.h2,
+                  textAlign: TextAlign.left,
+                ),
+              )
+            : null,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            elevation: 4,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: stepBody(widget.step.answerFormat),
             ),
           ),
-        ],
-      ),
-      persistentFooterButtons: <Widget>[
-        FlatButton(
-          onPressed: () => blocTask.sendStatus(StepStatus.Canceled),
-          child: Text(
-            "CANCEL",
-            style: TextStyle(color: Colors.redAccent),
-          ),
         ),
-        RaisedButton(
-          color: Theme.of(context).accentColor,
-          textColor: Colors.white,
-          child: Text(
-            "NEXT",
-          ),
-          onPressed: readyToProceed
-              ? () {
-                  // Communicating with the RPUITask Widget
-                  blocTask.sendStatus(StepStatus.Finished);
-                  createAndSendResult();
-                }
-              : null,
-        ),
+        widget.step.optional
+            ? FlatButton(
+                onPressed: () => skipQuestion(),
+                child: Text(locale?.translate("Skip this question") ?? "Skip this question"),
+              )
+            : Container(),
       ],
     );
-  }
-
-  // Render the title above the questionBody
-  Widget title() {
-    if (widget.step.title != null) {
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 24, left: 8, right: 8, top: 8),
-        child: Text(
-          widget.step.title,
-          style: RPStyles.h2,
-          textAlign: TextAlign.left,
-        ),
-      );
-    }
-    return null;
   }
 
   @override
   void createAndSendResult() {
     // Populate the result object with value and end the time tracker (set endDate)
     result.setResult(_currentQuestionBodyResult);
-    blocTask.sendResult(result);
+    blocTask.sendStepResult(result);
+  }
+}
+
+// Render the title above the questionBody
+class Title extends StatelessWidget {
+  final String title;
+  Title(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    if (title != null) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 24, left: 8, right: 8, top: 8),
+        child: Text(
+          title,
+          style: RPStyles.h2,
+          textAlign: TextAlign.left,
+        ),
+      );
+    }
+    return Container();
   }
 }
