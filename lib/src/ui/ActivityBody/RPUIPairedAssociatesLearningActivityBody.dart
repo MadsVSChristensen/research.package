@@ -195,6 +195,17 @@ class _RPUIPairedAssociatesLearningActivityBody
               },
               child: Text('Ready'),
             ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Container(
+                height: 200,
+                width: MediaQuery.of(context).size.width / 1.1,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/images/PALintro.png'))),
+              ),
+            ),
           ],
         );
       case ActivityStatus.Task:

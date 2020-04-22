@@ -32,7 +32,7 @@ class DBService {
 
   Future updateDBData(String results) async {
       return await testResultCollection.document(testResults).setData({
-        'PAL test results': results,
+        'test results': results,
       });
     }
   /* Future updatePALData(String results) async {
