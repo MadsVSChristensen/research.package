@@ -23,14 +23,11 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
 
   set currentActivityBodyResult(dynamic currentActivityBodyResult) {
     this._currentActivityBodyResult = currentActivityBodyResult;
+    createAndSendResult();
     if (this._currentActivityBodyResult != null) {
-      setState(() {
-        readyToProceed = true;
-      });
+      blocQuestion.sendReadyToProceed(true);
     } else {
-      setState(() {
-        readyToProceed = false;
-      });
+      blocQuestion.sendReadyToProceed(false);
     }
   }
 
@@ -38,9 +35,10 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   void initState() {
     // Instantiating the result object here to start the time counter (startDate)
     result = RPActivityResult.withParams(widget.step);
-    gestureController = RPActivityGestureLogger(result);
     readyToProceed = false;
+    blocQuestion.sendReadyToProceed(false);
     recentTaskProgress = blocTask.lastProgressValue;
+    gestureController = RPActivityGestureLogger(result);
 
     super.initState();
   }
@@ -97,13 +95,15 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return /*Scaffold(
       resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: Container(
-          child: stepBody(widget.step),
-        ),
+      body: */
+        SafeArea(
+      child: Container(
+        child: stepBody(widget.step),
       ),
+    )
+        /*,
       persistentFooterButtons: <Widget>[
         FlatButton(
           onPressed: () => blocTask.sendStatus(StepStatus.Canceled),
@@ -127,7 +127,8 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
               : null,
         ),
       ],
-    );
+    )*/
+        ;
   }
 
   // Render the title above the ActivityBody
@@ -149,6 +150,6 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   void createAndSendResult() {
     // Populate the result object with value and end the time tracker (set endDate)
     result.setFinalResult(_currentActivityBodyResult);
-    blocTask.sendResult(result);
+    blocTask.sendStepResult(result);
   }
 }

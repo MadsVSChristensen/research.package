@@ -47,7 +47,7 @@ class _RPUIConsentReviewStepState extends State<RPUIConsentReviewStep>
             consentSignatureResult.consentDocument.signatures.first.identifier,
             consentSignatureResult); //TODO: modify identifier to match the id of RPConsentSignature
 
-    blocTask.sendResult(result);
+    blocTask.sendStepResult(result);
   }
 
   @override
@@ -168,8 +168,7 @@ class __TextPresenterRouteState extends State<_TextPresenterRoute> {
 
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text(locale?.translate('Review') ?? 'Review'),
+        title: Text(locale?.translate('Review') ?? 'Review'),
         automaticallyImplyLeading: false,
       ),
       body: ListView.builder(

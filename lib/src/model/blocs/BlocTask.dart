@@ -7,7 +7,8 @@ class BlocTask {
   // Need to get the information after adding to the sink, that's why BehaviorSubject
   final _stepResultController = StreamController<RPResult>.broadcast();
   final _taskProgressController = BehaviorSubject<RPTaskProgress>();
-  final _taskResultController = BehaviorSubject<RPTaskResult>.seeded(RPTaskResult());
+  final _taskResultController =
+      BehaviorSubject<RPTaskResult>.seeded(RPTaskResult());
 
   //Add data to stream
 
@@ -20,7 +21,7 @@ class BlocTask {
   ///
   /// Usually it's called as part of the [createAndSendResult] implementation in those classes which are
   /// implementing the [CanSaveResult] abstract class
-  Function(RPResult) get sendResult => _stepResultController.add;
+  Function(RPResult) get sendStepResult => _stepResultController.add;
 
   /// The function to update the task progress. The task progress is shown in the appbar on top of the screen.
   /// It shows how many questions are there in total and where the participant stands in the process so far.

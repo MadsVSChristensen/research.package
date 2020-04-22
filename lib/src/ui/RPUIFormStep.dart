@@ -80,9 +80,11 @@ class _RPUIFormStepState extends State<RPUIFormStep> {
     if (index == 0) {
       return (widget.formStep.title != null)
           ? Padding(
-              padding: const EdgeInsets.only(bottom: 24, left: 8, right: 8, top: 8),
+              padding:
+                  const EdgeInsets.only(bottom: 24, left: 8, right: 8, top: 8),
               child: Text(
-                RPLocalizations.of(context)?.translate(widget.formStep.title) ?? widget.formStep.title,
+                RPLocalizations.of(context)?.translate(widget.formStep.title) ??
+                    widget.formStep.title,
                 style: RPStyles.h2,
                 textAlign: TextAlign.left,
               ),
@@ -112,7 +114,8 @@ class _RPUIFormStepState extends State<RPUIFormStep> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              RPLocalizations.of(context)?.translate(widget.formStep.steps[index].title) ??
+              RPLocalizations.of(context)
+                      ?.translate(widget.formStep.steps[index].title) ??
                   widget.formStep.steps[index].title,
               style: RPStyles.h3,
             ),
@@ -146,7 +149,7 @@ class _RPUIFormStepState extends State<RPUIFormStep> {
   @override
   void createAndSendResult() {
     // In this case the result is already created, the only needed thing left is to send it
-    blocTask.sendResult(stepResult);
+    blocTask.sendStepResult(stepResult);
   }
 }
 

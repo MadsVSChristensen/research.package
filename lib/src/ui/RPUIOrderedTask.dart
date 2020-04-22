@@ -1,3 +1,4 @@
+/*
 part of research_package_ui;
 
 /// This class is the primary entry point for the presentation of the Research Package framework UI.
@@ -157,3 +158,4 @@ class _RPUIOrderedTaskState extends State<RPUIOrderedTask> with CanSaveResult {
     super.dispose();
   }
 }
+*/
