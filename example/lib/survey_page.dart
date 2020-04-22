@@ -16,26 +16,7 @@ class SurveyPage extends StatelessWidget {
   }
 
   void resultCallback(RPTaskResult result) async {
-    print(result.results);
-    print(result.results.values);
-    print((result.results.values.first as RPActivityResult).results);
-    print((result.results.values.first as RPActivityResult).stepTimes);
-    print((result.results.values.first as RPActivityResult).interactions);
-    print((result.results.values.first as RPActivityResult)
-        .interactions
-        .first
-        .toString());
-    print('-------------------------------------------------------');
-    for (RPActivityResult r in result.results.values) {
-      for (Interaction i in r.interactions) {
-        print(i.toJson());
-      }
-    }
-    print('--------------------------------------------------------');
-    print(result.results.values.first.toJson());
-    // Do anything with the result
-//     print(_encode(result.results));
-    printWrapped(_encode(result.results));
+    printWrapped(_encode(result));
     await DBService().updatePALData(_encode(result.results));
     //make sure in future not to save empty results.
   }

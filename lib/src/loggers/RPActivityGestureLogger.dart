@@ -5,34 +5,32 @@ class RPActivityGestureLogger {
 
   RPActivityGestureLogger(this.result);
 
-  void addNewGesture() {}
-
   void testStarted() {
-    result.stepTimes['test_started'] = DateTime.now();
+    result.stepTimes.testStarted = DateTime.now();
   }
 
   void testShown() {
-    result.stepTimes['test_shown'] = DateTime.now();
+    result.stepTimes.testShown = DateTime.now();
   }
 
   void testEnded() {
-    result.stepTimes['test_ended'] = DateTime.now();
+    result.stepTimes.testEnded = DateTime.now();
   }
 
   void instructionStarted() {
-    result.stepTimes['instruction_started'] = DateTime.now();
+    result.stepTimes.instructionStarted = DateTime.now();
   }
 
   void instructionEnded() {
-    result.stepTimes['instruction_ended'] = DateTime.now();
+    result.stepTimes.instructionEnded = DateTime.now();
   }
 
   void resultsShown() {
-    result.stepTimes['results_shown'] = DateTime.now();
+    result.stepTimes.resultsShown = DateTime.now();
   }
 
   void resultsClosed() {
-    result.stepTimes['results_closed'] = DateTime.now();
+    result.stepTimes.resultsClosed = DateTime.now();
   }
 
   void addCorrectGesture(String type, String description) {

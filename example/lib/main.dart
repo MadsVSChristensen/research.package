@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'firebase/auth.dart';
 import 'survey_page.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(MyApp());
 

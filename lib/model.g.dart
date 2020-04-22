@@ -487,7 +487,11 @@ RPActivityResult _$RPActivityResultFromJson(Map<String, dynamic> json) {
     ..endDate = json['end_date'] == null
         ? null
         : DateTime.parse(json['end_date'] as String)
-    ..results = json['results'] as Map<String, dynamic>;
+    ..results = json['results'] as Map<String, dynamic>
+    ..stepTimes = json['step_times'] == null
+        ? null
+        : StepTimes.fromJson(json['step_times'] as Map<String, dynamic>)
+    ..interactions = json['interactions'] as List;
 }
 
 Map<String, dynamic> _$RPActivityResultToJson(RPActivityResult instance) {
@@ -503,6 +507,8 @@ Map<String, dynamic> _$RPActivityResultToJson(RPActivityResult instance) {
   writeNotNull('start_date', instance.startDate?.toIso8601String());
   writeNotNull('end_date', instance.endDate?.toIso8601String());
   writeNotNull('results', instance.results);
+  writeNotNull('step_times', instance.stepTimes);
+  writeNotNull('interactions', instance.interactions);
   return val;
 }
 
@@ -522,3 +528,49 @@ Map<String, dynamic> _$InteractionToJson(Interaction instance) =>
       'type': instance.type,
       'description': instance.description,
     };
+
+StepTimes _$StepTimesFromJson(Map<String, dynamic> json) {
+  return StepTimes()
+    ..instructionStarted = json['instruction_started'] == null
+        ? null
+        : DateTime.parse(json['instruction_started'] as String)
+    ..instructionEnded = json['instruction_ended'] == null
+        ? null
+        : DateTime.parse(json['instruction_ended'] as String)
+    ..testShown = json['test_shown'] == null
+        ? null
+        : DateTime.parse(json['test_shown'] as String)
+    ..testStarted = json['test_started'] == null
+        ? null
+        : DateTime.parse(json['test_started'] as String)
+    ..testEnded = json['test_ended'] == null
+        ? null
+        : DateTime.parse(json['test_ended'] as String)
+    ..resultsShown = json['results_shown'] == null
+        ? null
+        : DateTime.parse(json['results_shown'] as String)
+    ..resultsClosed = json['results_closed'] == null
+        ? null
+        : DateTime.parse(json['results_closed'] as String);
+}
+
+Map<String, dynamic> _$StepTimesToJson(StepTimes instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'instruction_started', instance.instructionStarted?.toIso8601String());
+  writeNotNull(
+      'instruction_ended', instance.instructionEnded?.toIso8601String());
+  writeNotNull('test_shown', instance.testShown?.toIso8601String());
+  writeNotNull('test_started', instance.testStarted?.toIso8601String());
+  writeNotNull('test_ended', instance.testEnded?.toIso8601String());
+  writeNotNull('results_shown', instance.resultsShown?.toIso8601String());
+  writeNotNull('results_closed', instance.resultsClosed?.toIso8601String());
+  return val;
+}

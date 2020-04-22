@@ -4,8 +4,7 @@ part of research_package_model;
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class RPActivityResult extends RPResult {
   Map<String, dynamic> _results;
-
-  Map<String, DateTime> _stepTimes;
+  StepTimes _stepTimes;
   List _interactions;
 
   //When ActivityResult only has a single value, pair that value with the following key
@@ -25,8 +24,8 @@ class RPActivityResult extends RPResult {
   /// time the participant spent the given Activity.
   RPActivityResult.withParams(RPStep step)
       : super.withIdentifier(step.identifier) {
-    this._results = Map();
-    this._stepTimes = Map();
+    this._results = Map<String, dynamic>();
+    this._stepTimes = StepTimes();
     this._interactions = List();
 
     startDate = DateTime.now();
@@ -34,13 +33,19 @@ class RPActivityResult extends RPResult {
 
   /// The map of results with a String as identifier and generic type as value
   Map<String, dynamic> get results => _results;
-
-  Map<String, dynamic> get stepTimes => _stepTimes;
-
+  StepTimes get stepTimes => _stepTimes;
   List get interactions => _interactions;
 
   set results(Map<String, dynamic> results) {
     this._results = results;
+  }
+
+  set stepTimes(StepTimes stepTimes) {
+    this._stepTimes = stepTimes;
+  }
+
+  set interactions(List interactions) {
+    this._interactions = interactions;
   }
 
   /// Returns result value for the given identifier from the [results] map
@@ -52,8 +57,8 @@ class RPActivityResult extends RPResult {
   /// Also used at Form Steps where there are multiple questions asked during a single step.
   void setResultForIdentifier(String identifier, dynamic result) {
     this._results[identifier] = result;
-    this._results['step_times'] = _stepTimes;
-    this._results['interactions'] = _interactions;
+//    this._results['step_times'] = _stepTimes;
+//    this._results['interactions'] = _interactions;
     this.endDate = DateTime.now();
   }
 
@@ -61,13 +66,12 @@ class RPActivityResult extends RPResult {
   ///
   /// Usually it's used when there's only one result produced by the Question Body
   void setFinalResult(dynamic result) {
-    setResultForIdentifier('main_result', result);
+    setResultForIdentifier('result', result);
     this.endDate = DateTime.now();
   }
 
   factory RPActivityResult.fromJson(Map<String, dynamic> json) =>
       _$RPActivityResultFromJson(json);
-
   Map<String, dynamic> toJson() => _$RPActivityResultToJson(this);
 }
 
@@ -103,6 +107,22 @@ class Interaction {
 
   factory Interaction.fromJson(Map<String, dynamic> json) =>
       _$InteractionFromJson(json);
-
   Map<String, dynamic> toJson() => _$InteractionToJson(this);
+}
+
+@JsonSerializable(includeIfNull: false, fieldRename: FieldRename.snake)
+class StepTimes {
+  DateTime instructionStarted;
+  DateTime instructionEnded;
+  DateTime testShown;
+  DateTime testStarted;
+  DateTime testEnded;
+  DateTime resultsShown;
+  DateTime resultsClosed;
+
+  StepTimes();
+
+  factory StepTimes.fromJson(Map<String, dynamic> json) =>
+      _$StepTimesFromJson(json);
+  Map<String, dynamic> toJson() => _$StepTimesToJson(this);
 }
