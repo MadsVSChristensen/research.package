@@ -58,8 +58,13 @@ class _RPUIPairedAssociatesLearningActivityBody
   @override
   initState() {
     super.initState();
-    widget.gestureLogger.instructionStarted();
-    activityStatus = ActivityStatus.Instruction;
+    if (widget.activity.includeInstructions) {
+      activityStatus = ActivityStatus.Instruction;
+      widget.gestureLogger.instructionStarted();
+    } else {
+      activityStatus = ActivityStatus.Task;
+      widget.gestureLogger.instructionStarted();
+    }
     levels.addAll([shapes0, shapes1, shapes2]); //hard add all levels...
     containerContent(
         levels[successes]); //call containerContent with 0 before beginning.
@@ -75,11 +80,16 @@ class _RPUIPairedAssociatesLearningActivityBody
     containerPeaker();
     t = Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
-      activityStatus = ActivityStatus.Result;
       widget.gestureLogger.testEnded();
-      widget.gestureLogger.resultsShown();
-      if (this.mounted) {
-        widget.onResultChange(successes);
+      widget.onResultChange(successes);
+      if (widget.activity.includeResults) {
+        activityStatus = ActivityStatus.Result;
+        widget.gestureLogger.resultsShown();
+        if (this.mounted) {
+          setState(() {
+            activityStatus = ActivityStatus.Result;
+          });
+        }
       }
     });
   }

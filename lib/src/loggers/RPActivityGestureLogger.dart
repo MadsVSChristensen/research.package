@@ -14,7 +14,13 @@ class RPActivityGestureLogger {
   }
 
   void testEnded() {
+//    if (result.stepTimes.testCanceled == null) {
     result.stepTimes.testEnded = DateTime.now();
+//    }
+  }
+
+  void testCanceled() {
+    //result.stepTimes.testCanceled = DateTime.now();
   }
 
   void instructionStarted() {

@@ -29,8 +29,13 @@ class _RPUICorsiBlockTappingActivityBodyState
   @override
   initState() {
     super.initState();
-    widget.gestureLogger.instructionStarted();
-    activityStatus = ActivityStatus.Instruction;
+    if (widget.activity.includeInstructions) {
+      activityStatus = ActivityStatus.Instruction;
+      widget.gestureLogger.instructionStarted();
+    } else {
+      activityStatus = ActivityStatus.Task;
+      widget.gestureLogger.instructionStarted();
+    }
     blocks = List.generate(9, (index) => index);
   }
 
@@ -79,10 +84,12 @@ class _RPUICorsiBlockTappingActivityBodyState
           this.widget.onResultChange(corsiSpan);
           await Future.delayed(Duration(milliseconds: 700));
           widget.gestureLogger.testEnded();
-          widget.gestureLogger.resultsShown();
-          setState(() {
-            activityStatus = ActivityStatus.Result;
-          });
+          if (widget.activity.includeResults) {
+            widget.gestureLogger.resultsShown();
+            setState(() {
+              activityStatus = ActivityStatus.Result;
+            });
+          }
         } else {
           widget.gestureLogger.addWrongGesture('Button tap',
               'Failed first try - Tapped the order: ${tapOrder}. The correct order was: ${blocks.getRange(0, numberOfBlocks)}');
@@ -130,6 +137,7 @@ class _RPUICorsiBlockTappingActivityBodyState
                 setState(() {
                   activityStatus = ActivityStatus.Task;
                 });
+                // Could be started by the user in the task
                 startTest();
               },
             )

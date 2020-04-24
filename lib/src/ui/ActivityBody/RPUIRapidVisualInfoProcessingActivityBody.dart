@@ -45,8 +45,13 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   @override
   initState() {
     super.initState();
-    widget.gestureLogger.instructionStarted();
-    activityStatus = ActivityStatus.Instruction;
+    if (widget.activity.includeInstructions) {
+      activityStatus = ActivityStatus.Instruction;
+      widget.gestureLogger.instructionStarted();
+    } else {
+      activityStatus = ActivityStatus.Task;
+      widget.gestureLogger.instructionStarted();
+    }
     for (int i = 0; i < seq1.length; i++) {
       //adds bools according to sequence lengths
       listIndexes.add(false);

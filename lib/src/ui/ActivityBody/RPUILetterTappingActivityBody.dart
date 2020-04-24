@@ -90,19 +90,22 @@ class _RPUILetterTappingActivityBodyState
   @override
   initState() {
     super.initState();
-    widget.gestureLogger.instructionStarted();
+    if (widget.activity.includeInstructions) {
+      activityStatus = ActivityStatus.Instruction;
+      widget.gestureLogger.instructionStarted();
+    } else {
+      activityStatus = ActivityStatus.Task;
+      widget.gestureLogger.instructionStarted();
+    }
     soundService = SoundService(alphabet
         .map((item) =>
             ('../packages/research_package/assets/sounds/' + item + '.mp3'))
         .toList());
-    setState(() {
-      activityStatus = ActivityStatus.Instruction;
-    });
     currentLetter = '';
     lastLetter = '';
   }
 
-  void testControl() async {
+  void testInit() async {
     widget.gestureLogger.instructionEnded();
     widget.gestureLogger.testStarted();
     setState(() {
@@ -110,6 +113,7 @@ class _RPUILetterTappingActivityBodyState
     });
     await Future.delayed(Duration(seconds: 2));
     for (String letter in mocaTestList) {
+      if (!this.mounted) break;
       soundService
           .play('../packages/research_package/assets/sounds/$letter.mp3');
       updateLetter(letter);
@@ -117,13 +121,15 @@ class _RPUILetterTappingActivityBodyState
       letterIndex += 1;
     }
     updateLetter('');
-    widget.onResultChange(errors);
     if (this.mounted) {
+      widget.onResultChange(errors);
       widget.gestureLogger.testEnded();
-      widget.gestureLogger.resultsShown();
-      setState(() {
-        activityStatus = ActivityStatus.Result;
-      });
+      if (widget.activity.includeResults) {
+        widget.gestureLogger.resultsShown();
+        setState(() {
+          activityStatus = ActivityStatus.Result;
+        });
+      }
     }
   }
 
@@ -161,7 +167,7 @@ class _RPUILetterTappingActivityBodyState
             ),
             OutlineButton(
                 onPressed: () {
-                  testControl();
+                  testInit();
                 },
                 child: Text('Ready')),
           ],

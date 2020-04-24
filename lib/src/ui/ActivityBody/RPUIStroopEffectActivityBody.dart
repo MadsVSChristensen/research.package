@@ -56,8 +56,13 @@ class _RPUIStroopEffectActivityBodyState
   @override
   initState() {
     super.initState();
-    widget.gestureLogger.instructionStarted();
-    activityStatus = ActivityStatus.Instruction;
+    if (widget.activity.includeInstructions) {
+      activityStatus = ActivityStatus.Instruction;
+      widget.gestureLogger.instructionStarted();
+    } else {
+      activityStatus = ActivityStatus.Task;
+      widget.gestureLogger.instructionStarted();
+    }
     cWord = possColorsString[_random.nextInt(possColorsString.length)];
     wColor = possColors[_random.nextInt(possColors.length)];
   }

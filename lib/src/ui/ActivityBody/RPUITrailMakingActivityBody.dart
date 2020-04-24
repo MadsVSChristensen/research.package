@@ -34,8 +34,13 @@ class _RPUITrailMakingActivityBodyState
   initState() {
     super.initState();
     _pathTracker = _PathTracker(widget.gestureLogger, _letterLocations);
-    widget.gestureLogger.instructionStarted();
-    activityStatus = ActivityStatus.Instruction;
+    if (widget.activity.includeInstructions) {
+      activityStatus = ActivityStatus.Instruction;
+      widget.gestureLogger.instructionStarted();
+    } else {
+      activityStatus = ActivityStatus.Task;
+      widget.gestureLogger.instructionStarted();
+    }
   }
 
   void _onPanStart(DragStartDetails start) {
@@ -49,13 +54,25 @@ class _RPUITrailMakingActivityBodyState
   void _onPanUpdate(DragUpdateDetails update) {
     Offset pos = (context.findRenderObject() as RenderBox)
         .globalToLocal(update.globalPosition);
-    _pathTracker.updateCurrentPath(pos, widget.onResultChange);
+    _pathTracker.updateCurrentPath(pos, testConcluded);
     _pathTracker.notifyListeners();
   }
 
   void _onPanEnd(DragEndDetails end) {
     _pathTracker.endCurrentPath();
     _pathTracker.notifyListeners();
+  }
+
+  void testConcluded(dynamic result) {
+    widget.onResultChange(result);
+    if (widget.activity.includeResults) {
+      widget.gestureLogger.resultsShown();
+      if (this.mounted) {
+        setState(() {
+          activityStatus = ActivityStatus.Result;
+        });
+      }
+    }
   }
 
   @override
@@ -209,7 +226,7 @@ class _PathTracker extends ChangeNotifier {
     }
   }
 
-  void updateCurrentPath(Offset newPos, Function(dynamic) onResultChange) {
+  void updateCurrentPath(Offset newPos, Function(dynamic) testConcluded) {
     if (_isDraging) {
       Path path = _paths.last;
       path.lineTo(newPos.dx, newPos.dy);
@@ -248,7 +265,8 @@ class _PathTracker extends ChangeNotifier {
           gestureController.testEnded();
           gestureController.resultsShown();
           int secondsUsed = DateTime.now().difference(startTime).inSeconds;
-          onResultChange(secondsUsed);
+          testConcluded(secondsUsed);
+          //onResultChange(secondsUsed);
         }
       }
     }

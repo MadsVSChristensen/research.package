@@ -21,25 +21,13 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   @override
   initState() {
     super.initState();
-    widget.gestureLogger.instructionStarted();
-    activityStatus = ActivityStatus.Instruction;
-  }
-
-  void testControl() {
-    if (this.mounted) {
-      setState(() {});
+    if (widget.activity.includeInstructions) {
+      activityStatus = ActivityStatus.Instruction;
+      widget.gestureLogger.instructionStarted();
+    } else {
       activityStatus = ActivityStatus.Task;
+      widget.gestureLogger.instructionStarted();
     }
-    Timer(Duration(seconds: testDuration), () {
-      //when time is up, change window and set result
-      widget.gestureLogger.testEnded();
-      widget.gestureLogger.resultsShown();
-      activityStatus = ActivityStatus.Result;
-      if (this.mounted) {
-        setState(() {});
-        widget.onResultChange(0);
-      }
-    });
   }
 
   @override
@@ -62,10 +50,24 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
             ),
             OutlineButton(
                 onPressed: () {
+                  setState(() {
+                    activityStatus = ActivityStatus.Task;
+                  });
                   widget.gestureLogger.instructionEnded();
                   widget.gestureLogger.testStarted();
-                  activityStatus = ActivityStatus.Task;
-                  testControl();
+                  Timer(Duration(seconds: testDuration), () {
+                    //when time is up, change window and set result
+                    widget.gestureLogger.testEnded();
+                    widget.onResultChange(0);
+                    if (widget.activity.includeResults) {
+                      widget.gestureLogger.resultsShown();
+                      if (this.mounted) {
+                        setState(() {
+                          activityStatus = ActivityStatus.Result;
+                        });
+                      }
+                    }
+                  });
                 },
                 child: Text('Ready')),
           ],
