@@ -57,7 +57,7 @@ class _RPUITrailMakingActivityBodyState
               padding: EdgeInsets.all(20),
               child: Text(
                 'Connect the different boxes to each other in the right order',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 textAlign: TextAlign.center,
@@ -74,10 +74,10 @@ class _RPUITrailMakingActivityBodyState
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
               child: Container(
-                height: 75,
-                width: 250,
+                height: MediaQuery.of(context).size.height/2.5,
+                width: MediaQuery.of(context).size.width / 1.1,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,

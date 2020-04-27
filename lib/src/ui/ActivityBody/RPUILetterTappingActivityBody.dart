@@ -5,8 +5,7 @@ class RPUILetterTappingActivityBody extends StatefulWidget {
   final Function(dynamic) onResultChange;
   //final RPActivityGestureController gestureController;
 
-  RPUILetterTappingActivityBody(
-      this.activity, this.onResultChange);
+  RPUILetterTappingActivityBody(this.activity, this.onResultChange);
 //this.gestureController,
 
   @override
@@ -112,7 +111,7 @@ class _RPUILetterTappingActivityBodyState
       await Future.delayed(Duration(milliseconds: 1000));
     }
     updateLetter('');
-    widget.onResultChange({"Errors" : errors});
+    widget.onResultChange({"Errors": errors});
     if (this.mounted) {
       setState(() {
         activityStatus = ActivityStatus.Result;
@@ -143,7 +142,7 @@ class _RPUILetterTappingActivityBodyState
             Padding(
               padding: EdgeInsets.all(20),
               child: Text(
-                'On the next screen, tap the button whenever you hear the letter "A" being said.',
+                'Tap the button on the next screen, whenever you hear the letter "A" being said.',
                 style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 20,
@@ -155,6 +154,17 @@ class _RPUILetterTappingActivityBodyState
                   testControl();
                 },
                 child: Text('Ready')),
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 2.5,
+                width: MediaQuery.of(context).size.width / 1.1,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/images/Letterintro.png'))),
+              ),
+            ),
           ],
         );
       case ActivityStatus.Task:
@@ -167,43 +177,43 @@ class _RPUILetterTappingActivityBodyState
               child: OutlineButton(
                 child: Icon(Icons.done),
                 onPressed: () {
-                        // X - X
-                        if (currentLetter != 'A' && lastLetter != 'A') {
-                          errors += 1;
-                          print(
-                              'Error at $lastLetter $currentLetter - Tapped while current letter and last letter were not A');
-                        }
-                        // A - A
-                        if (lastLetter == 'A' && currentLetter == 'A') {
-                          if (!lastWasTapped) {
-                            lastWasTapped = true;
-                          } else if (lastWasTapped && !wasTapped) {
-                            wasTapped = true;
-                          } else {
-                            errors += 1;
-                            print(
-                                'Error at $lastLetter $currentLetter - Last and current were already tapped');
-                          }
-                        }
-                        // A - X
-                        if (lastLetter == 'A' && currentLetter != 'A') {
-                          if (lastWasTapped) {
-                            errors += 1;
-                            print(
-                                'Error at $lastLetter $currentLetter - Tapped last letter as it was A, but it was already tapped');
-                          }
-                        }
-                        // X - A
-                        if (lastLetter != 'A' && currentLetter == 'A') {
-                          if (wasTapped) {
-                            errors += 1;
-                            print(
-                                'Error at $lastLetter $currentLetter - Tapped current letter A while wasTapped = true');
-                          } else {
-                            wasTapped = true;
-                          }
-                        }
-                      },
+                  // X - X
+                  if (currentLetter != 'A' && lastLetter != 'A') {
+                    errors += 1;
+                    print(
+                        'Error at $lastLetter $currentLetter - Tapped while current letter and last letter were not A');
+                  }
+                  // A - A
+                  if (lastLetter == 'A' && currentLetter == 'A') {
+                    if (!lastWasTapped) {
+                      lastWasTapped = true;
+                    } else if (lastWasTapped && !wasTapped) {
+                      wasTapped = true;
+                    } else {
+                      errors += 1;
+                      print(
+                          'Error at $lastLetter $currentLetter - Last and current were already tapped');
+                    }
+                  }
+                  // A - X
+                  if (lastLetter == 'A' && currentLetter != 'A') {
+                    if (lastWasTapped) {
+                      errors += 1;
+                      print(
+                          'Error at $lastLetter $currentLetter - Tapped last letter as it was A, but it was already tapped');
+                    }
+                  }
+                  // X - A
+                  if (lastLetter != 'A' && currentLetter == 'A') {
+                    if (wasTapped) {
+                      errors += 1;
+                      print(
+                          'Error at $lastLetter $currentLetter - Tapped current letter A while wasTapped = true');
+                    } else {
+                      wasTapped = true;
+                    }
+                  }
+                },
               ),
             )
           ],

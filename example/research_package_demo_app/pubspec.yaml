@@ -52,11 +52,6 @@ flutter:
     - assets/images/cachet.png
     - assets/images/survey.png
     - assets/images/waving-hand.png
-    - assets/images/very-sad.png
-    - assets/images/sad.png
-    - assets/images/ok.png
-    - assets/images/happy.png
-    - assets/images/very-happy.png
 
     # Test image assets for PAL
     - assets/images/nothing.png
@@ -64,6 +59,8 @@ flutter:
     - assets/images/shape1.png
     - assets/images/shape2.png
     - assets/images/shape3.png
+    - assets/images/shape4.png
+    - assets/images/shape5.png
 
     # Test intro images
     - assets/images/PALintro.png
@@ -73,6 +70,7 @@ flutter:
     - assets/images/Stroopintro.png
     - assets/images/Tappingintro.png
     - assets/images/Trailintro.png
+    - assets/images/Letterintro.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

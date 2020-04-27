@@ -105,10 +105,10 @@ class _RPUIReactionTimeActivityBodyState
               child: Text('Ready'),
             ),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(5),
               child: Container(
-                height: 125,
-                width: 350,
+                height: MediaQuery.of(context).size.height / 2.5,
+                width: MediaQuery.of(context).size.width / 1.1,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
@@ -140,14 +140,14 @@ class _RPUIReactionTimeActivityBodyState
                           lightRegulator();
                         } else {
                           wrongTaps++;
-                          //penalty for wrong taps. WrongTaps are not actually used
-                          rtList.add(1000);
+                          //no actual penalty for wrong taps (would give a wrong picture). WrongTaps are not actually used
+                          
                         }
                       },
                       child: Container(
-                          color: lightOn ? Colors.green : Colors.red,
-                          alignment: Alignment.center,
-                          child: Column(
+                        color: lightOn ? Colors.green : Colors.red,
+                        alignment: Alignment.center,
+                        /* child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
@@ -157,7 +157,8 @@ class _RPUIReactionTimeActivityBodyState
                                     color: Colors.white.withOpacity(1.0)),
                               ),
                             ],
-                          ))))
+                          )*/
+                      )))
             ]);
       case ActivityStatus.Result:
         return Column(

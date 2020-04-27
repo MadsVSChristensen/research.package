@@ -5,8 +5,7 @@ class RPUITappingActivityBody extends StatefulWidget {
   final Function(dynamic) onResultChange;
   //final RPActivityGestureController gestureController;
 
-  RPUITappingActivityBody(
-      this.activity, this.onResultChange);
+  RPUITappingActivityBody(this.activity, this.onResultChange);
   //this.gestureController,
 
   @override
@@ -17,6 +16,8 @@ class RPUITappingActivityBody extends StatefulWidget {
 class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   int taps = 0;
   int testDuration = 3;
+  bool setStart = false;
+  bool indexStart = false;
   ActivityStatus activityStatus;
 
   @override
@@ -54,7 +55,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
             Padding(
               padding: EdgeInsets.all(20),
               child: Text(
-                'Tap the two buttons which will appear on screen, with index and middle finger as fast as you can for 30 seconds',
+                'Tap the two buttons as many times as possible, in 30 serconds. Use alternating taps with middle and index finger. Start with whichever finger you prefer.',
                 style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 20,
@@ -69,17 +70,17 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                   testControl();
                 },
                 child: Text('Ready')),
-                Padding(
-              padding: EdgeInsets.all(20),
+            Padding(
+              padding: EdgeInsets.all(5),
               child: Container(
-                height: 225,
-                width: 300,
+                height: MediaQuery.of(context).size.height / 2.5,
+                width: MediaQuery.of(context).size.width / 1.1,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
                         image: AssetImage('assets/images/Tappingintro.png'))),
               ),
-                ),
+            ),
           ],
         );
       case ActivityStatus.Task:
@@ -91,34 +92,46 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                 alignment: Alignment.center,
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      '$taps',
-                      style: TextStyle(fontSize: 18),
-                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Container(width: 140, height: 70, child:
-                        OutlineButton(
-                          onPressed: () {
-                            //widget.gestureController.addCorrectGesture(
-                            //    'Button tap', 'Pressed the left button');
-                            setState(() {
-                              taps++;
-                            });
-                          },
+                        Container(
+                          width: 140,
+                          height: 100,
+                          child: OutlineButton(
+                            onPressed: () {
+                              //widget.gestureController.addCorrectGesture(
+                              //    'Button tap', 'Pressed the left button');
+                                if (!setStart) {
+                                  setStart = true;
+                                  indexStart = true;
+                                  taps++;
+                                }
+                                if (indexStart && (taps % 2 == 0)) {
+                                  taps++;
+                                } else if (!indexStart && !(taps % 2 == 0)) {
+                                  taps++;
+                                }
+                            },
+                          ),
                         ),
-                        ),
-                        Container(width: 140, height: 70, child:
-                        OutlineButton(
-                          onPressed: () {
-                            //widget.gestureController.addCorrectGesture(
-                            //    'Button tap', 'Pressed the right button');
-                            setState(() {
-                              taps++;
-                            });
-                          },
-                        ),
+                        Container(
+                          width: 140,
+                          height: 100,
+                          child: OutlineButton(
+                            onPressed: () {
+                              //widget.gestureController.addCorrectGesture(
+                              //    'Button tap', 'Pressed the right button');
+                                if (!setStart) {
+                                  setStart = true;
+                                }
+                                if (indexStart && (taps % 2 != 0)) {
+                                  taps++;
+                                } else if (!indexStart && (taps % 2 == 0)) {
+                                  taps++;
+                                }
+                            },
+                          ),
                         ),
                       ],
                     )

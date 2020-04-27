@@ -112,8 +112,11 @@ class _RPUICorsiBlockTappingActivityBodyState
             Padding(
               padding: EdgeInsets.all(20),
               child: Text(
-                'You will see 9 blocks. An increasing number of the blocks will be highlighted in order. When the light is green, you should press the blocks in the same order as they were highlighted.',
+                'You will see 9 tiles. An increasing number of the tiles will be highlighted in order. When the light in the top of the screen is green, and reads "go", you should press the blocks in the same order as they were highlighted.',
                 style: TextStyle(fontSize: 20),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 10,
+                textAlign: TextAlign.center,
               ),
             ),
             OutlineButton(
@@ -126,7 +129,7 @@ class _RPUICorsiBlockTappingActivityBodyState
               },
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
               child: Container(
                 height: MediaQuery.of(context).size.height/2.5,
                 width: MediaQuery.of(context).size.width / 1.1,

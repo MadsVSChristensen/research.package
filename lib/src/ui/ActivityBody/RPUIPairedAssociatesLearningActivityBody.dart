@@ -42,7 +42,7 @@ class _RPUIPairedAssociatesLearningActivityBody
     'assets/images/hidden.png',
     'assets/images/hidden.png'
   ];
-  List<String> shapes0 = ['assets/images/shape1.png'];
+  List<String> shapes0 = ['assets/images/shape1.png',];
   List<String> shapes1 = [
     'assets/images/shape1.png',
     'assets/images/shape2.png'
@@ -52,6 +52,20 @@ class _RPUIPairedAssociatesLearningActivityBody
     'assets/images/shape2.png',
     'assets/images/shape3.png'
   ];
+  List<String> shapes3 = [
+    'assets/images/shape1.png',
+    'assets/images/shape2.png',
+    'assets/images/shape3.png',
+    'assets/images/shape4.png'
+  ];
+  List<String> shapes4 = [
+    'assets/images/shape1.png',
+    'assets/images/shape2.png',
+    'assets/images/shape3.png',
+    'assets/images/shape4.png',
+    'assets/images/shape5.png',
+  ];
+  
   List<List> levels = []; //list of all levels. Add in init.
   String matchObject = '';
 
@@ -59,7 +73,7 @@ class _RPUIPairedAssociatesLearningActivityBody
   initState() {
     super.initState();
     activityStatus = ActivityStatus.Instruction;
-    levels.addAll([shapes0, shapes1, shapes2]); //hard add all levels...
+    levels.addAll([shapes0, shapes1, shapes2, shapes3, shapes4]); //hard add all levels...
     containerContent(
         levels[successes]); //call containerContent with 0 before beginning.
   }
@@ -196,9 +210,9 @@ class _RPUIPairedAssociatesLearningActivityBody
               child: Text('Ready'),
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
               child: Container(
-                height: 350,
+                height: MediaQuery.of(context).size.height/2.5,
                 width: MediaQuery.of(context).size.width / 1.1,
                 decoration: BoxDecoration(
                     image: DecorationImage(

@@ -17,7 +17,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
     extends State<RPUIRapidVisualInfoProcessingActivityBody> {
   final _random = new Random();
   String texthint =
-      'A sequence will be shown on screen, along with a changing number. Whenever the whole sequence has passed (does not have to be right after each other), tap the button. E.g. if the sequence is 3-6-9, a valid press of the button is 3-4-1-6-9. They must be ordered but need not be in succession. ';
+      'Press the button, whenever all numbers in a given sequence has appeared on screen, in the given order. The numbers do not have to come in succession.';
   int interval = 7; //interval in which numbers appear (should be 9 (0-9))
   int testDuration = 5; //test duration in seconds - time untill window changes
   int newNum = 0; //int for next random generated number on screen
@@ -139,10 +139,10 @@ class _RPUIRapidVisualInfoProcessingActivityBody
               child: Text('Ready'),
             ),
              Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
               child: Container(
-                height: 150,
-                width: 125,
+                height: MediaQuery.of(context).size.height/2.5,
+                width: MediaQuery.of(context).size.width / 1.1,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,

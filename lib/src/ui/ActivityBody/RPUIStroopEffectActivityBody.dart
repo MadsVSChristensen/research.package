@@ -20,7 +20,7 @@ class _RPUIStroopEffectActivityBodyState
   int testDuration = 5; //test duration in seconds - time untill window changes
   final _random = new Random();
   int displayTime =
-      1250; //amount of time each word is displayed in milliseconds
+      1000; //amount of time each word is displayed in milliseconds
   int delayTime = 750; //amount of time between words
   Timer t = new Timer(Duration(seconds: 0),
       () {}); //construct for further control of timer. Cancel at window collapse.
@@ -145,10 +145,10 @@ class _RPUIStroopEffectActivityBodyState
                 },
                 child: Text('Ready')),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
               child: Container(
-                height: 275,
-                width: 325,
+                height: MediaQuery.of(context).size.height/2.5,
+                width: MediaQuery.of(context).size.width / 1.1,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
