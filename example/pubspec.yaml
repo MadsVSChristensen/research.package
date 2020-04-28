@@ -20,8 +20,6 @@ dependencies:
   flutter:
     sdk: flutter
   #
-  url_launcher: ^5.4.2
-  firebase_analytics: ^5.0.2
   firebase_core: ^0.4.0
   firebase_auth: ^0.14.0
   cloud_firestore: ^0.12.9
@@ -50,36 +48,22 @@ flutter:
     - assets/images/cachet.png
     - assets/images/survey.png
     - assets/images/waving-hand.png
-    - assets/images/very-sad.png
-    - assets/images/sad.png
-    - assets/images/ok.png
-    - assets/images/happy.png
-    - assets/images/very-happy.png
+    # Test image assets for PAL
     - assets/images/nothing.png
+
     - assets/images/hidden.png
     - assets/images/shape1.png
     - assets/images/shape2.png
     - assets/images/shape3.png
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+    - assets/images/shape4.png
+    - assets/images/shape5.png
+
+    # Test intro images
+    - assets/images/PALintro.png
+    - assets/images/Corsiintro.png
+    - assets/images/Reactionintro.png
+    - assets/images/RVIPintro.png
+    - assets/images/Stroopintro.png
+    - assets/images/Tappingintro.png
+    - assets/images/Trailintro.png
+    - assets/images/Letterintro.png

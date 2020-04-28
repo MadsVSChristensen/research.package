@@ -23,7 +23,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       0; //introduce int that can be 0, 1 and 2 for three possibilities. (indicates if, and which icon to show)
   int successes = 0;
   int mistakes = 0;
-  int testDuration = 10; //test duration in seconds - time untill window changes
+  int testDuration = 5; //test duration in seconds - time untill window changes
   Timer t = new Timer(Duration(seconds: 0),
       () {}); //construct for further control of timer. Cancel at window collapse.
   List<String> containers = [
@@ -42,7 +42,7 @@ class _RPUIPairedAssociatesLearningActivityBody
     'assets/images/hidden.png',
     'assets/images/hidden.png'
   ];
-  List<String> shapes0 = ['assets/images/shape1.png'];
+  List<String> shapes0 = ['assets/images/shape1.png',];
   List<String> shapes1 = [
     'assets/images/shape1.png',
     'assets/images/shape2.png'
@@ -52,6 +52,20 @@ class _RPUIPairedAssociatesLearningActivityBody
     'assets/images/shape2.png',
     'assets/images/shape3.png'
   ];
+  List<String> shapes3 = [
+    'assets/images/shape1.png',
+    'assets/images/shape2.png',
+    'assets/images/shape3.png',
+    'assets/images/shape4.png'
+  ];
+  List<String> shapes4 = [
+    'assets/images/shape1.png',
+    'assets/images/shape2.png',
+    'assets/images/shape3.png',
+    'assets/images/shape4.png',
+    'assets/images/shape5.png',
+  ];
+  
   List<List> levels = []; //list of all levels. Add in init.
   String matchObject = '';
 
@@ -65,7 +79,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       activityStatus = ActivityStatus.Task;
       widget.gestureLogger.instructionStarted();
     }
-    levels.addAll([shapes0, shapes1, shapes2]); //hard add all levels...
+    levels.addAll([shapes0, shapes1, shapes2, shapes3, shapes4]); //hard add all levels...
     containerContent(
         levels[successes]); //call containerContent with 0 before beginning.
   }
@@ -80,8 +94,8 @@ class _RPUIPairedAssociatesLearningActivityBody
     containerPeaker();
     t = Timer(Duration(seconds: testDuration), () {
       //when time is up, change window and set result
+        widget.onResultChange({"successes": successes, "mistakes": mistakes});
       widget.gestureLogger.testEnded();
-      widget.onResultChange(successes);
       if (widget.activity.includeResults) {
         activityStatus = ActivityStatus.Result;
         widget.gestureLogger.resultsShown();
@@ -209,6 +223,17 @@ class _RPUIPairedAssociatesLearningActivityBody
                 testStarter();
               },
               child: Text('Ready'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Container(
+                height: MediaQuery.of(context).size.height/2.5,
+                width: MediaQuery.of(context).size.width / 1.1,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/images/PALintro.png'))),
+              ),
             ),
           ],
         );

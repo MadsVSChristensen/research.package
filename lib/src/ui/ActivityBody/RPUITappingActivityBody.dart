@@ -15,7 +15,9 @@ class RPUITappingActivityBody extends StatefulWidget {
 
 class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   int taps = 0;
-  int testDuration = 30;
+  int testDuration = 3;
+  bool setStart = false;
+  bool indexStart = false;
   ActivityStatus activityStatus;
 
   @override
@@ -41,7 +43,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
             Padding(
               padding: EdgeInsets.all(20),
               child: Text(
-                'Tap the two buttons which will appear on screen, with index and middle finger as fast as you can for 30 seconds',
+                'Tap the two buttons as many times as possible, in 30 serconds. Use alternating taps with middle and index finger. Start with whichever finger you prefer.',
                 style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 20,
@@ -58,7 +60,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                   Timer(Duration(seconds: testDuration), () {
                     //when time is up, change window and set result
                     widget.gestureLogger.testEnded();
-                    widget.onResultChange(0);
+                    widget.onResultChange({"Total taps": taps});
                     if (widget.activity.includeResults) {
                       widget.gestureLogger.resultsShown();
                       if (this.mounted) {
@@ -70,6 +72,17 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                   });
                 },
                 child: Text('Ready')),
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 2.5,
+                width: MediaQuery.of(context).size.width / 1.1,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/images/Tappingintro.png'))),
+              ),
+            ),
           ],
         );
       case ActivityStatus.Task:
@@ -81,10 +94,6 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                 alignment: Alignment.center,
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      '$taps',
-                      style: TextStyle(fontSize: 18),
-                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

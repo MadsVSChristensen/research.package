@@ -63,7 +63,7 @@ class _RPUITrailMakingActivityBodyState
   }
 
   void testConcluded(dynamic result) {
-    widget.onResultChange(result);
+    widget.onResultChange({"Completion time": secondsUsed});
     if (widget.activity.includeResults) {
       widget.gestureLogger.resultsShown();
       if (this.mounted) {
@@ -86,7 +86,7 @@ class _RPUITrailMakingActivityBodyState
               padding: EdgeInsets.all(20),
               child: Text(
                 'Connect the different boxes to each other in the right order',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 textAlign: TextAlign.center,
@@ -103,7 +103,18 @@ class _RPUITrailMakingActivityBodyState
               child: Text(
                 'Ready',
               ),
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Container(
+                height: MediaQuery.of(context).size.height/2.5,
+                width: MediaQuery.of(context).size.width / 1.1,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/images/Trailintro.png'))),
+              ),
+            ),
           ],
         );
         break;

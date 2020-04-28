@@ -158,7 +158,7 @@ class _RPUILetterTappingActivityBodyState
             Padding(
               padding: EdgeInsets.all(20),
               child: Text(
-                'On the next screen, tap the button whenever you hear the letter "A" being said.',
+                'Tap the button on the next screen, whenever you hear the letter "A" being said.',
                 style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 20,
@@ -170,6 +170,17 @@ class _RPUILetterTappingActivityBodyState
                   testInit();
                 },
                 child: Text('Ready')),
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 2.5,
+                width: MediaQuery.of(context).size.width / 1.1,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/images/Letterintro.png'))),
+              ),
+            ),
           ],
         );
       case ActivityStatus.Task:
