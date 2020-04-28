@@ -47,22 +47,19 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
   Widget stepBody(RPActivityStep activityStep) {
     switch (activityStep.runtimeType) {
       case RPTrailMakingActivity:
-        return RPUITrailMakingActivityBody(activityStep,
+        return RPUITrailMakingActivityBody(activityStep, gestureController,
             (result) {
           this.currentActivityBodyResult = result;
-          //gestureController, argument with activityStep
         });
       case RPTappingActivity:
-        return RPUITappingActivityBody(activityStep,
+        return RPUITappingActivityBody(activityStep, gestureController,
             (result) {
           this.currentActivityBodyResult = result;
-          //gestureController,
         });
       case RPLetterTappingActivity:
-        return RPUILetterTappingActivityBody(activityStep,
+        return RPUILetterTappingActivityBody(activityStep, gestureController,
             (result) {
           this.currentActivityBodyResult = result;
-          // gestureController, as argument along activityStep
         });
       case RPReactionTimeActivity:
         return RPUIReactionTimeActivityBody(activityStep, gestureController,
@@ -78,14 +75,11 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
         return RPUIPairedAssociatesLearningActivityBody(
             activityStep, gestureController, (result) {
           this.currentActivityBodyResult = result;
-          print(result);
-          print("Pal result");
         });
       case RPCorsiBlockTappingActivity:
         return RPUICorsiBlockTappingActivityBody(
-            activityStep, (result) {
+            activityStep, gestureController, (result) {
           this.currentActivityBodyResult = result;
-          /*gestureController,*/
         });
       case RPStroopEffectActivity:
         return RPUIStroopEffectActivityBody(activityStep, gestureController,

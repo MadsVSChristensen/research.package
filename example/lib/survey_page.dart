@@ -17,7 +17,7 @@ class SurveyPage extends StatelessWidget {
 
   void resultCallback(RPTaskResult result) async {
     printWrapped(_encode(result));
-    await DBService().updatePALData(_encode(result.results));
+    await DBService().updateDBData(_encode(result.results));
     //make sure in future not to save empty results.
   }
 

@@ -98,8 +98,7 @@ class _RPUILetterTappingActivityBodyState
       widget.gestureLogger.instructionStarted();
     }
     soundService = SoundService(alphabet
-        .map((item) =>
-            ('../packages/research_package/assets/sounds/' + item + '.mp3'))
+        .map((item) => ('../packages/research_package/assets/sounds/$item.mp3'))
         .toList());
     currentLetter = '';
     lastLetter = '';
@@ -118,7 +117,7 @@ class _RPUILetterTappingActivityBodyState
           .play('../packages/research_package/assets/sounds/$letter.mp3');
       updateLetter(letter);
       await Future.delayed(Duration(milliseconds: 1000));
-      letterIndex += 1;
+      if (letterIndex < 28) letterIndex += 1;
     }
     updateLetter('');
     if (this.mounted) {
@@ -140,7 +139,7 @@ class _RPUILetterTappingActivityBodyState
           'Error at $lastLetter $currentLetter - Last letter was A but wasTapped = false at update time (forgot to tap)');
     }
     widget.gestureLogger.addWrongGesture('Missed button tap',
-        'Did not press button on: ${mocaTestList.getRange(0, letterIndex - 2)} >A< ${mocaTestList.getRange(letterIndex - 1, mocaTestList.length - 1)}');
+        'Did not press button on: ${mocaTestList.getRange(0, letterIndex)} >A< ${mocaTestList.getRange(letterIndex, mocaTestList.length - 1)}');
     lastWasTapped = wasTapped;
     wasTapped = false;
     lastLetter = currentLetter;
@@ -196,10 +195,12 @@ class _RPUILetterTappingActivityBodyState
                   // X - X
                   if (currentLetter != 'A' && lastLetter != 'A') {
                     errors += 1;
-                    widget.gestureLogger.addWrongGesture('Button tap',
-                        'Pressed button on wrong letter: ${mocaTestList.getRange(0, letterIndex - 1)} >${mocaTestList[letterIndex]}< ${mocaTestList.getRange(letterIndex + 1, mocaTestList.length - 1)}');
-//                    print(
-//                        'Error at $lastLetter $currentLetter - Tapped while current letter and last letter were not A');
+                    String s =
+                        '${(letterIndex > 0) ? mocaTestList.getRange(0, letterIndex - 1) : ''}' +
+                            '>$currentLetter<' +
+                            '${mocaTestList.getRange(letterIndex + 1, mocaTestList.length - 1)}';
+                    widget.gestureLogger.addWrongGesture(
+                        'Button tap', 'Pressed button on wrong letter: $s');
                   }
                   // A - A
                   if (lastLetter == 'A' && currentLetter == 'A') {

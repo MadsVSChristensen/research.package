@@ -63,7 +63,7 @@ class _RPUITrailMakingActivityBodyState
   }
 
   void testConcluded(dynamic result) {
-    widget.onResultChange({"Completion time": secondsUsed});
+    widget.onResultChange({"Completion time": result});
     if (widget.activity.includeResults) {
       widget.gestureLogger.resultsShown();
       if (this.mounted) {
@@ -107,7 +107,7 @@ class _RPUITrailMakingActivityBodyState
             Padding(
               padding: EdgeInsets.all(5),
               child: Container(
-                height: MediaQuery.of(context).size.height/2.5,
+                height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width / 1.1,
                 decoration: BoxDecoration(
                     image: DecorationImage(
@@ -283,7 +283,6 @@ class _PathTracker extends ChangeNotifier {
           gestureController.resultsShown();
           int secondsUsed = DateTime.now().difference(startTime).inSeconds;
           testConcluded(secondsUsed);
-          //onResultChange(secondsUsed);
         }
       }
     }
