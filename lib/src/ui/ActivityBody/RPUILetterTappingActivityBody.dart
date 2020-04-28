@@ -149,11 +149,6 @@ class _RPUILetterTappingActivityBodyState
                 textAlign: TextAlign.center,
               ),
             ),
-            OutlineButton(
-                onPressed: () {
-                  testControl();
-                },
-                child: Text('Ready')),
             Padding(
               padding: EdgeInsets.all(5),
               child: Container(
@@ -165,17 +160,36 @@ class _RPUILetterTappingActivityBodyState
                         image: AssetImage('assets/images/Letterintro.png'))),
               ),
             ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
+              child: OutlineButton(
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                onPressed: () {
+                  testControl();
+                },
+                child: Text(
+                  'Ready',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
           ],
         );
       case ActivityStatus.Task:
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
             Container(
               width: 100,
               height: 60,
               child: OutlineButton(
-                child: Icon(Icons.done),
+                child: Text('A'),
                 onPressed: () {
                   // X - X
                   if (currentLetter != 'A' && lastLetter != 'A') {
@@ -216,6 +230,7 @@ class _RPUILetterTappingActivityBodyState
                 },
               ),
             )
+            ],)
           ],
         );
       case ActivityStatus.Result:

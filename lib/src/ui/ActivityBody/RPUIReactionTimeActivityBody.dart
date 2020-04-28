@@ -22,7 +22,7 @@ class _RPUIReactionTimeActivityBodyState
   int timer = 0;
   int interval =
       4; //max interval between screen changes minus 1. (interval = 4 means color change happens in 1 to 5 seconds)
-  int testDuration = 30; //test duration in seconds - time untill window changes
+  int testDuration = 5; //test duration in seconds - time untill window changes
   final _random = Random();
   bool lightOn = false; //If light is on, screen is green and should be tapped.
   bool allowGreen = true;
@@ -40,8 +40,8 @@ class _RPUIReactionTimeActivityBodyState
   }
 
   void lightRegulator() {
-    if (!first) { 
-    lightTimer.cancel();
+    if (!first) {
+      lightTimer.cancel();
     }
     //determines when light is changed, and starts timer when screen turns green. only called when light is red.
     timer = _random.nextInt(interval) + 1;
@@ -100,18 +100,7 @@ class _RPUIReactionTimeActivityBodyState
                 textAlign: TextAlign.center,
               ),
             ),
-            OutlineButton(
-              onPressed: () {
-                if (this.mounted) {
-                  setState(() {
-                    activityStatus = ActivityStatus.Task;
-                  });
-                }
-                testTimer();
-                lightRegulator();
-              },
-              child: Text('Ready'),
-            ),
+            
             Padding(
               padding: EdgeInsets.all(5),
               child: Container(
@@ -121,6 +110,28 @@ class _RPUIReactionTimeActivityBodyState
                     image: DecorationImage(
                         fit: BoxFit.fill,
                         image: AssetImage('assets/images/Reactionintro.png'))),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
+              child: OutlineButton(
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                onPressed: () {
+                  if (this.mounted) {
+                    setState(() {
+                      activityStatus = ActivityStatus.Task;
+                    });
+                  }
+                  testTimer();
+                  lightRegulator();
+                },
+                child: Text(
+                  'Ready',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ),
           ],

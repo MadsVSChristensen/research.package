@@ -5,10 +5,8 @@ class RPUICorsiBlockTappingActivityBody extends StatefulWidget {
   final Function(dynamic) onResultChange;
   //final RPActivityGestureController gestureController;
 
-  RPUICorsiBlockTappingActivityBody(
-      this.activity, this.onResultChange);
+  RPUICorsiBlockTappingActivityBody(this.activity, this.onResultChange);
 /*this.gestureController,*/
-
 
   @override
   _RPUICorsiBlockTappingActivityBodyState createState() =>
@@ -119,24 +117,34 @@ class _RPUICorsiBlockTappingActivityBodyState
                 textAlign: TextAlign.center,
               ),
             ),
-            OutlineButton(
-              child: Text('Ready'),
-              onPressed: () {
-                setState(() {
-                  activityStatus = ActivityStatus.Task;
-                });
-                startTest();
-              },
-            ),
             Padding(
               padding: EdgeInsets.all(5),
               child: Container(
-                height: MediaQuery.of(context).size.height/2.5,
+                height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width / 1.1,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
                         image: AssetImage('assets/images/Corsiintro.png'))),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
+              child: OutlineButton(
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                onPressed: () {
+                  setState(() {
+                    activityStatus = ActivityStatus.Task;
+                  });
+                  startTest();
+                },
+                child: Text(
+                  'Ready',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ),
           ],
