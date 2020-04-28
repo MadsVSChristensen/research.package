@@ -17,23 +17,13 @@ class _RPUITrailMakingActivityBodyState
     extends State<RPUITrailMakingActivityBody> {
   _PathTracker _pathTracker;
   ActivityStatus activityStatus;
-  List<_Location> _letterLocations = [
-    _Location('A', Offset(30, 500),
-        Rect.fromCircle(center: Offset(30, 500), radius: 20)),
-    _Location('B', Offset(350, 550),
-        Rect.fromCircle(center: Offset(350, 550), radius: 20)),
-    _Location('C', Offset(250, 400),
-        Rect.fromCircle(center: Offset(250, 400), radius: 20)),
-    _Location('D', Offset(100, 50),
-        Rect.fromCircle(center: Offset(100, 50), radius: 20)),
-    _Location('E', Offset(350, 100),
-        Rect.fromCircle(center: Offset(350, 100), radius: 20)),
-  ];
+  List<_Location> _boxLocations;
+  //bool canvasLoaded = false;
+  Future canvasReady;
 
   @override
   initState() {
     super.initState();
-    _pathTracker = _PathTracker(widget.gestureLogger, _letterLocations);
     if (widget.activity.includeInstructions) {
       activityStatus = ActivityStatus.Instruction;
       widget.gestureLogger.instructionStarted();
@@ -43,8 +33,17 @@ class _RPUITrailMakingActivityBodyState
     }
   }
 
+  Future<bool> buildCanvas(context) {
+    Size size = MediaQuery.of(context).size;
+    _boxLocations = _TrailMakingLists()
+        .A(size.width, size.height - AppBar().preferredSize.height - 100);
+    _pathTracker = _PathTracker(widget.gestureLogger, _boxLocations);
+    print('${size.height}, ${AppBar().preferredSize.height}');
+    print('future complete');
+    return Future.value(true);
+  }
+
   void _onPanStart(DragStartDetails start) {
-    print('onPanStart');
     Offset pos = (context.findRenderObject() as RenderBox)
         .globalToLocal(start.globalPosition);
     _pathTracker.addNewPath(pos);
@@ -107,27 +106,37 @@ class _RPUITrailMakingActivityBodyState
             )
           ],
         );
+        break;
       case ActivityStatus.Task:
-        return Container(
-          height: MediaQuery.of(context).size.height -
-              AppBar().preferredSize.height,
-          width: MediaQuery.of(context).size.width,
-          child: GestureDetector(
-            onPanStart: _onPanStart,
-            onPanUpdate: _onPanUpdate,
-            onPanEnd: _onPanEnd,
-            child: ClipRect(
-              child: CustomPaint(
-                painter: _TrailPainter(_pathTracker),
+        canvasReady = buildCanvas(context);
+        return FutureBuilder(
+          future: canvasReady,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return CircularProgressIndicator();
+            return Container(
+              height: MediaQuery.of(context).size.height -
+                  AppBar().preferredSize.height,
+              width: MediaQuery.of(context).size.width,
+              child: GestureDetector(
+                onPanStart: _onPanStart,
+                onPanUpdate: _onPanUpdate,
+                onPanEnd: _onPanEnd,
+                child: ClipRect(
+                  child: CustomPaint(
+                    painter: _TrailPainter(_pathTracker),
+                  ),
+                ),
               ),
-            ),
-          ),
+            );
+          },
         );
+        break;
       case ActivityStatus.Result:
         return Container(
           alignment: Alignment.center,
           child: Text('Youre done, or time slipped up'),
         );
+        break;
     }
   }
 }
@@ -154,11 +163,13 @@ class _TrailPainter extends CustomPainter {
       );
       textPainter.layout(
         minWidth: 0,
-        // maxWidth: size.width,
-        maxWidth: 0,
+        maxWidth: size.width,
+//        maxWidth: 0,
       );
+      // offset for id 10, as it is wider than the rest.
+      int tx = location.id == '10' ? 11 : 6;
       Offset textOffset =
-          Offset(location.offset.dx - 6, location.offset.dy - 12);
+          Offset(location.offset.dx - tx, location.offset.dy - 12);
       textPainter.paint(canvas, textOffset);
       canvas.drawRect(
           location.rect,
@@ -166,13 +177,6 @@ class _TrailPainter extends CustomPainter {
             ..color = Colors.black
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1.0);
-      // canvas.drawCircle(
-      //     offset,
-      //     10,
-      //     Paint()
-      //       ..color = Colors.black
-      //       ..style = PaintingStyle.stroke
-      //       ..strokeWidth = 1.0);
     }
     for (Path path in _pathsTracker._paths) {
       canvas.drawPath(
@@ -205,7 +209,6 @@ class _PathTracker extends ChangeNotifier {
 
   _PathTracker(this.gestureController, this._locations) {
     _paths = List<Path>();
-
     _isDraging = false;
     taskStarted = false;
     prevLocation = _locations.first;
@@ -218,10 +221,13 @@ class _PathTracker extends ChangeNotifier {
     if (!taskStarted) {
       startTime = DateTime.now();
     }
+    print(_isDraging);
     if (!_isDraging) {
       _isDraging = true;
       Path path = Path();
       path.moveTo(pos.dx, pos.dy);
+      // starting point - also removes errors when trying to remove paths not yet drawn
+      path.addOval(Rect.fromLTWH(pos.dx, pos.dy, 1, 1));
       _paths.add(path);
     }
   }
@@ -278,8 +284,9 @@ class _PathTracker extends ChangeNotifier {
       _isDraging = false;
       if (!_isFinished) {
         Path path = _paths.last;
+        print(path.computeMetrics());
         Offset lastPoint = path
-            .computeMetrics()
+            .computeMetrics(forceClosed: true)
             .last
             .getTangentForOffset(path.computeMetrics().last.length)
             .position;
@@ -311,5 +318,39 @@ class _Location {
   Offset offset;
   Rect rect;
 
-  _Location(this.id, this.offset, this.rect);
+  _Location(this.id, this.offset) {
+    rect = Rect.fromCircle(center: offset, radius: 26);
+  }
+}
+
+class _TrailMakingLists {
+  List<_Location> A(double w, double h) {
+    return [
+      _Location('1', Offset(w * 0.6, h * 0.5)),
+      _Location('2', Offset(w * 0.17, h * 0.28)),
+      _Location('3', Offset(w * 0.45, h * 0.08)),
+      _Location('4', Offset(w * 0.55, h * 0.30)),
+      _Location('5', Offset(w * 0.80, h * 0.20)),
+      _Location('6', Offset(w * 0.85, h * 0.72)),
+      _Location('7', Offset(w * 0.45, h * 0.60)),
+      _Location('8', Offset(w * 0.60, h * 0.88)),
+      _Location('9', Offset(w * 0.12, h * 0.92)),
+      _Location('10', Offset(w * 0.2, h * 0.50)),
+    ];
+  }
+
+  List<_Location> B(double w, double h) {
+    return [
+      _Location('1', Offset(w * 0.6, h * 0.5)),
+      _Location('A', Offset(w * 0.17, h * 0.28)),
+      _Location('2', Offset(w * 0.45, h * 0.08)),
+      _Location('B', Offset(w * 0.55, h * 0.30)),
+      _Location('3', Offset(w * 0.80, h * 0.20)),
+      _Location('C', Offset(w * 0.85, h * 0.72)),
+      _Location('4', Offset(w * 0.45, h * 0.60)),
+      _Location('D', Offset(w * 0.60, h * 0.88)),
+      _Location('5', Offset(w * 0.12, h * 0.92)),
+      _Location('E', Offset(w * 0.2, h * 0.50)),
+    ];
+  }
 }
