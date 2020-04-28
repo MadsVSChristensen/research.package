@@ -15,19 +15,22 @@ class RPUIReactionTimeActivityBody extends StatefulWidget {
 
 class _RPUIReactionTimeActivityBodyState
     extends State<RPUIReactionTimeActivityBody> {
-  String texthint = 'Tap the screen to start';
+  ActivityStatus activityStatus;
+  String alert = '';
   int wrongTaps = 0;
   int correctTaps = 0;
   int timer = 0;
   int interval =
       4; //max interval between screen changes minus 1. (interval = 4 means color change happens in 1 to 5 seconds)
-  int testDuration = 5; //test duration in seconds - time untill window changes
-  final _random = new Random();
+  int testDuration = 30; //test duration in seconds - time untill window changes
+  final _random = Random();
   bool lightOn = false; //If light is on, screen is green and should be tapped.
-  ActivityStatus activityStatus;
-  final _sw = new Stopwatch();
+  bool allowGreen = true;
+  bool first = true;
+  final _sw = Stopwatch();
   List<int> rtList = []; //delay times list
   int result = 0;
+  Timer lightTimer;
   //wrong taps currently do nothing.
 
   @override
@@ -37,16 +40,21 @@ class _RPUIReactionTimeActivityBodyState
   }
 
   void lightRegulator() {
+    if (!first) { 
+    lightTimer.cancel();
+    }
     //determines when light is changed, and starts timer when screen turns green. only called when light is red.
     timer = _random.nextInt(interval) + 1;
-    Timer(Duration(seconds: timer), () {
-      if (this.mounted) {
+    lightTimer = Timer(Duration(seconds: timer), () {
+      if (this.mounted && allowGreen) {
         setState(() {
-          lightOn = true;
-          _sw.start();
+          alert = ''; //"too quick alert set to nothing when light is green"
+          lightOn = true; //turn on green light
+          _sw.start(); //start stopwatch to track delay from green screen till tap.
         });
       }
     });
+    first = false;
   }
 
   void testTimer() {
@@ -126,7 +134,7 @@ class _RPUIReactionTimeActivityBodyState
             children: <Widget>[
               Expanded(
                   child: InkWell(
-                      onTap: () {
+                      onTap: () async {
                         //on tap depends on if light is on. If so, record time, turn light off, and call lightRegulator.
                         if (lightOn) {
                           setState(() {
@@ -139,26 +147,36 @@ class _RPUIReactionTimeActivityBodyState
                           });
                           lightRegulator();
                         } else {
+                          allowGreen = false;
                           wrongTaps++;
-                          //no actual penalty for wrong taps (would give a wrong picture). WrongTaps are not actually used
-                          
+                          setState(() {
+                            alert = 'Too quick';
+                          });
+                          await Future.delayed(
+                              Duration(seconds: 1)); //display feedback
+                          if (this.mounted) {
+                            allowGreen = true;
+                            setState(() {
+                              alert = '';
+                            });
+                            lightRegulator();
+                          } //no actual penalty for wrong taps (would give a wrong picture). WrongTaps are not actually used
                         }
                       },
                       child: Container(
-                        color: lightOn ? Colors.green : Colors.red,
-                        alignment: Alignment.center,
-                        /* child: Column(
+                          color: lightOn ? Colors.green : Colors.red,
+                          alignment: Alignment.center,
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                'Tap me if I\'m green!',
+                                alert,
                                 style: TextStyle(
                                     fontSize: 22,
                                     color: Colors.white.withOpacity(1.0)),
                               ),
                             ],
-                          )*/
-                      )))
+                          ))))
             ]);
       case ActivityStatus.Result:
         return Column(

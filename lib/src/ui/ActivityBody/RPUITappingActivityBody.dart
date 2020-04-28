@@ -100,18 +100,20 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                           height: 100,
                           child: OutlineButton(
                             onPressed: () {
+                              taps++;
                               //widget.gestureController.addCorrectGesture(
                               //    'Button tap', 'Pressed the left button');
-                                if (!setStart) {
+                              //alternating taps code underneath
+                                /* if (!setStart) {
                                   setStart = true;
-                                  indexStart = true;
+                                  indexStart = true;         
                                   taps++;
                                 }
                                 if (indexStart && (taps % 2 == 0)) {
                                   taps++;
                                 } else if (!indexStart && !(taps % 2 == 0)) {
                                   taps++;
-                                }
+                                } */
                             },
                           ),
                         ),
@@ -120,16 +122,18 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                           height: 100,
                           child: OutlineButton(
                             onPressed: () {
+                              taps++;
                               //widget.gestureController.addCorrectGesture(
                               //    'Button tap', 'Pressed the right button');
-                                if (!setStart) {
-                                  setStart = true;
+                              //alternating taps code underneath
+                                /* if (!setStart) {
+                                  setStart = true;           
                                 }
                                 if (indexStart && (taps % 2 != 0)) {
                                   taps++;
                                 } else if (!indexStart && (taps % 2 == 0)) {
                                   taps++;
-                                }
+                                } */
                             },
                           ),
                         ),
