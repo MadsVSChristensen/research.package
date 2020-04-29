@@ -158,11 +158,11 @@ class _RPUIRapidVisualInfoProcessingActivityBody
                   borderRadius: BorderRadius.circular(6),
                 ),
                 onPressed: () {
-                widget.gestureLogger.instructionEnded();
-                widget.gestureLogger.testStarted();
-                activityStatus = ActivityStatus.Task;
-                timerBody();
-              },
+                  widget.gestureLogger.instructionEnded();
+                  widget.gestureLogger.testStarted();
+                  activityStatus = ActivityStatus.Task;
+                  timerBody();
+                },
                 child: Text(
                   'Ready',
                   style: TextStyle(fontSize: 18),

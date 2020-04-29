@@ -27,6 +27,7 @@ class _RPUIStroopEffectActivityBodyState
   Timer pulseTimer =
       new Timer(Duration(seconds: 0), () {}); //pulse timer control
   ActivityStatus activityStatus;
+
   //bool testLive = false; //test going on, screen flag
   //bool testBegin = true; //pre test screen flag
   bool disableButton = false; //makes sure spamming doesn't disturb the test
@@ -152,7 +153,7 @@ class _RPUIStroopEffectActivityBodyState
             Padding(
               padding: EdgeInsets.all(5),
               child: Container(
-                height: MediaQuery.of(context).size.height/2.5,
+                height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width / 1.1,
                 decoration: BoxDecoration(
                     image: DecorationImage(

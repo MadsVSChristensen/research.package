@@ -152,13 +152,13 @@ class _RPUICorsiBlockTappingActivityBodyState
                   borderRadius: BorderRadius.circular(6),
                 ),
                 onPressed: () {
-                widget.gestureLogger.instructionEnded();
-                widget.gestureLogger.testStarted();
-                setState(() {
-                  activityStatus = ActivityStatus.Task;
-                });
-                // Could be started by the user in the task
-                startTest();
+                  widget.gestureLogger.instructionEnded();
+                  widget.gestureLogger.testStarted();
+                  setState(() {
+                    activityStatus = ActivityStatus.Task;
+                  });
+                  // Could be started by the user in the task
+                  startTest();
                 },
                 child: Text(
                   'Ready',
