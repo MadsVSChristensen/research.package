@@ -10,6 +10,13 @@ dependencies:
   flutter:
     sdk: flutter
   #
+
+  #example dependencies seem to be neccesary here with current structure
+  firebase_core: ^0.4.0
+  firebase_auth: ^0.14.0
+  cloud_firestore: ^0.12.9
+
+
   signature: ^2.0.0
   rxdart: ^0.23.0
   json_annotation: ^3.0.0
@@ -32,6 +39,7 @@ dev_dependencies:
 flutter:
   # To add assets to your package, add an assets section, like this:
   assets:
+    #mp files for letter A tapping test
     - packages/research_package/assets/sounds/A.mp3
     - packages/research_package/assets/sounds/B.mp3
     - packages/research_package/assets/sounds/C.mp3
@@ -84,6 +92,40 @@ flutter:
     - assets/sounds/X.mp3
     - assets/sounds/Y.mp3
     - assets/sounds/Z.mp3
+
+      # Test image assets for PAL
+    - packages/research_package/assets/images/nothing.png
+    - packages/research_package/assets/images/hidden.png
+    - packages/research_package/assets/images/shape1.png
+    - packages/research_package/assets/images/shape2.png
+    - packages/research_package/assets/images/shape3.png
+    - packages/research_package/assets/images/shape4.png
+    - packages/research_package/assets/images/shape5.png
+    - images/images/nothing.png
+    - images/images/hidden.png
+    - images/images/shape1.png
+    - images/images/shape2.png
+    - images/images/shape3.png
+    - images/images/shape4.png
+    - images/images/shape5.png
+
+    # Test intro images
+    - packages/research_package/assets/images/PALintro.png
+    - packages/research_package/assets/images/Corsiintro.png
+    - packages/research_package/assets/images/Reactionintro.png
+    - packages/research_package/assets/images/RVIPintro.png
+    - packages/research_package/assets/images/Stroopintro.png
+    - packages/research_package/assets/images/Tappingintro.png
+    - packages/research_package/assets/images/Trailintro.png
+    - packages/research_package/assets/images/Letterintro.png
+    - images/images/PALintro.png
+    - images/images/Corsiintro.png
+    - images/images/Reactionintro.png
+    - images/images/RVIPintro.png
+    - images/images/Stroopintro.png
+    - images/images/Tappingintro.png
+    - images/images/Trailintro.png
+    - images/images/Letterintro.png
   #  - images/a_dot_ham.jpeg
   #
   # For details regarding assets in packages, see

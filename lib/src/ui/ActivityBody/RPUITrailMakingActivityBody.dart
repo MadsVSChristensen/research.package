@@ -100,7 +100,7 @@ class _RPUITrailMakingActivityBodyState
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/images/Trailintro.png'))),
+                        image: AssetImage('packages/research_package/assets/images/Trailintro.png'))),
               ),
             ),
             SizedBox(
@@ -111,12 +111,12 @@ class _RPUITrailMakingActivityBodyState
                   borderRadius: BorderRadius.circular(6),
                 ),
                 onPressed: () {
-                widget.gestureLogger.instructionEnded();
-                widget.gestureLogger.testStarted();
-                setState(() {
-                  activityStatus = ActivityStatus.Task;
-                });
-              },
+                  widget.gestureLogger.instructionEnded();
+                  widget.gestureLogger.testStarted();
+                  setState(() {
+                    activityStatus = ActivityStatus.Task;
+                  });
+                },
                 child: Text(
                   'Ready',
                   style: TextStyle(fontSize: 18),
@@ -153,7 +153,11 @@ class _RPUITrailMakingActivityBodyState
       case ActivityStatus.Result:
         return Container(
           alignment: Alignment.center,
-          child: Text('Youre done, or time slipped up'),
+          child: Text(
+            'Youre done, or time slipped up',
+            style: TextStyle(fontSize: 22),
+            textAlign: TextAlign.center,
+          ),
         );
         break;
     }

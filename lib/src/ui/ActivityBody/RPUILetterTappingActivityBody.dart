@@ -172,7 +172,7 @@ class _RPUILetterTappingActivityBodyState
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/images/Letterintro.png'))),
+                        image: AssetImage('packages/research_package/assets/images/Letterintro.png'))),
               ),
             ),
             SizedBox(
@@ -267,7 +267,11 @@ class _RPUILetterTappingActivityBodyState
       case ActivityStatus.Result:
         return Container(
           child: Center(
-            child: Text('You had $errors mistakes'),
+            child: Text(
+              'You had $errors mistakes',
+              style: TextStyle(fontSize: 22),
+              textAlign: TextAlign.center,
+            ),
           ),
         );
     }

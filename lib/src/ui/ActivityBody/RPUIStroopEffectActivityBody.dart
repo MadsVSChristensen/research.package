@@ -158,7 +158,7 @@ class _RPUIStroopEffectActivityBodyState
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/images/Stroopintro.png'))),
+                        image: AssetImage('packages/research_package/assets/images/Stroopintro.png'))),
               ),
             ),
             SizedBox(
@@ -223,12 +223,12 @@ class _RPUIStroopEffectActivityBodyState
                         ),
                         Text(
                           'Correct answers: $correctTaps',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 22),
                           textAlign: TextAlign.center,
                         ),
                         Text(
                           'Wrong answers or missed words: $mistakes',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 22),
                           textAlign: TextAlign.center,
                         ),
                       ]),

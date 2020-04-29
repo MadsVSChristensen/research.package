@@ -104,11 +104,10 @@ class _RPUIReactionTimeActivityBodyState
                 'Tap the screen every time it turns from red to green, as fast as possible',
                 style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
-                maxLines: 2,
+                maxLines: 5,
                 textAlign: TextAlign.center,
               ),
             ),
-            
             Padding(
               padding: EdgeInsets.all(5),
               child: Container(
@@ -117,7 +116,7 @@ class _RPUIReactionTimeActivityBodyState
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/images/Reactionintro.png'))),
+                        image: AssetImage('packages/research_package/assets/images/Reactionintro.png'))),
               ),
             ),
             SizedBox(
@@ -206,6 +205,8 @@ class _RPUIReactionTimeActivityBodyState
               child: Text(
                 'The time is up! $result was your final score. (Average reaction time in milliseconds)',
                 style: TextStyle(fontSize: 22),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 5,
               ),
             )
           ],

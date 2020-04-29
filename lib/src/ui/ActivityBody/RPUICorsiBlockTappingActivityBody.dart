@@ -141,7 +141,7 @@ class _RPUICorsiBlockTappingActivityBodyState
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/images/Corsiintro.png'))),
+                        image: AssetImage('packages/research_package/assets/images/Corsiintro.png'))),
               ),
             ),
             SizedBox(
@@ -208,7 +208,11 @@ class _RPUICorsiBlockTappingActivityBodyState
         break;
       case ActivityStatus.Result:
         return Center(
-          child: Text('Your Corsi Span was $corsiSpan'),
+          child: Text(
+            'Your Corsi Span was $corsiSpan',
+            style: TextStyle(fontSize: 22),
+            textAlign: TextAlign.center,
+          ),
         );
       default:
         return Container();

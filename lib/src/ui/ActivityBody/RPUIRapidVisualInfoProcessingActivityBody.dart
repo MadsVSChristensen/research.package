@@ -147,7 +147,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/images/RVIPintro.png'))),
+                        image: AssetImage('packages/research_package/assets/images/RVIPintro.png'))),
               ),
             ),
             SizedBox(
@@ -211,7 +211,10 @@ class _RPUIRapidVisualInfoProcessingActivityBody
                   Text('The test is done!', style: TextStyle(fontSize: 22)),
                   Text(
                     'You had $goodTaps correct taps and $badTaps wrong ones',
-                    style: TextStyle(fontSize: 20),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 22),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 5,
                   )
                 ]));
     }

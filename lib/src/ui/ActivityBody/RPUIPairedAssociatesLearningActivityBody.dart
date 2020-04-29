@@ -27,45 +27,45 @@ class _RPUIPairedAssociatesLearningActivityBody
   Timer t = new Timer(Duration(seconds: 0),
       () {}); //construct for further control of timer. Cancel at window collapse.
   List<String> containers = [
-    'assets/images/nothing.png',
-    'assets/images/nothing.png',
-    'assets/images/nothing.png',
-    'assets/images/nothing.png',
-    'assets/images/nothing.png',
-    'assets/images/nothing.png'
+    'packages/research_package/assets/images/nothing.png',
+    'packages/research_package/assets/images/nothing.png',
+    'packages/research_package/assets/images/nothing.png',
+    'packages/research_package/assets/images/nothing.png',
+    'packages/research_package/assets/images/nothing.png',
+    'packages/research_package/assets/images/nothing.png'
   ]; //a container can be empty, default values, or have a shape
   List<String> containerHide = [
-    'assets/images/hidden.png',
-    'assets/images/hidden.png',
-    'assets/images/hidden.png',
-    'assets/images/hidden.png',
-    'assets/images/hidden.png',
-    'assets/images/hidden.png'
+    'packages/research_package/assets/images/hidden.png',
+    'packages/research_package/assets/images/hidden.png',
+    'packages/research_package/assets/images/hidden.png',
+    'packages/research_package/assets/images/hidden.png',
+    'packages/research_package/assets/images/hidden.png',
+    'packages/research_package/assets/images/hidden.png'
   ];
   List<String> shapes0 = [
-    'assets/images/shape1.png',
+    'packages/research_package/assets/images/shape1.png',
   ];
   List<String> shapes1 = [
-    'assets/images/shape1.png',
-    'assets/images/shape2.png'
+    'packages/research_package/assets/images/shape1.png',
+    'packages/research_package/assets/images/shape2.png'
   ]; //colors for inital logic setup
   List<String> shapes2 = [
-    'assets/images/shape1.png',
-    'assets/images/shape2.png',
-    'assets/images/shape3.png'
+    'packages/research_package/assets/images/shape1.png',
+    'packages/research_package/assets/images/shape2.png',
+    'packages/research_package/assets/images/shape3.png'
   ];
   List<String> shapes3 = [
-    'assets/images/shape1.png',
-    'assets/images/shape2.png',
-    'assets/images/shape3.png',
-    'assets/images/shape4.png'
+    'packages/research_package/assets/images/shape1.png',
+    'packages/research_package/assets/images/shape2.png',
+    'packages/research_package/assets/images/shape3.png',
+    'packages/research_package/assets/images/shape4.png'
   ];
   List<String> shapes4 = [
-    'assets/images/shape1.png',
-    'assets/images/shape2.png',
-    'assets/images/shape3.png',
-    'assets/images/shape4.png',
-    'assets/images/shape5.png',
+    'packages/research_package/assets/images/shape1.png',
+    'packages/research_package/assets/images/shape2.png',
+    'packages/research_package/assets/images/shape3.png',
+    'packages/research_package/assets/images/shape4.png',
+    'packages/research_package/assets/images/shape5.png',
   ];
 
   List<List> levels = []; //list of all levels. Add in init.
@@ -115,7 +115,7 @@ class _RPUIPairedAssociatesLearningActivityBody
     //fill containers with content
     for (int i = 0; i < containers.length; i++) {
       //let all containers be the same from start of levels.
-      containers[i] = 'assets/images/nothing.png';
+      containers[i] = 'packages/research_package/assets/images/nothing.png';
     }
     matchObject =
         level[_random.nextInt(level.length)]; //fill object with content
@@ -154,7 +154,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       }
       await Future.delayed(Duration(seconds: 1));
       containerHide[peaking] =
-          'assets/images/hidden.png'; //after time, set back to default
+          'packages/research_package/assets/images/hidden.png'; //after time, set back to default
     }
     if (this.mounted) {
       setState(() {});
@@ -228,7 +228,7 @@ class _RPUIPairedAssociatesLearningActivityBody
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/images/PALintro.png'))),
+                        image: AssetImage('packages/research_package/assets/images/PALintro.png'))),
               ),
             ),
             SizedBox(

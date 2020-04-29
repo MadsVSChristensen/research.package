@@ -58,7 +58,8 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/images/Tappingintro.png'))),
+                        image: AssetImage(
+                            'packages/research_package/assets/images/Tappingintro.png'))),
               ),
             ),
             SizedBox(
@@ -108,23 +109,31 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        OutlineButton(
-                          onPressed: () {
-                            widget.gestureLogger.addCorrectGesture(
-                                'Button tap', 'Pressed the left button');
-                            setState(() {
-                              taps++;
-                            });
-                          },
+                        Container(
+                          height: 200,
+                          width: MediaQuery.of(context).size.width / 2.2,
+                          child: OutlineButton(
+                            onPressed: () {
+                              widget.gestureLogger.addCorrectGesture(
+                                  'Button tap', 'Pressed the left button');
+                              setState(() {
+                                taps++;
+                              });
+                            },
+                          ),
                         ),
-                        OutlineButton(
-                          onPressed: () {
-                            widget.gestureLogger.addCorrectGesture(
-                                'Button tap', 'Pressed the right button');
-                            setState(() {
-                              taps++;
-                            });
-                          },
+                        Container(
+                          height: 200,
+                          width: MediaQuery.of(context).size.width / 2.2,
+                          child: OutlineButton(
+                            onPressed: () {
+                              widget.gestureLogger.addCorrectGesture(
+                                  'Button tap', 'Pressed the right button');
+                              setState(() {
+                                taps++;
+                              });
+                            },
+                          ),
                         ),
                       ],
                     )
@@ -135,7 +144,11 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
       case ActivityStatus.Result:
         return Container(
           alignment: Alignment.center,
-          child: Text('$taps was your final score!'),
+          child: Text(
+            '$taps was your final score!',
+            style: TextStyle(fontSize: 22),
+            textAlign: TextAlign.center,
+          ),
         );
     }
   }
