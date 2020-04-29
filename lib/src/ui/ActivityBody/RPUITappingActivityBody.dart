@@ -50,7 +50,24 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                 textAlign: TextAlign.center,
               ),
             ),
-            OutlineButton(
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 2.5,
+                width: MediaQuery.of(context).size.width / 1.1,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/images/Tappingintro.png'))),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
+              child: OutlineButton(
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
                 onPressed: () {
                   setState(() {
                     activityStatus = ActivityStatus.Task;
@@ -71,16 +88,10 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                     }
                   });
                 },
-                child: Text('Ready')),
-            Padding(
-              padding: EdgeInsets.all(5),
-              child: Container(
-                height: MediaQuery.of(context).size.height / 2.5,
-                width: MediaQuery.of(context).size.width / 1.1,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage('assets/images/Tappingintro.png'))),
+                child: Text(
+                  'Ready',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ),
           ],

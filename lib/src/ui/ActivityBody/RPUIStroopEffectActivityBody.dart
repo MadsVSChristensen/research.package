@@ -149,11 +149,6 @@ class _RPUIStroopEffectActivityBodyState
                 textAlign: TextAlign.center,
               ),
             ),
-            OutlineButton(
-                onPressed: () {
-                  testControl();
-                },
-                child: Text('Ready')),
             Padding(
               padding: EdgeInsets.all(5),
               child: Container(
@@ -163,6 +158,22 @@ class _RPUIStroopEffectActivityBodyState
                     image: DecorationImage(
                         fit: BoxFit.fill,
                         image: AssetImage('assets/images/Stroopintro.png'))),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
+              child: OutlineButton(
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                onPressed: () {
+                  testControl();
+                },
+                child: Text(
+                  'Ready',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ),
           ],

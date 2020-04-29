@@ -17,7 +17,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
     extends State<RPUIRapidVisualInfoProcessingActivityBody> {
   final _random = new Random();
   String texthint =
-      'Press the button, whenever all numbers in a given sequence has appeared on screen, in the given order. The numbers do not have to come in succession.';
+      'Tap the button in the next window, whenever all numbers in a given sequence has appeared on screen, in the given order. The numbers do not have to come in succession.';
   int interval = 7; //interval in which numbers appear (should be 9 (0-9))
   int testDuration = 5; //test duration in seconds - time untill window changes
   int newNum = 0; //int for next random generated number on screen
@@ -139,24 +139,34 @@ class _RPUIRapidVisualInfoProcessingActivityBody
                 textAlign: TextAlign.center,
               ),
             ),
-            OutlineButton(
-              onPressed: () {
-                widget.gestureLogger.instructionEnded();
-                widget.gestureLogger.testStarted();
-                activityStatus = ActivityStatus.Task;
-                timerBody();
-              },
-              child: Text('Ready'),
-            ),
-             Padding(
+            Padding(
               padding: EdgeInsets.all(5),
               child: Container(
-                height: MediaQuery.of(context).size.height/2.5,
+                height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width / 1.1,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
                         image: AssetImage('assets/images/RVIPintro.png'))),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
+              child: OutlineButton(
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                onPressed: () {
+                widget.gestureLogger.instructionEnded();
+                widget.gestureLogger.testStarted();
+                activityStatus = ActivityStatus.Task;
+                timerBody();
+              },
+                child: Text(
+                  'Ready',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ),
           ],

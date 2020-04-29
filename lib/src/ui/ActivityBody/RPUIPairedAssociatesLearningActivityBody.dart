@@ -42,7 +42,9 @@ class _RPUIPairedAssociatesLearningActivityBody
     'assets/images/hidden.png',
     'assets/images/hidden.png'
   ];
-  List<String> shapes0 = ['assets/images/shape1.png',];
+  List<String> shapes0 = [
+    'assets/images/shape1.png',
+  ];
   List<String> shapes1 = [
     'assets/images/shape1.png',
     'assets/images/shape2.png'
@@ -65,7 +67,7 @@ class _RPUIPairedAssociatesLearningActivityBody
     'assets/images/shape4.png',
     'assets/images/shape5.png',
   ];
-  
+
   List<List> levels = []; //list of all levels. Add in init.
   String matchObject = '';
 
@@ -211,28 +213,38 @@ class _RPUIPairedAssociatesLearningActivityBody
             Padding(
               padding: EdgeInsets.all(20),
               child: Text(
-                "A screen with 6 tiles will appear. Whats underneath will be revealed one by one. Click the tile matching the object in the middle, when the reveal is done.",
+                "A screen with 6 tiles will appear. What is underneath each of them, will be revealed one by one. Click the tile matching the object in the middle, when the reveal is done.",
                 style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 20,
                 textAlign: TextAlign.center,
               ),
             ),
-            OutlineButton(
-              onPressed: () {
-                testStarter();
-              },
-              child: Text('Ready'),
-            ),
             Padding(
               padding: EdgeInsets.all(5),
               child: Container(
-                height: MediaQuery.of(context).size.height/2.5,
+                height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width / 1.1,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
                         image: AssetImage('assets/images/PALintro.png'))),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
+              child: OutlineButton(
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                onPressed: () {
+                  testStarter();
+                },
+                child: Text(
+                  'Ready',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ),
           ],
