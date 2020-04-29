@@ -66,32 +66,6 @@ flutter:
     - packages/research_package/assets/sounds/X.mp3
     - packages/research_package/assets/sounds/Y.mp3
     - packages/research_package/assets/sounds/Z.mp3
-    - assets/sounds/A.mp3
-    - assets/sounds/B.mp3
-    - assets/sounds/C.mp3
-    - assets/sounds/D.mp3
-    - assets/sounds/E.mp3
-    - assets/sounds/F.mp3
-    - assets/sounds/G.mp3
-    - assets/sounds/H.mp3
-    - assets/sounds/I.mp3
-    - assets/sounds/J.mp3
-    - assets/sounds/K.mp3
-    - assets/sounds/L.mp3
-    - assets/sounds/M.mp3
-    - assets/sounds/N.mp3
-    - assets/sounds/O.mp3
-    - assets/sounds/P.mp3
-    - assets/sounds/Q.mp3
-    - assets/sounds/R.mp3
-    - assets/sounds/S.mp3
-    - assets/sounds/T.mp3
-    - assets/sounds/U.mp3
-    - assets/sounds/V.mp3
-    - assets/sounds/W.mp3
-    - assets/sounds/X.mp3
-    - assets/sounds/Y.mp3
-    - assets/sounds/Z.mp3
 
       # Test image assets for PAL
     - packages/research_package/assets/images/nothing.png
@@ -101,13 +75,6 @@ flutter:
     - packages/research_package/assets/images/shape3.png
     - packages/research_package/assets/images/shape4.png
     - packages/research_package/assets/images/shape5.png
-    - images/images/nothing.png
-    - images/images/hidden.png
-    - images/images/shape1.png
-    - images/images/shape2.png
-    - images/images/shape3.png
-    - images/images/shape4.png
-    - images/images/shape5.png
 
     # Test intro images
     - packages/research_package/assets/images/PALintro.png
@@ -118,14 +85,6 @@ flutter:
     - packages/research_package/assets/images/Tappingintro.png
     - packages/research_package/assets/images/Trailintro.png
     - packages/research_package/assets/images/Letterintro.png
-    - images/images/PALintro.png
-    - images/images/Corsiintro.png
-    - images/images/Reactionintro.png
-    - images/images/RVIPintro.png
-    - images/images/Stroopintro.png
-    - images/images/Tappingintro.png
-    - images/images/Trailintro.png
-    - images/images/Letterintro.png
   #  - images/a_dot_ham.jpeg
   #
   # For details regarding assets in packages, see
