@@ -33,6 +33,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   List<bool> listIndexes = [
     true
   ]; //booleans for keeping track of lowest index - for registering a sequence has passed
+  String seq1s = "1 , 4 , 7"; //string for display of sequence
   List<int> seq1 = [1, 4, 7]; //sequence of numbers that we wish to track
   List<int> curSeq = []; //numbers that have appeared on screen in a list
   List<int> delaysList =
@@ -58,7 +59,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
     }
   }
 
-  void timerBody() {
+  void timerBody() async {
+    await Future.delayed(Duration(seconds: 2));
     Timer.periodic(
         //periodic timer to update number on screen - starts in init currently.
         displayTime, (Timer t) {
@@ -82,7 +84,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
         widget.onResultChange({
           "Correct taps": goodTaps,
           "incorrect taps": badTaps,
-          "passed sequences": seqPassed
+          "passed sequences": seqPassed,
+          "Delay on correct taps": delaysList,
         });
       }
     });
@@ -92,7 +95,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
     //generates the numbers to display on screen
     int nextNum = _random.nextInt(interval) + 1; //plus one to not get 0.
     while (newNum == nextNum) {
-      //currently code enforces no repetition of numbers - for graphics sakes.
+      //currently code enforces no repetition of numbers - for graphical sakes.
       nextNum = _random.nextInt(interval) + 1;
     }
     newNum = nextNum;
@@ -147,7 +150,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('packages/research_package/assets/images/RVIPintro.png'))),
+                        image: AssetImage(
+                            'packages/research_package/assets/images/RVIPintro.png'))),
               ),
             ),
             SizedBox(
@@ -160,7 +164,11 @@ class _RPUIRapidVisualInfoProcessingActivityBody
                 onPressed: () {
                   widget.gestureLogger.instructionEnded();
                   widget.gestureLogger.testStarted();
-                  activityStatus = ActivityStatus.Task;
+                  if (this.mounted) {
+                    setState(() {
+                      activityStatus = ActivityStatus.Task;
+                    });
+                  }
                   timerBody();
                 },
                 child: Text(
@@ -179,26 +187,32 @@ class _RPUIRapidVisualInfoProcessingActivityBody
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('$seq1', style: TextStyle(fontSize: 18)),
+                  Text('Sequence:', style: TextStyle(fontSize: 20)),
+                  Text(seq1s, style: TextStyle(fontSize: 24)),
                   Container(height: 40),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text('$newNum', style: TextStyle(fontSize: 30)),
+                      Text("Number:", style: TextStyle(fontSize: 20)),
+                      Text('$newNum', style: TextStyle(fontSize: 36)),
                     ],
                   ),
-                  OutlineButton(onPressed: () {
-                    //on pressed - time is tracked if sequence has actually passed, otherwise no
-                    if (seqPassed) {
-                      seqPassed = false;
-                      goodTaps++;
-                      _sw.stop();
-                      delaysList.add(_sw.elapsedMilliseconds);
-                      _sw.reset();
-                    } else {
-                      badTaps++;
-                    }
-                  })
+                  Container(height: 40),
+                  Container(
+                      height: 80,
+                      width: 160,
+                      child: OutlineButton(onPressed: () {
+                        //on pressed - time is tracked if sequence has actually passed, otherwise no
+                        if (seqPassed) {
+                          seqPassed = false;
+                          goodTaps++;
+                          _sw.stop();
+                          delaysList.add(_sw.elapsedMilliseconds);
+                          _sw.reset();
+                        } else {
+                          badTaps++;
+                        }
+                      })),
                 ],
               ))
             ]);

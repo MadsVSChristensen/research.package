@@ -15,9 +15,11 @@ class RPUITappingActivityBody extends StatefulWidget {
 
 class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   int taps = 0;
-  int testDuration = 3;
+  int testDuration = 10;
+  String countdown = '';
   bool setStart = false;
   bool indexStart = false;
+  bool counting = true;
   ActivityStatus activityStatus;
 
   @override
@@ -43,7 +45,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
             Padding(
               padding: EdgeInsets.all(20),
               child: Text(
-                'Tap the two buttons as many times as possible, in 30 serconds. Use alternating taps with middle and index finger. Start with whichever finger you prefer.',
+                'After a 3 second countdown, which will appear on screen, tap the two buttons as many times as possible, in 30 serconds.',
                 style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 20,
@@ -69,12 +71,27 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   setState(() {
                     activityStatus = ActivityStatus.Task;
                   });
                   widget.gestureLogger.instructionEnded();
                   widget.gestureLogger.testStarted();
+                  for (int i = 3; i > 0; i--) {
+                    if (this.mounted) {
+                      setState(() {
+                        countdown = i.toString();
+                      });
+                    }
+                    await Future.delayed(Duration(seconds: 1));
+                  }
+                  if (this.mounted) {
+                    //remove countdown text
+                    setState(() {
+                      counting =
+                          false; 
+                    });
+                  }
                   Timer(Duration(seconds: testDuration), () {
                     //when time is up, change window and set result
                     widget.gestureLogger.testEnded();
@@ -101,6 +118,9 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            counting
+                ? Text(countdown, style: TextStyle(fontSize: 30))
+                  :
             Container(
                 padding: EdgeInsets.all(8),
                 alignment: Alignment.center,
