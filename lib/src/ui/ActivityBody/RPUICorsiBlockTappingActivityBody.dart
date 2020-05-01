@@ -82,8 +82,8 @@ class _RPUICorsiBlockTappingActivityBodyState
             taskInfo = 'Finished';
           });
           //this.widget.onResultChange({"Corsi span" : corsiSpan});
-          this.widget.onResultChange(corsiSpan);
           await Future.delayed(Duration(milliseconds: 700));
+          this.widget.onResultChange(corsiSpan);
           widget.gestureLogger.testEnded();
           if (widget.activity.includeResults) {
             widget.gestureLogger.resultsShown();
