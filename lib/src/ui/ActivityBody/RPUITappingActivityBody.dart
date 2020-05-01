@@ -15,7 +15,6 @@ class RPUITappingActivityBody extends StatefulWidget {
 
 class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
   int taps = 0;
-  int testDuration = 10;
   String countdown = '';
   bool setStart = false;
   bool indexStart = false;
@@ -88,11 +87,10 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                   if (this.mounted) {
                     //remove countdown text
                     setState(() {
-                      counting =
-                          false; 
+                      counting = false;
                     });
                   }
-                  Timer(Duration(seconds: testDuration), () {
+                  Timer(Duration(seconds: widget.activity.lengthOfTest), () {
                     //when time is up, change window and set result
                     widget.gestureLogger.testEnded();
                     widget.onResultChange({"Total taps": taps});
@@ -119,46 +117,45 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             counting
-                ? Text(countdown, style: TextStyle(fontSize: 30))
-                  :
-            Container(
-                padding: EdgeInsets.all(8),
-                alignment: Alignment.center,
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                ? Text(countdown, style: TextStyle(fontSize: 50))
+                : Container(
+                    padding: EdgeInsets.all(8),
+                    alignment: Alignment.center,
+                    child: Column(
                       children: <Widget>[
-                        Container(
-                          height: 200,
-                          width: MediaQuery.of(context).size.width / 2.2,
-                          child: OutlineButton(
-                            onPressed: () {
-                              widget.gestureLogger.addCorrectGesture(
-                                  'Button tap', 'Pressed the left button');
-                              setState(() {
-                                taps++;
-                              });
-                            },
-                          ),
-                        ),
-                        Container(
-                          height: 200,
-                          width: MediaQuery.of(context).size.width / 2.2,
-                          child: OutlineButton(
-                            onPressed: () {
-                              widget.gestureLogger.addCorrectGesture(
-                                  'Button tap', 'Pressed the right button');
-                              setState(() {
-                                taps++;
-                              });
-                            },
-                          ),
-                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              height: 200,
+                              width: MediaQuery.of(context).size.width / 2.2,
+                              child: OutlineButton(
+                                onPressed: () {
+                                  widget.gestureLogger.addCorrectGesture(
+                                      'Button tap', 'Pressed the left button');
+                                  setState(() {
+                                    taps++;
+                                  });
+                                },
+                              ),
+                            ),
+                            Container(
+                              height: 200,
+                              width: MediaQuery.of(context).size.width / 2.2,
+                              child: OutlineButton(
+                                onPressed: () {
+                                  widget.gestureLogger.addCorrectGesture(
+                                      'Button tap', 'Pressed the right button');
+                                  setState(() {
+                                    taps++;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        )
                       ],
-                    )
-                  ],
-                ))
+                    ))
           ],
         );
       case ActivityStatus.Result:

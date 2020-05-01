@@ -18,8 +18,6 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   final _random = new Random();
   String texthint =
       'Tap the button in the next window, whenever all numbers in a given sequence has appeared on screen, in the given order. The numbers do not have to come in succession.';
-  int interval = 7; //interval in which numbers appear (should be 9 (0-9))
-  int testDuration = 5; //test duration in seconds - time untill window changes
   int newNum = 0; //int for next random generated number on screen
   int goodTaps = 0; //number of taps that were correct
   int badTaps = 0; //number of taps that were wrong
@@ -33,8 +31,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   List<bool> listIndexes = [
     true
   ]; //booleans for keeping track of lowest index - for registering a sequence has passed
-  String seq1s = "1 , 4 , 7"; //string for display of sequence
-  List<int> seq1 = [1, 4, 7]; //sequence of numbers that we wish to track
+  String seq1s = ""; //string for display of sequence
   List<int> curSeq = []; //numbers that have appeared on screen in a list
   List<int> delaysList =
       []; //list of delay from seqPassed is set true, to button is pressed
@@ -46,6 +43,9 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   @override
   initState() {
     super.initState();
+    for (int i = 0; i < widget.activity.sequence.length; i++) {
+      seq1s = seq1s + widget.activity.sequence[i].toString() + "  ";
+    }
     if (widget.activity.includeInstructions) {
       activityStatus = ActivityStatus.Instruction;
       widget.gestureLogger.instructionStarted();
@@ -53,7 +53,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
       activityStatus = ActivityStatus.Task;
       widget.gestureLogger.instructionStarted();
     }
-    for (int i = 0; i < seq1.length; i++) {
+    for (int i = 0; i < widget.activity.sequence.length; i++) {
       //adds bools according to sequence lengths
       listIndexes.add(false);
     }
@@ -68,17 +68,19 @@ class _RPUIRapidVisualInfoProcessingActivityBody
       if (activityStatus == ActivityStatus.Task && this.mounted) {
         setState(() {
           numGenerator();
-          sequenceChecker(
-              seq1); //check for sequence - could be for looped through multiple sequences if wanted, displayng current one.
+          sequenceChecker(widget.activity
+              .sequence); //check for sequence - could be for looped through multiple sequences if wanted, displayng current one.
         });
       } else {
         t.cancel();
       }
     });
-    Timer(Duration(seconds: testDuration), () {
+    Timer(Duration(seconds: widget.activity.lengthOfTest), () {
       //when time is up, change window and set result
-      activityStatus = ActivityStatus.Result;
       if (this.mounted) {
+        setState(() {
+          activityStatus = ActivityStatus.Result;
+        });
         widget.gestureLogger.testEnded();
         widget.gestureLogger.resultsShown();
         widget.onResultChange({
@@ -93,10 +95,11 @@ class _RPUIRapidVisualInfoProcessingActivityBody
 
   void numGenerator() {
     //generates the numbers to display on screen
-    int nextNum = _random.nextInt(interval) + 1; //plus one to not get 0.
+    int nextNum =
+        _random.nextInt(widget.activity.interval) + 1; //plus one to not get 0.
     while (newNum == nextNum) {
       //currently code enforces no repetition of numbers - for graphical sakes.
-      nextNum = _random.nextInt(interval) + 1;
+      nextNum = _random.nextInt(widget.activity.interval) + 1;
     }
     newNum = nextNum;
     curSeq.add(newNum);
@@ -105,7 +108,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
 //check if sequence have appeared through setting an array of bools for each number
 //Keeping it dynamic, so size of sequence can vary freely
   void sequenceChecker(seq) {
-    for (int i = 0; i < seq1.length; i++) {
+    for (int i = 0; i < widget.activity.sequence.length; i++) {
       if (newNum == seq[i] && listIndexes[i] == true) {
         listIndexes[i + 1] = true;
       }
@@ -187,14 +190,14 @@ class _RPUIRapidVisualInfoProcessingActivityBody
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Sequence:', style: TextStyle(fontSize: 20)),
-                  Text(seq1s, style: TextStyle(fontSize: 24)),
+                  Text('Sequence:', style: TextStyle(fontSize: 24)),
+                  Text(seq1s, style: TextStyle(fontSize: 32)),
                   Container(height: 40),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text("Number:", style: TextStyle(fontSize: 20)),
-                      Text('$newNum', style: TextStyle(fontSize: 36)),
+                      Text("Number:", style: TextStyle(fontSize: 24)),
+                      Text('$newNum', style: TextStyle(fontSize: 40)),
                     ],
                   ),
                   Container(height: 40),

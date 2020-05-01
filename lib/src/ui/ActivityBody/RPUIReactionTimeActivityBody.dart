@@ -20,9 +20,6 @@ class _RPUIReactionTimeActivityBodyState
   int wrongTaps = 0;
   int correctTaps = 0;
   int timer = 0;
-  int interval =
-      4; //max interval between screen changes minus 1. (interval = 4 means color change happens in 1 to 5 seconds)
-  int testDuration = 5; //test duration in seconds - time untill window changes
   final _random = Random();
   bool lightOn = false; //If light is on, screen is green and should be tapped.
   bool allowGreen = true;
@@ -50,7 +47,7 @@ class _RPUIReactionTimeActivityBodyState
       lightTimer.cancel();
     }
     //determines when light is changed, and starts timer when screen turns green. only called when light is red.
-    timer = _random.nextInt(interval) + 1;
+    timer = _random.nextInt(widget.activity.switchInterval) + 1;
     lightTimer = Timer(Duration(seconds: timer), () {
       if (this.mounted && allowGreen) {
         setState(() {
@@ -65,11 +62,13 @@ class _RPUIReactionTimeActivityBodyState
 
   void testTimer() {
     //times the test and calculates result when done.
-    Timer(Duration(seconds: testDuration), () {
+    Timer(Duration(seconds: widget.activity.lengthOfTest), () {
       widget.gestureLogger.testEnded();
       widget.gestureLogger.resultsShown();
-      activityStatus = ActivityStatus.Result;
       if (this.mounted) {
+        setState(() {
+          activityStatus = ActivityStatus.Result;
+        });
         if (rtList.isEmpty) {
           //if nothing was pressed during the whole test, add 0.
           rtList.add(0);
@@ -79,13 +78,11 @@ class _RPUIReactionTimeActivityBodyState
         }
         result = (result / rtList.length)
             .round(); //calculate average delay from test.
-        if (this.mounted) {
-          widget.onResultChange({
-            "avg. reaction time": result,
-            "Wrong taps": wrongTaps,
-            "Correct taps": correctTaps
-          });
-        }
+        widget.onResultChange({
+          "avg. reaction time": result,
+          "Wrong taps": wrongTaps,
+          "Correct taps": correctTaps
+        });
       }
     });
   }
@@ -116,7 +113,8 @@ class _RPUIReactionTimeActivityBodyState
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('packages/research_package/assets/images/Reactionintro.png'))),
+                        image: AssetImage(
+                            'packages/research_package/assets/images/Reactionintro.png'))),
               ),
             ),
             SizedBox(

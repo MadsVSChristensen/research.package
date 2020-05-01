@@ -15,18 +15,14 @@ class RPUIStroopEffectActivityBody extends StatefulWidget {
 
 class _RPUIStroopEffectActivityBodyState
     extends State<RPUIStroopEffectActivityBody> {
+  ActivityStatus activityStatus;
   int mistakes = 0;
   int correctTaps = 0;
-  int testDuration = 5; //test duration in seconds - time untill window changes
   final _random = new Random();
-  int displayTime =
-      1000; //amount of time each word is displayed in milliseconds
-  int delayTime = 750; //amount of time between words
   Timer t = new Timer(Duration(seconds: 0),
       () {}); //construct for further control of timer. Cancel at window collapse.
   Timer pulseTimer =
       new Timer(Duration(seconds: 0), () {}); //pulse timer control
-  ActivityStatus activityStatus;
 
   //bool testLive = false; //test going on, screen flag
   //bool testBegin = true; //pre test screen flag
@@ -77,7 +73,7 @@ class _RPUIStroopEffectActivityBodyState
         activityStatus = ActivityStatus.Task;
       });
     }
-    Timer(Duration(seconds: testDuration), () {
+    Timer(Duration(seconds: widget.activity.lengthOfTest), () {
       //when time is up, change window and set result
       widget.gestureLogger.testEnded();
       widget.gestureLogger.resultsShown();
@@ -107,8 +103,9 @@ class _RPUIStroopEffectActivityBodyState
           Colors.white
         ]; //reset feedback
       });
-      await Future.delayed(
-          Duration(milliseconds: delayTime)); //delay before showing next word
+      await Future.delayed(Duration(
+          milliseconds:
+              widget.activity.delayTime)); //delay before showing next word
       if (this.mounted && activityStatus == ActivityStatus.Task) {
         setState(() {
           cWord = possColorsString[_random.nextInt(possColorsString.length)];
@@ -119,7 +116,7 @@ class _RPUIStroopEffectActivityBodyState
       disableButton = false; //make buttons tap-able
     }
 
-    pulseTimer = Timer(Duration(milliseconds: displayTime), () {
+    pulseTimer = Timer(Duration(milliseconds: widget.activity.displayTime), () {
       if (activityStatus == ActivityStatus.Task) {
         if (!clicked) {
           //if tap doesnt happen in time, count is a mistake.
@@ -158,7 +155,8 @@ class _RPUIStroopEffectActivityBodyState
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('packages/research_package/assets/images/Stroopintro.png'))),
+                        image: AssetImage(
+                            'packages/research_package/assets/images/Stroopintro.png'))),
               ),
             ),
             SizedBox(
