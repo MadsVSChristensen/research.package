@@ -106,6 +106,9 @@ class _UserDemographicsPageState extends State<UserDemographicsPage> {
                           itemExtent: 80,
                           children: <Widget>[
                             Center(
+                                child:
+                                    Text('', style: TextStyle(fontSize: 28))),
+                            Center(
                                 child: Text('Male',
                                     style: TextStyle(fontSize: 28))),
                             Center(
@@ -114,7 +117,8 @@ class _UserDemographicsPageState extends State<UserDemographicsPage> {
                           ],
                           onSelectedItemChanged: (int i) {
                             setState(() {
-                              gender = i == 0 ? 'Male' : 'Female';
+                              gender =
+                                  i == 1 ? 'Male' : (i == 2) ? 'Female' : null;
                             });
                           },
                         ),
