@@ -5,7 +5,7 @@ class RPPairedAssociatesLearningActivity extends RPActivityStep {
   RPPairedAssociatesLearningActivity(String identifier,
       {includeInstructions = true,
       includeResults = true,
-      this.maxTestDuration = 5})
+      this.maxTestDuration = 100})
       : super(identifier,
             includeInstructions: includeInstructions,
             includeResults: includeResults);

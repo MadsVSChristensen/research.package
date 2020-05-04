@@ -5,7 +5,7 @@ class RPStroopEffectActivity extends RPActivityStep {
   RPStroopEffectActivity(String identifier,
       {includeInstructions = true,
       includeResults = true,
-      this.lengthOfTest = 5,
+      this.lengthOfTest = 60,
       this.displayTime = 1000,
       this.delayTime = 750})
       : super(identifier,
