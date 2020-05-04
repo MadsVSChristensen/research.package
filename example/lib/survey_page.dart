@@ -12,7 +12,6 @@ class SurveyPage extends StatelessWidget {
   String _encode(Object object) =>
       const JsonEncoder.withIndent(' ').convert(object);
 
-
   void printWrapped(String text) {
     final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
     pattern.allMatches(text).forEach((match) => print(match.group(0)));
@@ -20,17 +19,15 @@ class SurveyPage extends StatelessWidget {
 
   void resultCallback(RPTaskResult result) async {
     printWrapped(_encode(result));
-    
-    if (await FirebaseAuth.instance.currentUser() != null) {
-    await DBService().updateDBData(_encode(result.results));
 
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    int attempts = sp.getInt('attempts');
-    attempts += 1;
-    sp.setInt('attempts', attempts);
-    }
+    //if (await FirebaseAuth.instance.currentUser() != null) {
+      await DBService().updateDBData(_encode(result.results));
+      SharedPreferences sp = await SharedPreferences.getInstance();
+      int attempts = sp.getInt('attempts');
+      attempts += 1;
+      sp.setInt('attempts', attempts);
+    //}
     //make sure in future not to save empty results.
-   
   }
 
   @override
