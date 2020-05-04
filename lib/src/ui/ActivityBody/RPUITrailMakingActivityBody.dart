@@ -22,9 +22,12 @@ class _RPUITrailMakingActivityBodyState
   //bool canvasLoaded = false;
   Future canvasReady;
 
+  bool _isTypeA;
+
   @override
   initState() {
     super.initState();
+    _isTypeA = widget.activity.trailType == TrailType.A;
     if (widget.activity.includeInstructions) {
       activityStatus = ActivityStatus.Instruction;
       widget.gestureLogger.instructionStarted();
@@ -86,23 +89,19 @@ class _RPUITrailMakingActivityBodyState
             Padding(
               padding: EdgeInsets.all(20),
               child: Text(
-                'Connect the different boxes to each other in the right order',
+                _isTypeA
+                    ? 'Connect the boxes to each other by drawing lines between them in numerical order, starting at \'1\'.'
+                    : 'Connect the boxes to each other by drawing lines between them. You must alternate between letters and numbers and should order them alphabetically and numerically, respectively.',
                 style: TextStyle(fontSize: 20),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
                 textAlign: TextAlign.center,
               ),
             ),
             Padding(
               padding: EdgeInsets.all(5),
               child: Container(
-                height: MediaQuery.of(context).size.height / 2.5,
-                width: MediaQuery.of(context).size.width / 1.1,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage(
-                            'packages/research_package/assets/images/Trailintro.png'))),
+                child: Image.asset(_isTypeA
+                    ? 'packages/research_package/assets/images/trailtype-a.png'
+                    : 'packages/research_package/assets/images/trailtype-b.png'),
               ),
             ),
             SizedBox(

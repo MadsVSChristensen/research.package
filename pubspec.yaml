@@ -9,12 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  #  #example dependencies seem to be neccesary here with current structure
-  #  firebase_core: ^0.4.0
-  #  firebase_auth: ^0.14.0
-  #  cloud_firestore: ^0.12.9
-
   signature: ^2.0.0
   rxdart: ^0.23.0
   json_annotation: ^3.0.0
@@ -81,7 +75,8 @@ flutter:
     - packages/research_package/assets/images/RVIPintro.png
     - packages/research_package/assets/images/Stroopintro.png
     - packages/research_package/assets/images/Tappingintro.png
-    - packages/research_package/assets/images/Trailintro.png
+    - packages/research_package/assets/images/trailtype-a.png
+    - packages/research_package/assets/images/trailtype-b.png
     - packages/research_package/assets/images/Letterintro.png
   #  - images/a_dot_ham.jpeg
   #
