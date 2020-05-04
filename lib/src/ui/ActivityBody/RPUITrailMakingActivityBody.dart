@@ -18,6 +18,7 @@ class _RPUITrailMakingActivityBodyState
   _PathTracker _pathTracker;
   ActivityStatus activityStatus;
   List<_Location> _boxLocations;
+
   //bool canvasLoaded = false;
   Future canvasReady;
 
@@ -100,7 +101,8 @@ class _RPUITrailMakingActivityBodyState
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('packages/research_package/assets/images/Trailintro.png'))),
+                        image: AssetImage(
+                            'packages/research_package/assets/images/Trailintro.png'))),
               ),
             ),
             SizedBox(
@@ -256,7 +258,7 @@ class _PathTracker extends ChangeNotifier {
   }
 
   void updateCurrentPath(Offset newPos, Function(dynamic) testConcluded) {
-    if (_isDraging) {
+    if (_isDraging && !_isFinished) {
       Path path = _paths.last;
       path.lineTo(newPos.dx, newPos.dy);
       Offset firstPoint =
@@ -284,8 +286,8 @@ class _PathTracker extends ChangeNotifier {
         Path newPath = Path();
         newPath.moveTo(newPos.dx, newPos.dy);
         _paths.add(newPath);
-        prevLocation = nextLocation;
         if (index < _locations.length - 1) {
+          prevLocation = nextLocation;
           index += 1;
           nextLocation = _locations[index];
         } else {

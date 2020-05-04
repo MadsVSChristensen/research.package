@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:research_package_demo_app/user_demographics.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
+
 import 'firebase/auth.dart';
-import 'survey_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,23 +33,47 @@ class _MyHomePageState extends State<MyHomePage> {
   final FBAuth _auth = FBAuth();
 
   @override
+  void initState() {
+    super.initState();
+    controlID();
+  }
+
+  void controlID() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    if (!sp.containsKey('ID')) {
+      sp.setString('ID', Uuid().v4());
+      sp.setInt('attempts', 0);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Research Package Cognitive Testing Demo"),
+        title: Text("Research Package Cognitive Testing beta"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 8),
-              child: Text(
-                "Research Package offers a variety of cognitive assesment tests",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 50, horizontal: 8),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      "Welcome to the beta-testing of cognitive tests in Research Package, developed by Mads & Simon",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Container(height: 50),
+                    Text(
+                      "If you have any issues or questions feel free to contact us.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                )),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
@@ -57,12 +84,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    "Survey",
+                    "Get started!",
                     style: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => SurveyPage()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => UserDemographicsPage()));
                   },
                 ),
               ),
@@ -76,17 +103,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: _getIcon(),
                   onPressed: () async {
                     if (buttonReady) {
-                      if (fireBase) { //if firebase is enabled, on click disables it.
+                      if (fireBase) {
+                        //if firebase is enabled, on click disables it.
                         setState(() {
                           fireBase = false;
                         });
                         await _auth.signOut();
                         print("sign out");
-                      } else {  //enable firebase if not.
+                      } else {
+                        //enable firebase if not.
                         setState(() {
                           fireBase = true;
                         });
-                        buttonReady = false; //make button un-clickable while signing in
+                        buttonReady =
+                            false; //make button un-clickable while signing in
                         dynamic response = await _auth.anonSignIn();
                         buttonReady = true;
                         if (response == null) {

@@ -1,79 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 //methods for updating test data for each test type in the same collection (database).
 //U sing Google Firebase.
 
-
 class DBService {
   final String testResults;
-  /* final String palResults;
-  final String corsiResults;
-  final String rvipResults;
-  final String tappingResults;
-  final String trailResults;
-  final String stroopResults;
-  final String reactionResults;
-  final String letterAResults; */
 
-  DBService(
-      {
-      this.testResults,
-      /* this.palResults,
-      this.corsiResults,
-      this.rvipResults,
-      this.letterAResults,
-      this.trailResults,
-      this.tappingResults,
-      this.stroopResults,
-      this.reactionResults */});
+  DBService({
+    this.testResults,
+  });
 
   final CollectionReference testResultCollection =
       Firestore.instance.collection('Test data');
 
+  final CollectionReference betaResultCollection =
+      Firestore.instance.collection('Beta-results');
 
   Future updateDBData(String results) async {
-      return await testResultCollection.document(testResults).setData({
-        'test results': results,
-      });
-    }
-  /* Future updatePALData(String results) async {
-    return await testResultCollection.document(palResults).setData({
-      'PAL test results': results,
-    });
-  }
+    // Saved variables
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String id = sp.getString('ID');
+    int attempt = sp.getInt('attempts');
+    int age = sp.getInt('age');
+    String gender = sp.getString('gender');
 
-  Future updateCorsiData(Map results) async {
-    return await testResultCollection.document(corsiResults).setData({
-      'Corsi test results': results,
-    });
+    return await testResultCollection
+        .document('$id-$attempt')
+        .setData({'test results': results, 'age': age, 'gender': gender});
+//    return await betaResultCollection
+//        .document('$id-$attempt')
+//        .setData({'test results': results, 'age': age, 'gender': gender});
   }
-
-  Future updateRVIPData(Map results) async {
-    return await testResultCollection.document(rvipResults).setData({
-      'RVIP test results': results,
-    });
-  }
-
-  Future updateLetterAData(Map results) async {
-    return await testResultCollection.document(letterAResults).setData({
-      'Letter A test results': results,
-    });
-  }
-
-  Future updateTappingData(Map results) async {
-    return await testResultCollection.document(tappingResults).setData({
-      'tapping test results': results,
-    });
-  }
-
-  Future updateStoopData(Map results) async {
-    return await testResultCollection.document(stroopResults).setData({
-      'Stoop test results': results,
-    });
-  }
-
-  Future updateReactionData(Map results) async {
-    return await testResultCollection.document(reactionResults).setData({
-      'Reaction test results': results,
-    });
-  } */
 }
