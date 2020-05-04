@@ -5,7 +5,7 @@ class RPReactionTimeActivity extends RPActivityStep {
   RPReactionTimeActivity(String identifier,
       {includeInstructions = true,
       includeResults = true,
-      this.lengthOfTest = 60,
+      this.lengthOfTest = 30,
       this.switchInterval = 4})
       : super(identifier,
             includeInstructions: includeInstructions,

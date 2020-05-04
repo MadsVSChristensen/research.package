@@ -80,7 +80,8 @@ class _RPUIPairedAssociatesLearningActivityBody
       activityStatus = ActivityStatus.Task;
       widget.gestureLogger.instructionStarted();
     }
-    levels.addAll([shapes0, shapes1, shapes2, shapes3, shapes4]); //hard add all levels...
+    levels.addAll(
+        [shapes0, shapes1, shapes2, shapes3, shapes4]); //hard add all levels...
     containerContent(
         levels[successes]); //call containerContent with 0 before beginning.
   }
@@ -95,7 +96,7 @@ class _RPUIPairedAssociatesLearningActivityBody
     containerPeaker();
     t = Timer(Duration(seconds: widget.activity.maxTestDuration), () {
       //when time is up, change window and set result
-        widget.onResultChange({"successes": successes, "mistakes": mistakes});
+      widget.onResultChange({"successes": successes, "mistakes": mistakes});
       widget.gestureLogger.testEnded();
       if (widget.activity.includeResults) {
         activityStatus = ActivityStatus.Result;
@@ -169,6 +170,8 @@ class _RPUIPairedAssociatesLearningActivityBody
       setState(() {
         correct = 1; //change icon for feedback - 1 is a tick, 2 is a cross
       });
+      widget.gestureLogger.addCorrectGesture('Button tap',
+          'The tile tapped and match object matched. Level $successes succeeded, by pressing button number $buttonNum.');
       await Future.delayed(Duration(seconds: 1)); //display feedback
       if (successes < levels.length && this.mounted) {
         //as long as there are more levels, go to next.
@@ -184,6 +187,8 @@ class _RPUIPairedAssociatesLearningActivityBody
           activityStatus = ActivityStatus
               .Result; //if all levels completed within time, end the test.
         });
+        widget.gestureLogger.addWrongGesture('Button tap',
+            'The tile tapped and match object did not match. Level $successes failed, by pressing button number $buttonNum. Retrying level.');
       }
     } else {
       setState(() {
@@ -227,7 +232,8 @@ class _RPUIPairedAssociatesLearningActivityBody
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('packages/research_package/assets/images/PALintro.png'))),
+                        image: AssetImage(
+                            'packages/research_package/assets/images/PALintro.png'))),
               ),
             ),
             SizedBox(

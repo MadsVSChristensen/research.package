@@ -211,8 +211,11 @@ class _RPUIRapidVisualInfoProcessingActivityBody
                           goodTaps++;
                           _sw.stop();
                           delaysList.add(_sw.elapsedMilliseconds);
+                          int tapDelay = _sw.elapsedMilliseconds;
+                          widget.gestureLogger.addCorrectGesture('Button tap','Correct tap. Number of sequences passed: $seqPassed. Delay on tap: $tapDelay. Shown sequence: $curSeq');
                           _sw.reset();
                         } else {
+                          widget.gestureLogger.addWrongGesture('Button tap','Incorrect tap. Number of sequences passed: $seqPassed. Shown sequence: $curSeq');
                           badTaps++;
                         }
                       })),
