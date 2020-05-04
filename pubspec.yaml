@@ -9,13 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  #
 
-  #example dependencies seem to be neccesary here with current structure
-  firebase_core: ^0.4.0
-  firebase_auth: ^0.14.0
-  cloud_firestore: ^0.12.9
-
+  #  #example dependencies seem to be neccesary here with current structure
+  #  firebase_core: ^0.4.0
+  #  firebase_auth: ^0.14.0
+  #  cloud_firestore: ^0.12.9
 
   signature: ^2.0.0
   rxdart: ^0.23.0
@@ -67,7 +65,7 @@ flutter:
     - packages/research_package/assets/sounds/Y.mp3
     - packages/research_package/assets/sounds/Z.mp3
 
-      # Test image assets for PAL
+    # Test image assets for PAL
     - packages/research_package/assets/images/nothing.png
     - packages/research_package/assets/images/hidden.png
     - packages/research_package/assets/images/shape1.png
