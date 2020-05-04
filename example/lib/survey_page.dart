@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:research_package/research_package.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,11 +19,15 @@ class SurveyPage extends StatelessWidget {
 
   void resultCallback(RPTaskResult result) async {
     printWrapped(_encode(result));
-    await DBService().updateDBData(_encode(result.toJson()));
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    int attempts = sp.getInt('attempts');
-    attempts += 1;
-    sp.setInt('attempts', attempts);
+
+    //if (await FirebaseAuth.instance.currentUser() != null) {
+      await DBService().updateDBData(_encode(result.results));
+      SharedPreferences sp = await SharedPreferences.getInstance();
+      int attempts = sp.getInt('attempts');
+      attempts += 1;
+      sp.setInt('attempts', attempts);
+    //}
+    //make sure in future not to save empty results.
   }
 
   @override

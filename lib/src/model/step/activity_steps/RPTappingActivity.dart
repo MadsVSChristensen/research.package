@@ -3,7 +3,7 @@ part of research_package_model;
 class RPTappingActivity extends RPActivityStep {
   /// Contructor for creating a Corsi Block Tapping Test.
   RPTappingActivity(String identifier,
-      {includeInstructions = true, includeResults = true, this.lengthOfTest = 5})
+      {includeInstructions = true, includeResults = true, this.lengthOfTest = 30})
       : super(identifier,
             includeInstructions: includeInstructions,
             includeResults: includeResults);

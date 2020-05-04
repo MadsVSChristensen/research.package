@@ -94,7 +94,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+
+            //firebase button toggle. 
+            /* Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 width: 60,
@@ -133,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Tap to toggle database',
                 style: TextStyle(fontSize: 16),
               ),
-            ]),
+            ]), */
           ],
         ),
       ),
