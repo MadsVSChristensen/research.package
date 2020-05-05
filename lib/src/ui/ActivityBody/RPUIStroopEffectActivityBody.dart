@@ -18,6 +18,9 @@ class _RPUIStroopEffectActivityBodyState
   ActivityStatus activityStatus;
   int mistakes = 0;
   int correctTaps = 0;
+  int totalWords = 0;
+  int cWordIndex = 0;
+  int wColorIndex = 0;
   final _random = new Random();
   Timer t = new Timer(Duration(seconds: 0),
       () {}); //construct for further control of timer. Cancel at window collapse.
@@ -60,8 +63,10 @@ class _RPUIStroopEffectActivityBodyState
       activityStatus = ActivityStatus.Task;
       widget.gestureLogger.instructionStarted();
     }
-    cWord = possColorsString[_random.nextInt(possColorsString.length)];
-    wColor = possColors[_random.nextInt(possColors.length)];
+    cWordIndex = _random.nextInt(possColorsString.length);
+    wColorIndex = _random.nextInt(possColors.length);
+    cWord = possColorsString[cWordIndex];
+    wColor = possColors[wColorIndex];
   }
 
   void testControl() {
@@ -108,9 +113,10 @@ class _RPUIStroopEffectActivityBodyState
               widget.activity.delayTime)); //delay before showing next word
       if (this.mounted && activityStatus == ActivityStatus.Task) {
         setState(() {
-          cWord = possColorsString[_random.nextInt(possColorsString.length)];
-          wColor = possColors[_random
-              .nextInt(possColors.length)]; //pick word and color for display
+          cWordIndex = _random.nextInt(possColorsString.length);
+          wColorIndex = _random.nextInt(possColors.length);
+          cWord = possColorsString[cWordIndex];
+          wColor = possColors[wColorIndex]; //pick word and color for display
         });
       }
       disableButton = false; //make buttons tap-able
@@ -121,6 +127,10 @@ class _RPUIStroopEffectActivityBodyState
         if (!clicked) {
           //if tap doesnt happen in time, count is a mistake.
           mistakes++;
+          totalWords = totalWords + mistakes + correctTaps;
+          String widgetNoTapColor = possColorsString[wColorIndex];
+          widget.gestureLogger.addWrongGesture('Button tap',
+              'No color tapped. The color was $widgetNoTapColor. The word spelled $cWord. Total words passed: $totalWords');
         } else {
           clicked = false;
         }
@@ -247,6 +257,7 @@ class _RPUIStroopEffectActivityBodyState
           color: backgroundButtons[
               buttonNum], //set background on buttons for feedback
           onPressed: () {
+            String widgetTapColor = possColorsString[wColorIndex];
             if (!disableButton) {
               clicked = true;
               if (wColor == possColors[buttonNum]) {
@@ -257,6 +268,8 @@ class _RPUIStroopEffectActivityBodyState
                     backgroundButtons[buttonNum] =
                         Colors.green; //set feedback color
                   });
+                  widget.gestureLogger.addCorrectGesture('Button tap',
+                      'Correct color tapped. The color was $widgetTapColor and the word spelled $cWord. Total words passed: $totalWords');
                 }
               } else {
                 mistakes++;
@@ -264,6 +277,8 @@ class _RPUIStroopEffectActivityBodyState
                   setState(() {
                     backgroundButtons[buttonNum] = Colors.red;
                   });
+                  widget.gestureLogger.addWrongGesture('Button tap',
+                      'Incorrect color tapped. The color tapped was $buttonCode but should have been $widgetTapColor. The word spelled $cWord. Total words passed: $totalWords');
                 }
               }
               //wordPulse(); //this one instantly give new word if something is clicked.
