@@ -135,11 +135,11 @@ class _RPUILetterTappingActivityBodyState
   void updateLetter(String newLetter) {
     if (lastLetter == 'A' && !lastWasTapped) {
       errors += 1;
-      print(
-          'Error at $lastLetter $currentLetter - Last letter was A but wasTapped = false at update time (forgot to tap)');
+//      print(
+//          'Error at $lastLetter $currentLetter - Last letter was A but wasTapped = false at update time (forgot to tap)');
+      widget.gestureLogger.addWrongGesture('Missed button tap',
+          'Did not press button on: ${mocaTestList.getRange(0, letterIndex - 2)} >A< ${mocaTestList.getRange(letterIndex, mocaTestList.length - 1)}');
     }
-    widget.gestureLogger.addWrongGesture('Missed button tap',
-        'Did not press button on: ${mocaTestList.getRange(0, letterIndex)} >A< ${mocaTestList.getRange(letterIndex, mocaTestList.length - 1)}');
     lastWasTapped = wasTapped;
     wasTapped = false;
     lastLetter = currentLetter;
@@ -172,7 +172,8 @@ class _RPUILetterTappingActivityBodyState
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('packages/research_package/assets/images/Letterintro.png'))),
+                        image: AssetImage(
+                            'packages/research_package/assets/images/Letterintro.png'))),
               ),
             ),
             SizedBox(
@@ -217,7 +218,7 @@ class _RPUILetterTappingActivityBodyState
                   if (lastLetter == 'A' && currentLetter == 'A') {
                     if (!lastWasTapped) {
                       widget.gestureLogger.addCorrectGesture('Button tap',
-                          'Tapped letter with a delay: ${mocaTestList.getRange(0, letterIndex - 2)} >A< ${mocaTestList.getRange(letterIndex, mocaTestList.length - 1)}');
+                          'Tapped letter with a delay: ${mocaTestList.getRange(0, letterIndex - 2)} >A< ${mocaTestList.getRange(letterIndex - 1, mocaTestList.length - 1)}');
                       lastWasTapped = true;
                     } else if (lastWasTapped && !wasTapped) {
                       widget.gestureLogger.addCorrectGesture('Button tap',

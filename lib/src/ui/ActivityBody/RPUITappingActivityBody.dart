@@ -44,7 +44,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
             Padding(
               padding: EdgeInsets.all(20),
               child: Text(
-                'After a 3 second countdown, which will appear on screen, tap the two buttons as many times as possible, in 30 serconds.',
+                'After a 3 second countdown, which will appear on screen, tap the two buttons as many times as possible with your index and middle finger, for ${widget.activity.lengthOfTest} serconds.',
                 style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 20,

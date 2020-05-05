@@ -140,7 +140,7 @@ class _RPUIStroopEffectActivityBodyState
             Padding(
               padding: EdgeInsets.all(20),
               child: Text(
-                'Tap the name of the color, of the word you see on screen. E.g. tap the box that says "yellow" when a yellow word appears',
+                'Tap the color, of the word you see on screen. E.g. tap the box that says "green" when a green word appears',
                 style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 20,

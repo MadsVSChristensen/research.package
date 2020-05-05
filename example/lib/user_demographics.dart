@@ -51,27 +51,27 @@ class _UserDemographicsPageState extends State<UserDemographicsPage> {
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
-                    showModalBottomSheet(
+                    showDialog(
                       context: context,
-                      builder: (context) => Container(
-                        height: MediaQuery.of(context).size.height / 4,
-                        child: CupertinoPicker(
-                          backgroundColor: Colors.white,
-                          itemExtent: 40,
-                          children: List.generate(
-                            100,
-                            (int index) => Center(
-                              child: Text(
-                                index.toString(),
-                                style: TextStyle(fontSize: 25),
-                              ),
-                            ),
+                      builder: (context) => Dialog(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 2,
+                          child: ListView.builder(
+                            itemCount: 100,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return FlatButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      age = index;
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                  color: Colors.blue.withOpacity(0.2),
+                                  child: Text(index.toString(),
+                                      style: TextStyle(fontSize: 18)));
+                            },
                           ),
-                          onSelectedItemChanged: (int i) {
-                            setState(() {
-                              age = i;
-                            });
-                          },
                         ),
                       ),
                     );
@@ -97,30 +97,40 @@ class _UserDemographicsPageState extends State<UserDemographicsPage> {
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
-                    showModalBottomSheet(
+                    showDialog(
                       context: context,
-                      builder: (context) => Container(
-                        height: MediaQuery.of(context).size.height / 4,
-                        child: CupertinoPicker(
-                          backgroundColor: Colors.white,
-                          itemExtent: 80,
-                          children: <Widget>[
-                            Center(
-                                child:
-                                    Text('', style: TextStyle(fontSize: 28))),
-                            Center(
-                                child: Text('Male',
-                                    style: TextStyle(fontSize: 28))),
-                            Center(
-                                child: Text('Female',
-                                    style: TextStyle(fontSize: 28))),
-                          ],
-                          onSelectedItemChanged: (int i) {
-                            setState(() {
-                              gender =
-                                  i == 1 ? 'Male' : (i == 2) ? 'Female' : null;
-                            });
-                          },
+                      builder: (context) => Dialog(
+                        child: Container(
+                          //height: 300,
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: <Widget>[
+                              Center(
+                                  child: Text('Select your gender',
+                                      style: TextStyle(fontSize: 30))),
+                              Container(height: 20),
+                              FlatButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      gender = 'Male';
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                  color: Colors.blue.withOpacity(0.2),
+                                  child: Text('Male',
+                                      style: TextStyle(fontSize: 25))),
+                              FlatButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      gender = 'Female';
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                  color: Colors.blue.withOpacity(0.2),
+                                  child: Text('Female',
+                                      style: TextStyle(fontSize: 25))),
+                            ],
+                          ),
                         ),
                       ),
                     );

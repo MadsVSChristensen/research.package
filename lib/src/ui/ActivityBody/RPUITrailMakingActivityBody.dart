@@ -23,6 +23,7 @@ class _RPUITrailMakingActivityBodyState
   Future canvasReady;
 
   bool _isTypeA;
+  int taskTime;
 
   @override
   initState() {
@@ -39,11 +40,12 @@ class _RPUITrailMakingActivityBodyState
 
   Future<bool> buildCanvas(context) {
     Size size = MediaQuery.of(context).size;
-    _boxLocations = _TrailMakingLists()
-        .A(size.width, size.height - AppBar().preferredSize.height - 100);
+    _boxLocations = _isTypeA
+        ? _TrailMakingLists()
+            .A(size.width, size.height - AppBar().preferredSize.height - 100)
+        : _TrailMakingLists()
+            .B(size.width, size.height - AppBar().preferredSize.height - 100);
     _pathTracker = _PathTracker(widget.gestureLogger, _boxLocations);
-    print('${size.height}, ${AppBar().preferredSize.height}');
-    print('future complete');
     return Future.value(true);
   }
 
@@ -66,8 +68,9 @@ class _RPUITrailMakingActivityBodyState
     _pathTracker.notifyListeners();
   }
 
-  void testConcluded(dynamic result) {
+  void testConcluded(int result) {
     widget.onResultChange({"Completion time": result});
+    taskTime = result;
     if (widget.activity.includeResults) {
       widget.gestureLogger.resultsShown();
       if (this.mounted) {
@@ -155,7 +158,7 @@ class _RPUITrailMakingActivityBodyState
         return Container(
           alignment: Alignment.center,
           child: Text(
-            'Youre done, or time slipped up',
+            'You completed the task in: $taskTime seconds!',
             style: TextStyle(fontSize: 22),
             textAlign: TextAlign.center,
           ),
@@ -241,8 +244,8 @@ class _PathTracker extends ChangeNotifier {
   }
 
   void addNewPath(Offset pos) {
-//    print('Add new pos at $pos');
     if (!taskStarted) {
+      taskStarted = true;
       startTime = DateTime.now();
     }
     print(_isDraging);
@@ -256,7 +259,7 @@ class _PathTracker extends ChangeNotifier {
     }
   }
 
-  void updateCurrentPath(Offset newPos, Function(dynamic) testConcluded) {
+  void updateCurrentPath(Offset newPos, Function(int) testConcluded) {
     if (_isDraging && !_isFinished) {
       Path path = _paths.last;
       path.lineTo(newPos.dx, newPos.dy);
@@ -292,6 +295,7 @@ class _PathTracker extends ChangeNotifier {
         } else {
           print('finished');
           _isFinished = true;
+
           gestureController.testEnded();
           gestureController.resultsShown();
           int secondsUsed = DateTime.now().difference(startTime).inSeconds;

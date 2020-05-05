@@ -28,6 +28,7 @@ class _RPUIReactionTimeActivityBodyState
   List<int> rtList = []; //delay times list
   int result = 0;
   Timer lightTimer;
+
   //wrong taps currently do nothing.
 
   @override
@@ -98,7 +99,7 @@ class _RPUIReactionTimeActivityBodyState
             Padding(
               padding: EdgeInsets.all(20),
               child: Text(
-                'Tap the screen every time it turns from red to green, as fast as possible',
+                'Tap the screen every time it turns from red to green, as fast as possible.',
                 style: TextStyle(fontSize: 20),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 5,
@@ -156,6 +157,9 @@ class _RPUIReactionTimeActivityBodyState
                           setState(() {
                             lightOn = false;
                             correctTaps++;
+                            widget.gestureLogger.addCorrectGesture(
+                                "Correct Screen Tap",
+                                'Tapped the screen after ${_sw.elapsedMilliseconds} ms');
                             _sw.stop();
                             rtList.add(_sw
                                 .elapsedMilliseconds); //add delay for current tap.
@@ -165,6 +169,9 @@ class _RPUIReactionTimeActivityBodyState
                         } else {
                           allowGreen = false;
                           wrongTaps++;
+                          widget.gestureLogger.addWrongGesture(
+                              "Wrong Screen Tap",
+                              'Tapped the screen before the screen was green');
                           setState(() {
                             alert = 'Too quick';
                           });
