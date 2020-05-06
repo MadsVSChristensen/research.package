@@ -56,21 +56,37 @@ class _UserDemographicsPageState extends State<UserDemographicsPage> {
                       builder: (context) => Dialog(
                         child: Container(
                           height: MediaQuery.of(context).size.height / 2,
-                          child: ListView.builder(
-                            itemCount: 100,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return FlatButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      age = index;
-                                    });
-                                    Navigator.pop(context);
-                                  },
-                                  color: Colors.blue.withOpacity(0.2),
-                                  child: Text(index.toString(),
-                                      style: TextStyle(fontSize: 18)));
-                            },
+                          child: Column(
+                            children: <Widget>[
+                              Text('Select your age',
+                                  style: TextStyle(fontSize: 30)),
+                              Container(height: 10),
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 5, right: 5, top: 5, bottom: 5),
+                                  child: Scrollbar(
+                                    child: ListView.builder(
+                                      itemCount: 100,
+                                      //shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return FlatButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                age = index;
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            color: Colors.blue.withOpacity(0.2),
+                                            child: Text(index.toString(),
+                                                style:
+                                                    TextStyle(fontSize: 18)));
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
