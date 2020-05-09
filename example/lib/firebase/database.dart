@@ -17,6 +17,18 @@ class DBService {
   final CollectionReference betaResultCollection =
       Firestore.instance.collection('Beta-results');
 
+  Future addComments(String comments) async {
+    // Saved variables
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String id = sp.getString('ID');
+    int attempt = sp.getInt('attempts');
+
+//    return await testResultCollection
+    return await betaResultCollection
+        .document('$id-$attempt')
+        .updateData({'Comments': comments});
+  }
+
   Future updateDBData(String results) async {
     // Saved variables
     SharedPreferences sp = await SharedPreferences.getInstance();
@@ -25,11 +37,9 @@ class DBService {
     int age = sp.getInt('age');
     String gender = sp.getString('gender');
 
-    return await testResultCollection
+//    return await testResultCollection
+    return await betaResultCollection
         .document('$id-$attempt')
         .setData({'test results': results, 'age': age, 'gender': gender});
-//    return await betaResultCollection
-//        .document('$id-$attempt')
-//        .setData({'test results': results, 'age': age, 'gender': gender});
   }
 }

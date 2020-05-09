@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:research_package_demo_app/survey_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'comments_page.dart';
+
 class UserDemographicsPage extends StatefulWidget {
   @override
   _UserDemographicsPageState createState() => _UserDemographicsPageState();
@@ -162,11 +164,14 @@ class _UserDemographicsPageState extends State<UserDemographicsPage> {
                           await SharedPreferences.getInstance();
                       sp.setString('gender', gender);
                       sp.setInt('age', age);
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      await Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => SurveyPage()));
+                      await Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CommentsPage()));
+                      Navigator.pop(context);
                     },
               color: Colors.blue,
-              child: Text('Finished -- Go to survey'),
+              child: Text('Finished'),
             )
           ],
         ),

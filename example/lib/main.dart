@@ -12,9 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light().copyWith(
-          primaryColor: Colors.deepPurple,
-          accentColor: Colors.deepOrangeAccent),
+      theme: ThemeData.light()
+          .copyWith(primaryColor: Colors.blue, accentColor: Colors.teal),
       title: 'Research Package Demo',
       home: MyHomePage(),
       debugShowCheckedModeBanner: false,
@@ -87,16 +86,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     "Get started!",
                     style: TextStyle(fontSize: 18),
                   ),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                  onPressed: () async {
+                    await Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => UserDemographicsPage()));
+//                    Navigator.of(context).push(MaterialPageRoute(
+//                        builder: (context) => CommentsPage()));
                   },
                 ),
               ),
             ),
 
             //firebase button toggle.
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            /*Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 width: 60,
@@ -135,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Tap to toggle database',
                 style: TextStyle(fontSize: 16),
               ),
-            ]),
+            ]),*/
           ],
         ),
       ),

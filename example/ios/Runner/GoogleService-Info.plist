@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>761521984122-ds0r5dbfcpmn4umch4k97op4ti8fl9il.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.761521984122-ds0r5dbfcpmn4umch4k97op4ti8fl9il</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAWEtmN0PY5s8Z_QR3x3Q5iqpfz-zQSnRk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>761521984122</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.cognitiveTest.researchPackageDemoApp</string>
+	<key>PROJECT_ID</key>
+	<string>cognitive-testing-4c77b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cognitive-testing-4c77b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:761521984122:ios:713d8db722f3f639f6a1c3</string>
+	<key>DATABASE_URL</key>
+	<string>https://cognitive-testing-4c77b.firebaseio.com</string>
+</dict>
+</plist>
