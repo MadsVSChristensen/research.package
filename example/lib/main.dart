@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:research_package_demo_app/user_demographics.dart';
+import 'package:research_package_demo_app/survey_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
+import 'comments_page.dart';
 import 'firebase/auth.dart';
 
 void main() => runApp(MyApp());
@@ -87,10 +88,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(fontSize: 18),
                   ),
                   onPressed: () async {
-                    await Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => UserDemographicsPage()));
-//                    Navigator.of(context).push(MaterialPageRoute(
-//                        builder: (context) => CommentsPage()));
+                    await Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => SurveyPage()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CommentsPage()));
                   },
                 ),
               ),
