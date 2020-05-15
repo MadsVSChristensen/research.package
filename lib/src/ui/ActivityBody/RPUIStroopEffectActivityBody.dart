@@ -127,7 +127,9 @@ class _RPUIStroopEffectActivityBodyState
         if (!clicked) {
           //if tap doesnt happen in time, count is a mistake.
           mistakes++;
-          totalWords = totalWords + mistakes + correctTaps;
+          totalWords++;
+          // totalWords = totalWords + mistakes + correctTaps;
+          // totalWords = mistakes + correctTaps;
           String widgetNoTapColor = possColorsString[wColorIndex];
           widget.gestureLogger.addWrongGesture('Button tap',
               'No color tapped. The color was $widgetNoTapColor. The word spelled $cWord. Total words passed: $totalWords');
@@ -249,7 +251,7 @@ class _RPUIStroopEffectActivityBodyState
     String buttonCode = possColorsString[buttonNum];
     return (Container(
         height: 40,
-        width: 80,
+        width: MediaQuery.of(context).size.width / 5,
         child: MaterialButton(
           shape: RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(5),
@@ -263,6 +265,7 @@ class _RPUIStroopEffectActivityBodyState
               if (wColor == possColors[buttonNum]) {
                 //if a button was pressed, produce new word
                 correctTaps++;
+                totalWords++;
                 if (this.mounted && activityStatus == ActivityStatus.Task) {
                   setState(() {
                     backgroundButtons[buttonNum] =
@@ -273,6 +276,7 @@ class _RPUIStroopEffectActivityBodyState
                 }
               } else {
                 mistakes++;
+                totalWords++;
                 if (this.mounted && activityStatus == ActivityStatus.Task) {
                   setState(() {
                     backgroundButtons[buttonNum] = Colors.red;
@@ -284,7 +288,10 @@ class _RPUIStroopEffectActivityBodyState
               //wordPulse(); //this one instantly give new word if something is clicked.
             }
           },
-          child: Text('$buttonCode', style: TextStyle(fontSize: 12)),
+          child: FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text('$buttonCode', style: TextStyle(fontSize: 19)),
+          ),
         )));
   }
 }

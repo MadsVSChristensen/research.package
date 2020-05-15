@@ -183,6 +183,8 @@ class _RPUIPairedAssociatesLearningActivityBody
         //if there are no more levels, end the test.
         t.cancel();
         widget.onResultChange(0);
+        widget.gestureLogger.testEnded();
+        widget.gestureLogger.resultsShown();
         setState(() {
           activityStatus = ActivityStatus
               .Result; //if all levels completed within time, end the test.
@@ -333,8 +335,6 @@ class _RPUIPairedAssociatesLearningActivityBody
     if (correct == 0) {
       //nothing happens - no icon to show
     } else if (correct == 1) {
-      widget.gestureLogger.addCorrectGesture(
-          "Button press", "Correct choice of hidden picture");
       return Icon(Icons.check, size: 50);
     } else {
       return Icon(Icons.clear, size: 50);
