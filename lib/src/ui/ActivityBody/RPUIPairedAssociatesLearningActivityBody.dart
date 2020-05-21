@@ -68,8 +68,8 @@ class _RPUIPairedAssociatesLearningActivityBody
   ];
 
   List<List> levels = []; //list of all levels. Add in init.
-  String matchObject = '';
-  String tempMatch = '';
+  String matchObject = 'packages/research_package/assets/images/nothing.png';
+  String tempMatch = 'packages/research_package/assets/images/nothing.png';
 
   @override
   initState() {
@@ -179,7 +179,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       if (successes < levels.length && this.mounted) {
         //as long as there are more levels, go to next.
         setState(() {
-          matchObject = '';
+          matchObject = 'packages/research_package/assets/images/nothing.png';
           containerContent(levels[successes]);
           containerPeaker();
         });
@@ -205,7 +205,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       mistakes++;
       if (this.mounted) {
         setState(() {
-          matchObject = '';
+          matchObject = 'packages/research_package/assets/images/nothing.png';
           containerContent(levels[successes]);
           containerPeaker();
         });
