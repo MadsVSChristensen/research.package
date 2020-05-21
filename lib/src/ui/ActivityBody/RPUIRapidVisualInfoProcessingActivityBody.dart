@@ -60,7 +60,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
   }
 
   void timerBody() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     Timer.periodic(
         //periodic timer to update number on screen - starts in init currently.
         displayTime, (Timer t) {
