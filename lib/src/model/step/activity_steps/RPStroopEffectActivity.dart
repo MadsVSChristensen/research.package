@@ -1,7 +1,7 @@
 part of research_package_model;
 
 class RPStroopEffectActivity extends RPActivityStep {
-  /// Contructor for creating a Corsi Block Tapping Test.
+  /// Contructor for creating a Stroop effect Test.
   RPStroopEffectActivity(String identifier,
       {includeInstructions = true,
       includeResults = true,
