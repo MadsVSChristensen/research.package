@@ -7,7 +7,7 @@ class RPRapidVisualInfoProcessingActivity extends RPActivityStep {
       includeResults = true,
       this.interval = 9,
       this.lengthOfTest = 90,
-      this.sequence = const [1, 4, 7]})
+      this.sequence = const [3, 6, 9]})
       : super(identifier,
             includeInstructions: includeInstructions,
             includeResults: includeResults);
