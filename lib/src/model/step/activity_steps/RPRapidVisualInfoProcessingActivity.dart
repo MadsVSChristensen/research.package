@@ -1,13 +1,13 @@
 part of research_package_model;
 
 class RPRapidVisualInfoProcessingActivity extends RPActivityStep {
-  /// Contructor for creating a Corsi Block Tapping Test.
+  /// Contructor for creating a Rapid Visual Information Processesing Test.
   RPRapidVisualInfoProcessingActivity(String identifier,
       {includeInstructions = true,
       includeResults = true,
       this.interval = 9,
       this.lengthOfTest = 90,
-      this.sequence = const [1, 4, 7]})
+      this.sequence = const [3, 6, 9]})
       : super(identifier,
             includeInstructions: includeInstructions,
             includeResults: includeResults);

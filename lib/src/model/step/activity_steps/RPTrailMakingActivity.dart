@@ -1,7 +1,7 @@
 part of research_package_model;
 
 class RPTrailMakingActivity extends RPActivityStep {
-  /// Contructor for creating a Corsi Block Tapping Test.
+  /// Contructor for creating a Trail Making Test.
   RPTrailMakingActivity(String identifier,
       {includeInstructions = true,
       includeResults = true,
