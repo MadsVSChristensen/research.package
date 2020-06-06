@@ -202,20 +202,20 @@ class _RPUIReactionTimeActivityBodyState
                           ))))
             ]);
       case ActivityStatus.Result:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(40),
-              child: Text(
-                'The time is up! $result was your final score. (Average reaction time in milliseconds)',
-                style: TextStyle(fontSize: 22),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 5,
-              ),
-            )
-          ],
-        );
+        return Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'The time is up! $result was your final score. (Average reaction time in milliseconds)',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 22),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 5,
+                ),
+              ],
+            ));
     }
   }
 }

@@ -18,7 +18,7 @@ class _RPUIPairedAssociatesLearningActivityBody
   final _random = new Random();
   ActivityStatus activityStatus;
   bool buttonsDisabled =
-      false; //diable when peaking tiles and when checking result
+      true; //diable when peaking tiles and when checking result
   int correct =
       0; //introduce int that can be 0, 1 and 2 for three possibilities. (indicates if, and which icon to show)
   int successes = 0;
@@ -68,7 +68,8 @@ class _RPUIPairedAssociatesLearningActivityBody
   ];
 
   List<List> levels = []; //list of all levels. Add in init.
-  String matchObject = '';
+  String matchObject = 'packages/research_package/assets/images/nothing.png';
+  String tempMatch = 'packages/research_package/assets/images/nothing.png';
 
   @override
   initState() {
@@ -117,7 +118,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       //let all containers be the same from start of levels.
       containers[i] = 'packages/research_package/assets/images/nothing.png';
     }
-    matchObject =
+    tempMatch =
         level[_random.nextInt(level.length)]; //fill object with content
     List<int> containing = []; //list of containers that already has content
     int chosenContainer =
@@ -157,7 +158,9 @@ class _RPUIPairedAssociatesLearningActivityBody
           'packages/research_package/assets/images/hidden.png'; //after time, set back to default
     }
     if (this.mounted) {
-      setState(() {});
+      setState(() {
+        matchObject = tempMatch;
+      });
     }
     buttonsDisabled = false;
   }
@@ -176,6 +179,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       if (successes < levels.length && this.mounted) {
         //as long as there are more levels, go to next.
         setState(() {
+          matchObject = 'packages/research_package/assets/images/nothing.png';
           containerContent(levels[successes]);
           containerPeaker();
         });
@@ -201,6 +205,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       mistakes++;
       if (this.mounted) {
         setState(() {
+          matchObject = 'packages/research_package/assets/images/nothing.png';
           containerContent(levels[successes]);
           containerPeaker();
         });

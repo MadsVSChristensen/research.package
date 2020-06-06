@@ -105,9 +105,9 @@ RPOrderedTask surveyTask = RPOrderedTask(
   [
     genderQuestion,
     ageQuestion,
-    rapidVisualInfoProcessingStep,
     pairedAssociatesLearningStep,
     reactionTimeStep,
+    rapidVisualInfoProcessingStep,
     tappingStep,
     corsiBlockTapping,
     stroopEffect,

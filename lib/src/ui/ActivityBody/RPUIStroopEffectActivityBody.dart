@@ -198,7 +198,7 @@ class _RPUIStroopEffectActivityBodyState
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Container(
-                      height: 60,
+                      height: 100,
                       width: 200,
                       child: Text(
                         cWord,
@@ -239,6 +239,8 @@ class _RPUIStroopEffectActivityBodyState
                         Text(
                           'Wrong answers or missed words: $mistakes',
                           style: TextStyle(fontSize: 22),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 20,
                           textAlign: TextAlign.center,
                         ),
                       ]),
@@ -250,7 +252,7 @@ class _RPUIStroopEffectActivityBodyState
     //make material buttons for possible colors
     String buttonCode = possColorsString[buttonNum];
     return (Container(
-        height: 40,
+        height: 75,
         width: MediaQuery.of(context).size.width / 5,
         child: MaterialButton(
           shape: RoundedRectangleBorder(
