@@ -3,10 +3,9 @@ part of research_package_ui;
 class RPUITappingActivityBody extends StatefulWidget {
   final RPTappingActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureLogger gestureLogger;
+  final RPActivityEventLogger eventLogger;
 
-  RPUITappingActivityBody(
-      this.activity, this.gestureLogger, this.onResultChange);
+  RPUITappingActivityBody(this.activity, this.eventLogger, this.onResultChange);
 
   @override
   _RPUITappingActivityBodyState createState() =>
@@ -26,10 +25,10 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
     super.initState();
     if (widget.activity.includeInstructions) {
       activityStatus = ActivityStatus.Instruction;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     } else {
       activityStatus = ActivityStatus.Task;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     }
   }
 
@@ -74,8 +73,8 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                   setState(() {
                     activityStatus = ActivityStatus.Task;
                   });
-                  widget.gestureLogger.instructionEnded();
-                  widget.gestureLogger.testStarted();
+                  widget.eventLogger.instructionEnded();
+                  widget.eventLogger.testStarted();
                   for (int i = 3; i > 0; i--) {
                     if (this.mounted) {
                       setState(() {
@@ -92,10 +91,10 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                   }
                   Timer(Duration(seconds: widget.activity.lengthOfTest), () {
                     //when time is up, change window and set result
-                    widget.gestureLogger.testEnded();
+                    widget.eventLogger.testEnded();
                     widget.onResultChange({"Total taps": taps});
                     if (widget.activity.includeResults) {
-                      widget.gestureLogger.resultsShown();
+                      widget.eventLogger.resultsShown();
                       if (this.mounted) {
                         setState(() {
                           activityStatus = ActivityStatus.Result;
@@ -131,7 +130,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                               width: MediaQuery.of(context).size.width / 2.2,
                               child: OutlineButton(
                                 onPressed: () {
-                                  widget.gestureLogger.addCorrectGesture(
+                                  widget.eventLogger.addCorrectGesture(
                                       'Button tap', 'Pressed the left button');
                                   setState(() {
                                     taps++;
@@ -144,7 +143,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                               width: MediaQuery.of(context).size.width / 2.2,
                               child: OutlineButton(
                                 onPressed: () {
-                                  widget.gestureLogger.addCorrectGesture(
+                                  widget.eventLogger.addCorrectGesture(
                                       'Button tap', 'Pressed the right button');
                                   setState(() {
                                     taps++;

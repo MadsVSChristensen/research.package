@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUICorsiBlockTappingActivityBody extends StatefulWidget {
   final RPCorsiBlockTappingActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureLogger gestureLogger;
+  final RPActivityEventLogger eventLogger;
 
   RPUICorsiBlockTappingActivityBody(
-      this.activity, this.gestureLogger, this.onResultChange);
+      this.activity, this.eventLogger, this.onResultChange);
 
   @override
   _RPUICorsiBlockTappingActivityBodyState createState() =>
@@ -31,10 +31,10 @@ class _RPUICorsiBlockTappingActivityBodyState
     super.initState();
     if (widget.activity.includeInstructions) {
       activityStatus = ActivityStatus.Instruction;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     } else {
       activityStatus = ActivityStatus.Task;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     }
     blocks = List.generate(9, (index) => index);
   }
@@ -76,7 +76,7 @@ class _RPUICorsiBlockTappingActivityBodyState
       }
       if (!wasCorrect) {
         if (failedLast) {
-          widget.gestureLogger.addWrongGesture('Button tap',
+          widget.eventLogger.addWrongGesture('Button tap',
               'Test Finished after second fail - Tapped the order: ${tapOrder}. The correct order was: ${blocks.getRange(0, numberOfBlocks)}');
           setState(() {
             taskInfo = 'Finished';
@@ -84,15 +84,15 @@ class _RPUICorsiBlockTappingActivityBodyState
           //this.widget.onResultChange({"Corsi span" : corsiSpan});
           await Future.delayed(Duration(milliseconds: 700));
           this.widget.onResultChange(corsiSpan);
-          widget.gestureLogger.testEnded();
+          widget.eventLogger.testEnded();
           if (widget.activity.includeResults) {
-            widget.gestureLogger.resultsShown();
+            widget.eventLogger.resultsShown();
             setState(() {
               activityStatus = ActivityStatus.Result;
             });
           }
         } else {
-          widget.gestureLogger.addWrongGesture('Button tap',
+          widget.eventLogger.addWrongGesture('Button tap',
               'Failed first try - Tapped the order: ${tapOrder}. The correct order was: ${blocks.getRange(0, numberOfBlocks)}');
           failedLast = true;
           setState(() {
@@ -102,7 +102,7 @@ class _RPUICorsiBlockTappingActivityBodyState
           startTest();
         }
       } else {
-        widget.gestureLogger.addCorrectGesture('Button tap',
+        widget.eventLogger.addCorrectGesture('Button tap',
             'Succeeded test in ${!failedLast ? 'first' : 'second'} try. Tap order was: $tapOrder');
         setState(() {
           failedLast = false;
@@ -141,7 +141,8 @@ class _RPUICorsiBlockTappingActivityBodyState
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('packages/research_package/assets/images/Corsiintro.png'))),
+                        image: AssetImage(
+                            'packages/research_package/assets/images/Corsiintro.png'))),
               ),
             ),
             SizedBox(
@@ -152,8 +153,8 @@ class _RPUICorsiBlockTappingActivityBodyState
                   borderRadius: BorderRadius.circular(6),
                 ),
                 onPressed: () {
-                  widget.gestureLogger.instructionEnded();
-                  widget.gestureLogger.testStarted();
+                  widget.eventLogger.instructionEnded();
+                  widget.eventLogger.testStarted();
                   setState(() {
                     activityStatus = ActivityStatus.Task;
                   });

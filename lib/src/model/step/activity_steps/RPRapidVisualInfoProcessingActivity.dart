@@ -1,5 +1,6 @@
 part of research_package_model;
 
+/// A Rapid Visual Information Proccesing Test
 class RPRapidVisualInfoProcessingActivity extends RPActivityStep {
   /// Contructor for creating a Rapid Visual Information Processesing Test.
   RPRapidVisualInfoProcessingActivity(String identifier,
@@ -12,7 +13,12 @@ class RPRapidVisualInfoProcessingActivity extends RPActivityStep {
             includeInstructions: includeInstructions,
             includeResults: includeResults);
 
-  int interval; //interval in which numbers to display are picked (could be 9 (0-9))
-  int lengthOfTest; //test duration in seconds - time untill window changes
-  List<int> sequence; //sequence of numbers that we wish to track
+  /// Interval in which numbers to display are picked (could be 9 (0-9)). Default is 9.
+  int interval;
+
+  /// Test duration in seconds. Default is 90 seconds
+  int lengthOfTest;
+
+  /// Sequence of numbers that is tracked. Default is 3,6,9
+  List<int> sequence;
 }

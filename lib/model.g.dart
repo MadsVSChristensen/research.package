@@ -508,12 +508,7 @@ RPActivityResult _$RPActivityResultFromJson(Map<String, dynamic> json) {
         : DateTime.parse(json['start_date'] as String)
     ..endDate = json['end_date'] == null
         ? null
-        : DateTime.parse(json['end_date'] as String)
-    ..results = json['results'] as Map<String, dynamic>
-    ..stepTimes = json['step_times'] == null
-        ? null
-        : StepTimes.fromJson(json['step_times'] as Map<String, dynamic>)
-    ..interactions = json['interactions'] as List;
+        : DateTime.parse(json['end_date'] as String);
 }
 
 Map<String, dynamic> _$RPActivityResultToJson(RPActivityResult instance) {
@@ -528,19 +523,16 @@ Map<String, dynamic> _$RPActivityResultToJson(RPActivityResult instance) {
   writeNotNull('identifier', instance.identifier);
   writeNotNull('start_date', instance.startDate?.toIso8601String());
   writeNotNull('end_date', instance.endDate?.toIso8601String());
-  writeNotNull('results', instance.results);
-  writeNotNull('step_times', instance.stepTimes);
-  writeNotNull('interactions', instance.interactions);
   return val;
 }
 
 Interaction _$InteractionFromJson(Map<String, dynamic> json) {
-  return Interaction()
-    ..time =
-        json['time'] == null ? null : DateTime.parse(json['time'] as String)
-    ..correctness = json['correctness'] as String
-    ..type = json['type'] as String
-    ..description = json['description'] as String;
+  return Interaction(
+    json['time'] == null ? null : DateTime.parse(json['time'] as String),
+    json['correctness'] as String,
+    json['type'] as String,
+    json['description'] as String,
+  );
 }
 
 Map<String, dynamic> _$InteractionToJson(Interaction instance) =>

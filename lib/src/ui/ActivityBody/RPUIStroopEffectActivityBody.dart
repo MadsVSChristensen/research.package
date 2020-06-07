@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUIStroopEffectActivityBody extends StatefulWidget {
   final RPStroopEffectActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureLogger gestureLogger;
+  final RPActivityEventLogger eventLogger;
 
   RPUIStroopEffectActivityBody(
-      this.activity, this.gestureLogger, this.onResultChange);
+      this.activity, this.eventLogger, this.onResultChange);
 
   @override
   _RPUIStroopEffectActivityBodyState createState() =>
@@ -58,10 +58,10 @@ class _RPUIStroopEffectActivityBodyState
     super.initState();
     if (widget.activity.includeInstructions) {
       activityStatus = ActivityStatus.Instruction;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     } else {
       activityStatus = ActivityStatus.Task;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     }
     cWordIndex = _random.nextInt(possColorsString.length);
     wColorIndex = _random.nextInt(possColors.length);
@@ -71,8 +71,8 @@ class _RPUIStroopEffectActivityBodyState
 
   void testControl() {
     if (this.mounted) {
-      widget.gestureLogger.instructionEnded();
-      widget.gestureLogger.testStarted();
+      widget.eventLogger.instructionEnded();
+      widget.eventLogger.testStarted();
       setState(() {
         //change screen
         activityStatus = ActivityStatus.Task;
@@ -80,8 +80,8 @@ class _RPUIStroopEffectActivityBodyState
     }
     Timer(Duration(seconds: widget.activity.lengthOfTest), () {
       //when time is up, change window and set result
-      widget.gestureLogger.testEnded();
-      widget.gestureLogger.resultsShown();
+      widget.eventLogger.testEnded();
+      widget.eventLogger.resultsShown();
       activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         setState(() {});
@@ -131,7 +131,7 @@ class _RPUIStroopEffectActivityBodyState
           // totalWords = totalWords + mistakes + correctTaps;
           // totalWords = mistakes + correctTaps;
           String widgetNoTapColor = possColorsString[wColorIndex];
-          widget.gestureLogger.addWrongGesture('Button tap',
+          widget.eventLogger.addWrongGesture('Button tap',
               'No color tapped. The color was $widgetNoTapColor. The word spelled $cWord. Total words passed: $totalWords');
         } else {
           clicked = false;
@@ -273,7 +273,7 @@ class _RPUIStroopEffectActivityBodyState
                     backgroundButtons[buttonNum] =
                         Colors.green; //set feedback color
                   });
-                  widget.gestureLogger.addCorrectGesture('Button tap',
+                  widget.eventLogger.addCorrectGesture('Button tap',
                       'Correct color tapped. The color was $widgetTapColor and the word spelled $cWord. Total words passed: $totalWords');
                 }
               } else {
@@ -283,7 +283,7 @@ class _RPUIStroopEffectActivityBodyState
                   setState(() {
                     backgroundButtons[buttonNum] = Colors.red;
                   });
-                  widget.gestureLogger.addWrongGesture('Button tap',
+                  widget.eventLogger.addWrongGesture('Button tap',
                       'Incorrect color tapped. The color tapped was $buttonCode but should have been $widgetTapColor. The word spelled $cWord. Total words passed: $totalWords');
                 }
               }

@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUIReactionTimeActivityBody extends StatefulWidget {
   final RPReactionTimeActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureLogger gestureLogger;
+  final RPActivityEventLogger eventLogger;
 
   RPUIReactionTimeActivityBody(
-      this.activity, this.gestureLogger, this.onResultChange);
+      this.activity, this.eventLogger, this.onResultChange);
 
   @override
   _RPUIReactionTimeActivityBodyState createState() =>
@@ -36,10 +36,10 @@ class _RPUIReactionTimeActivityBodyState
     super.initState();
     if (widget.activity.includeInstructions) {
       activityStatus = ActivityStatus.Instruction;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     } else {
       activityStatus = ActivityStatus.Task;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     }
   }
 
@@ -64,8 +64,8 @@ class _RPUIReactionTimeActivityBodyState
   void testTimer() {
     //times the test and calculates result when done.
     Timer(Duration(seconds: widget.activity.lengthOfTest), () {
-      widget.gestureLogger.testEnded();
-      widget.gestureLogger.resultsShown();
+      widget.eventLogger.testEnded();
+      widget.eventLogger.resultsShown();
       if (this.mounted) {
         setState(() {
           activityStatus = ActivityStatus.Result;
@@ -126,8 +126,8 @@ class _RPUIReactionTimeActivityBodyState
                   borderRadius: BorderRadius.circular(6),
                 ),
                 onPressed: () {
-                  widget.gestureLogger.instructionEnded();
-                  widget.gestureLogger.testStarted();
+                  widget.eventLogger.instructionEnded();
+                  widget.eventLogger.testStarted();
                   setState(() {
                     activityStatus = ActivityStatus.Task;
                   });
@@ -157,7 +157,7 @@ class _RPUIReactionTimeActivityBodyState
                           setState(() {
                             lightOn = false;
                             correctTaps++;
-                            widget.gestureLogger.addCorrectGesture(
+                            widget.eventLogger.addCorrectGesture(
                                 "Correct Screen Tap",
                                 'Tapped the screen after ${_sw.elapsedMilliseconds} ms');
                             _sw.stop();
@@ -169,8 +169,7 @@ class _RPUIReactionTimeActivityBodyState
                         } else {
                           allowGreen = false;
                           wrongTaps++;
-                          widget.gestureLogger.addWrongGesture(
-                              "Wrong Screen Tap",
+                          widget.eventLogger.addWrongGesture("Wrong Screen Tap",
                               'Tapped the screen before the screen was green');
                           setState(() {
                             alert = 'Too quick';

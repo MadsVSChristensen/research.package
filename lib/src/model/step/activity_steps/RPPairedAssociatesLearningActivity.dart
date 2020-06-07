@@ -1,5 +1,6 @@
 part of research_package_model;
 
+/// A Paired Associates Learning Test
 class RPPairedAssociatesLearningActivity extends RPActivityStep {
   /// Contructor for creating a Paired Associates Learning Test.
   RPPairedAssociatesLearningActivity(String identifier,
@@ -10,5 +11,6 @@ class RPPairedAssociatesLearningActivity extends RPActivityStep {
             includeInstructions: includeInstructions,
             includeResults: includeResults);
 
-  int maxTestDuration; //stop test after a given time.
+  /// The maximum length of the test. Default is 100 seconds
+  int maxTestDuration;
 }

@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUIRapidVisualInfoProcessingActivityBody extends StatefulWidget {
   final RPRapidVisualInfoProcessingActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureLogger gestureLogger;
+  final RPActivityEventLogger eventLogger;
 
   RPUIRapidVisualInfoProcessingActivityBody(
-      this.activity, this.gestureLogger, this.onResultChange);
+      this.activity, this.eventLogger, this.onResultChange);
 
   @override
   _RPUIRapidVisualInfoProcessingActivityBody createState() =>
@@ -48,10 +48,10 @@ class _RPUIRapidVisualInfoProcessingActivityBody
     }
     if (widget.activity.includeInstructions) {
       activityStatus = ActivityStatus.Instruction;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     } else {
       activityStatus = ActivityStatus.Task;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     }
     for (int i = 0; i < widget.activity.sequence.length; i++) {
       //adds bools according to sequence lengths
@@ -81,8 +81,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
         setState(() {
           activityStatus = ActivityStatus.Result;
         });
-        widget.gestureLogger.testEnded();
-        widget.gestureLogger.resultsShown();
+        widget.eventLogger.testEnded();
+        widget.eventLogger.resultsShown();
         widget.onResultChange({
           "Correct taps": goodTaps,
           "incorrect taps": badTaps,
@@ -165,8 +165,8 @@ class _RPUIRapidVisualInfoProcessingActivityBody
                   borderRadius: BorderRadius.circular(6),
                 ),
                 onPressed: () {
-                  widget.gestureLogger.instructionEnded();
-                  widget.gestureLogger.testStarted();
+                  widget.eventLogger.instructionEnded();
+                  widget.eventLogger.testStarted();
                   if (this.mounted) {
                     setState(() {
                       activityStatus = ActivityStatus.Task;
@@ -212,11 +212,11 @@ class _RPUIRapidVisualInfoProcessingActivityBody
                           _sw.stop();
                           delaysList.add(_sw.elapsedMilliseconds);
                           int tapDelay = _sw.elapsedMilliseconds;
-                          widget.gestureLogger.addCorrectGesture('Button tap',
+                          widget.eventLogger.addCorrectGesture('Button tap',
                               'Correct tap. Number of sequences passed: $seqsPassed. Delay on tap: $tapDelay. Shown sequence: $curSeq');
                           _sw.reset();
                         } else {
-                          widget.gestureLogger.addWrongGesture('Button tap',
+                          widget.eventLogger.addWrongGesture('Button tap',
                               'Incorrect tap. Number of sequences passed: $seqsPassed. Shown sequence: $curSeq');
                           badTaps++;
                         }

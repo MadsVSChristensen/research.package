@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUITrailMakingActivityBody extends StatefulWidget {
   final RPTrailMakingActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureLogger gestureLogger;
+  final RPActivityEventLogger eventLogger;
 
   RPUITrailMakingActivityBody(
-      this.activity, this.gestureLogger, this.onResultChange);
+      this.activity, this.eventLogger, this.onResultChange);
 
   @override
   _RPUITrailMakingActivityBodyState createState() =>
@@ -31,10 +31,10 @@ class _RPUITrailMakingActivityBodyState
     _isTypeA = widget.activity.trailType == TrailType.A;
     if (widget.activity.includeInstructions) {
       activityStatus = ActivityStatus.Instruction;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     } else {
       activityStatus = ActivityStatus.Task;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     }
   }
 
@@ -45,7 +45,7 @@ class _RPUITrailMakingActivityBodyState
             .A(size.width, size.height - AppBar().preferredSize.height - 100)
         : _TrailMakingLists()
             .B(size.width, size.height - AppBar().preferredSize.height - 100);
-    _pathTracker = _PathTracker(widget.gestureLogger, _boxLocations);
+    _pathTracker = _PathTracker(widget.eventLogger, _boxLocations);
     return Future.value(true);
   }
 
@@ -72,7 +72,7 @@ class _RPUITrailMakingActivityBodyState
     widget.onResultChange({"Completion time": result});
     taskTime = result;
     if (widget.activity.includeResults) {
-      widget.gestureLogger.resultsShown();
+      widget.eventLogger.resultsShown();
       if (this.mounted) {
         setState(() {
           activityStatus = ActivityStatus.Result;
@@ -115,8 +115,8 @@ class _RPUITrailMakingActivityBodyState
                   borderRadius: BorderRadius.circular(6),
                 ),
                 onPressed: () {
-                  widget.gestureLogger.instructionEnded();
-                  widget.gestureLogger.testStarted();
+                  widget.eventLogger.instructionEnded();
+                  widget.eventLogger.testStarted();
                   setState(() {
                     activityStatus = ActivityStatus.Task;
                   });
@@ -232,7 +232,7 @@ class _PathTracker extends ChangeNotifier {
   _Location nextLocation;
   int index;
   DateTime startTime;
-  final RPActivityGestureLogger gestureController;
+  final RPActivityEventLogger gestureController;
 
   _PathTracker(this.gestureController, this._locations) {
     _paths = List<Path>();

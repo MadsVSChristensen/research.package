@@ -3,10 +3,10 @@ part of research_package_ui;
 class RPUIPairedAssociatesLearningActivityBody extends StatefulWidget {
   final RPPairedAssociatesLearningActivity activity;
   final Function(dynamic) onResultChange;
-  final RPActivityGestureLogger gestureLogger;
+  final RPActivityEventLogger eventLogger;
 
   RPUIPairedAssociatesLearningActivityBody(
-      this.activity, this.gestureLogger, this.onResultChange);
+      this.activity, this.eventLogger, this.onResultChange);
 
   @override
   _RPUIPairedAssociatesLearningActivityBody createState() =>
@@ -76,10 +76,10 @@ class _RPUIPairedAssociatesLearningActivityBody
     super.initState();
     if (widget.activity.includeInstructions) {
       activityStatus = ActivityStatus.Instruction;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     } else {
       activityStatus = ActivityStatus.Task;
-      widget.gestureLogger.instructionStarted();
+      widget.eventLogger.instructionStarted();
     }
     levels.addAll(
         [shapes0, shapes1, shapes2, shapes3, shapes4]); //hard add all levels...
@@ -88,8 +88,8 @@ class _RPUIPairedAssociatesLearningActivityBody
   }
 
   void testStarter() {
-    widget.gestureLogger.instructionEnded();
-    widget.gestureLogger.testStarted();
+    widget.eventLogger.instructionEnded();
+    widget.eventLogger.testStarted();
     //begin test by changing window and starting timer.
     setState(() {
       activityStatus = ActivityStatus.Task;
@@ -98,10 +98,10 @@ class _RPUIPairedAssociatesLearningActivityBody
     t = Timer(Duration(seconds: widget.activity.maxTestDuration), () {
       //when time is up, change window and set result
       widget.onResultChange({"successes": successes, "mistakes": mistakes});
-      widget.gestureLogger.testEnded();
+      widget.eventLogger.testEnded();
       if (widget.activity.includeResults) {
         activityStatus = ActivityStatus.Result;
-        widget.gestureLogger.resultsShown();
+        widget.eventLogger.resultsShown();
         if (this.mounted) {
           setState(() {
             activityStatus = ActivityStatus.Result;
@@ -118,8 +118,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       //let all containers be the same from start of levels.
       containers[i] = 'packages/research_package/assets/images/nothing.png';
     }
-    tempMatch =
-        level[_random.nextInt(level.length)]; //fill object with content
+    tempMatch = level[_random.nextInt(level.length)]; //fill object with content
     List<int> containing = []; //list of containers that already has content
     int chosenContainer =
         _random.nextInt(containers.length); //container to fill with content
@@ -173,7 +172,7 @@ class _RPUIPairedAssociatesLearningActivityBody
       setState(() {
         correct = 1; //change icon for feedback - 1 is a tick, 2 is a cross
       });
-      widget.gestureLogger.addCorrectGesture('Button tap',
+      widget.eventLogger.addCorrectGesture('Button tap',
           'The tile tapped and match object matched. Level $successes succeeded, by pressing button number $buttonNum.');
       await Future.delayed(Duration(seconds: 1)); //display feedback
       if (successes < levels.length && this.mounted) {
@@ -187,13 +186,13 @@ class _RPUIPairedAssociatesLearningActivityBody
         //if there are no more levels, end the test.
         t.cancel();
         widget.onResultChange(0);
-        widget.gestureLogger.testEnded();
-        widget.gestureLogger.resultsShown();
+        widget.eventLogger.testEnded();
+        widget.eventLogger.resultsShown();
         setState(() {
           activityStatus = ActivityStatus
               .Result; //if all levels completed within time, end the test.
         });
-        widget.gestureLogger.addWrongGesture('Button tap',
+        widget.eventLogger.addWrongGesture('Button tap',
             'The tile tapped and match object did not match. Level $successes failed, by pressing button number $buttonNum. Retrying level.');
       }
     } else {

@@ -24,7 +24,7 @@ import 'package:research_package/model.dart';
 import 'package:signature/signature.dart';
 
 part 'src/localization/RPLocalization.dart';
-part 'src/loggers/RPActivityGestureLogger.dart';
+part 'src/loggers/RPActivityEventLogger.dart';
 part 'src/ui/ActivityBody/RPUICorsiBlockTappingActivityBody.dart';
 part 'src/ui/ActivityBody/RPUILetterTappingActivityBody.dart';
 part 'src/ui/ActivityBody/RPUIPairedAssociatesLearningActivityBody.dart';

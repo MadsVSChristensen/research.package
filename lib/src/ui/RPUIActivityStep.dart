@@ -12,13 +12,14 @@ class RPUIActivityStep extends StatefulWidget {
   _RPUIActivityStepState createState() => _RPUIActivityStepState();
 }
 
-class _RPUIActivityStepState extends State<RPUIActivityStep> with CanSaveResult {
+class _RPUIActivityStepState extends State<RPUIActivityStep>
+    with CanSaveResult {
   // Dynamic because we don't know what value the RPChoice will have
   dynamic _currentActivityBodyResult;
   bool readyToProceed;
   RPActivityResult result;
   RPTaskProgress recentTaskProgress;
-  RPActivityGestureLogger gestureController;
+  RPActivityEventLogger eventLogger;
 
   set currentActivityBodyResult(dynamic currentActivityBodyResult) {
     this._currentActivityBodyResult = currentActivityBodyResult;
@@ -37,7 +38,7 @@ class _RPUIActivityStepState extends State<RPUIActivityStep> with CanSaveResult 
     readyToProceed = false;
     blocQuestion.sendReadyToProceed(false);
     recentTaskProgress = blocTask.lastProgressValue;
-    gestureController = RPActivityGestureLogger(result);
+    eventLogger = RPActivityEventLogger(result);
 
     super.initState();
   }
@@ -46,35 +47,41 @@ class _RPUIActivityStepState extends State<RPUIActivityStep> with CanSaveResult 
   Widget stepBody(RPActivityStep activityStep) {
     switch (activityStep.runtimeType) {
       case RPTrailMakingActivity:
-        return RPUITrailMakingActivityBody(activityStep, gestureController, (result) {
+        return RPUITrailMakingActivityBody(activityStep, eventLogger, (result) {
           this.currentActivityBodyResult = result;
         });
       case RPTappingActivity:
-        return RPUITappingActivityBody(activityStep, gestureController, (result) {
+        return RPUITappingActivityBody(activityStep, eventLogger, (result) {
           this.currentActivityBodyResult = result;
         });
       case RPLetterTappingActivity:
-        return RPUILetterTappingActivityBody(activityStep, gestureController, (result) {
+        return RPUILetterTappingActivityBody(activityStep, eventLogger,
+            (result) {
           this.currentActivityBodyResult = result;
         });
       case RPReactionTimeActivity:
-        return RPUIReactionTimeActivityBody(activityStep, gestureController, (result) {
+        return RPUIReactionTimeActivityBody(activityStep, eventLogger,
+            (result) {
           this.currentActivityBodyResult = result;
         });
       case RPRapidVisualInfoProcessingActivity:
-        return RPUIRapidVisualInfoProcessingActivityBody(activityStep, gestureController, (result) {
+        return RPUIRapidVisualInfoProcessingActivityBody(
+            activityStep, eventLogger, (result) {
           this.currentActivityBodyResult = result;
         });
       case RPPairedAssociatesLearningActivity:
-        return RPUIPairedAssociatesLearningActivityBody(activityStep, gestureController, (result) {
+        return RPUIPairedAssociatesLearningActivityBody(
+            activityStep, eventLogger, (result) {
           this.currentActivityBodyResult = result;
         });
       case RPCorsiBlockTappingActivity:
-        return RPUICorsiBlockTappingActivityBody(activityStep, gestureController, (result) {
+        return RPUICorsiBlockTappingActivityBody(activityStep, eventLogger,
+            (result) {
           this.currentActivityBodyResult = result;
         });
       case RPStroopEffectActivity:
-        return RPUIStroopEffectActivityBody(activityStep, gestureController, (result) {
+        return RPUIStroopEffectActivityBody(activityStep, eventLogger,
+            (result) {
           this.currentActivityBodyResult = result;
         });
       default:
