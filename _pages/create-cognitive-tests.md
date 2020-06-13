@@ -5,30 +5,56 @@ permalink: /create-cognitive-tests
 toc: true
 ---
 
-> _This expands upon the ["Creating a Survey"](/survey) tutorial, as this is an extension._
+> _This expands upon the ["Creating a Survey"](/survey) tutorial, as this is an extension that mimics and relies on many of the survey functionalities. See ["Cognitive Tests"](/cognitive-tests) for a detailed explanation of each test, including how they are implemented, limitations, measurement types and other useful information._
 
 ## Updated Domain Model
 
-### New Step - ActivityStep
+### New Step - The ActivityStep
 
-The cognitive tests are a new type of `Step` called the `ActivityStep`. The new `ActivityStep` is an extension of the `RPStep`.
+The cognitive tests are a new type of `Step` called the `ActivityStep`. The new `ActivitySteps` can be used in `RPTasks`, where they can be combined with all the other `Step` types (InstructionStep, QuestionStep, CompletionStep etc.). This allows you to create your own instructions for tests, combine them with questions or any other use case you desire.
 
-A congitive test battery is created the same way you create a survey. The cognitive tests are part of the new type of `Step` available to be used in a `RPTask`. They can be coupled with all the other `Step`s in a parent `RPTask` if needed.
+`ActivitySteps` implement 3 stages of each test - Instruction, Task, Result - which control the flow of the test. `RPActivitySteps` include optional parameters for including or excluding the instruction and the result respectively. Each individual test has additional optional parameters, which can be used for customising the tests better - these can be seen in the ["Cognitive Tests"](/cognitive-tests) section.
 
-### New Answer Formats
+### The New Steps
 
-With the congitive tests comes **8** new types of `AnswerFormat`s. The...
+With the congitive tests comes **8** new `RPActivtyStep` models. The `Steps` that are currently available, and the name of their respective test, can be seen below:
 
-At the time of writing, the `AnswerFormat`s are for the `Step` to recognize the type. As new tests can have different version, this will change and the `AnswerFormat`s will take arguments to adapt the test results.
+- RPCorsiBlockTappingActivity
+- RPLetterTappingActivity
+- RPPairedAssociatesLearningActivity
+- RPRapidVisualInfoProcessingActivity
+- RPReactionTimeActivity
+- RPStroopEffectActivity
+- RPTappingActivity
+- RPTrailMakingActivity
 
-`FormStep` is not applicable with cognitive tests as they required the full screen to work optimally. Currently, this will cause errors at runtime.
-
-To see all the possible cognitive tests please see the [list of available answer formats](/answer-formats).
+Details about the tests can be found in the ["About the Cognitive Tests"](/cognitive-tests#about-the-cognitive-tests) section.
 
 ## Example Cognition Test
 
-### Rapid Visual Information Processing
+Below is an example of how to create a test. The example is of the Rapid Visal Information Processing Test, and we have selected the length of the test to be shortened to 30 seconds and excluding the result section of the test.
 
-Creating the `AnswerFormat` is very similar to surveys, as seen below.
+### Rapid Visual Information Processing Test Example
 
-**IMAGE**
+Creating the `ActivityStep` is very similar to creating a survey question
+
+```dart
+RPActivityStep rvipStep = RPRapidVisualInfoProcessing(
+	'Rapid Visual Information Processing Test ID',
+	lengthOfTest = 30,
+	includeResults = false,
+);
+```
+
+The test can then simply be put inside an `RPTask` in the same way questions can.
+
+```dart
+RPOrderedTask task = RPOrderedTask(
+	'Cognitive Test Task ID',
+	[
+		rvipStep,
+	]
+);
+```
+
+Once the `Task` is used in a `RPUITask`, it recognises the `ActivitySteps` and will display the UI of the test - here an `RPUIActivityStep` with a body of `RPUIRapidVisualInfoProcessingActivityBody`.
