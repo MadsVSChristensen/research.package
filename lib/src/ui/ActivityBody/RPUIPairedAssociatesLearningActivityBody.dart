@@ -74,25 +74,27 @@ class _RPUIPairedAssociatesLearningActivityBody
   @override
   initState() {
     super.initState();
-    if (widget.activity.includeInstructions) {
-      activityStatus = ActivityStatus.Instruction;
-      widget.eventLogger.instructionStarted();
-    } else {
-      activityStatus = ActivityStatus.Task;
-      widget.eventLogger.instructionStarted();
-    }
     levels.addAll(
         [shapes0, shapes1, shapes2, shapes3, shapes4]); //hard add all levels...
     containerContent(
         levels[successes]); //call containerContent with 0 before beginning.
+
+    if (widget.activity.includeInstructions) {
+      activityStatus = ActivityStatus.Instruction;
+      widget.eventLogger.instructionStarted();
+    } else {
+      activityStatus = ActivityStatus.Test;
+      widget.eventLogger.testStarted();
+      startTest();
+    }
   }
 
-  void testStarter() {
+  void startTest() {
     widget.eventLogger.instructionEnded();
     widget.eventLogger.testStarted();
     //begin test by changing window and starting timer.
     setState(() {
-      activityStatus = ActivityStatus.Task;
+      activityStatus = ActivityStatus.Test;
     });
     containerPeaker();
     t = Timer(Duration(seconds: widget.activity.maxTestDuration), () {
@@ -100,7 +102,6 @@ class _RPUIPairedAssociatesLearningActivityBody
       widget.onResultChange({"successes": successes, "mistakes": mistakes});
       widget.eventLogger.testEnded();
       if (widget.activity.includeResults) {
-        activityStatus = ActivityStatus.Result;
         widget.eventLogger.resultsShown();
         if (this.mounted) {
           setState(() {
@@ -250,7 +251,7 @@ class _RPUIPairedAssociatesLearningActivityBody
                   borderRadius: BorderRadius.circular(6),
                 ),
                 onPressed: () {
-                  testStarter();
+                  startTest();
                 },
                 child: Text(
                   'Ready',
@@ -260,7 +261,7 @@ class _RPUIPairedAssociatesLearningActivityBody
             ),
           ],
         );
-      case ActivityStatus.Task:
+      case ActivityStatus.Test:
         return Column(
             //layout - consists of a column with 5 rows sctructuring the test screen. can rotate screen
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

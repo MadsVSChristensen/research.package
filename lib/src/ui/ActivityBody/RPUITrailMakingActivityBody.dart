@@ -33,9 +33,16 @@ class _RPUITrailMakingActivityBodyState
       activityStatus = ActivityStatus.Instruction;
       widget.eventLogger.instructionStarted();
     } else {
-      activityStatus = ActivityStatus.Task;
-      widget.eventLogger.instructionStarted();
+      activityStatus = ActivityStatus.Test;
+      widget.eventLogger.testStarted();
+      startTest();
     }
+  }
+
+  void startTest() {
+    setState(() {
+      activityStatus = ActivityStatus.Test;
+    });
   }
 
   Future<bool> buildCanvas(context) {
@@ -117,9 +124,7 @@ class _RPUITrailMakingActivityBodyState
                 onPressed: () {
                   widget.eventLogger.instructionEnded();
                   widget.eventLogger.testStarted();
-                  setState(() {
-                    activityStatus = ActivityStatus.Task;
-                  });
+                  startTest();
                 },
                 child: Text(
                   'Ready',
@@ -130,7 +135,7 @@ class _RPUITrailMakingActivityBodyState
           ],
         );
         break;
-      case ActivityStatus.Task:
+      case ActivityStatus.Test:
         canvasReady = buildCanvas(context);
         return FutureBuilder(
           future: canvasReady,

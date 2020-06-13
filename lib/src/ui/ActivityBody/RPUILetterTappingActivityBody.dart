@@ -76,25 +76,26 @@ class _RPUILetterTappingActivityBodyState
   @override
   initState() {
     super.initState();
-    if (widget.activity.includeInstructions) {
-      activityStatus = ActivityStatus.Instruction;
-      widget.eventLogger.instructionStarted();
-    } else {
-      activityStatus = ActivityStatus.Task;
-      widget.eventLogger.instructionStarted();
-    }
     soundService = SoundService(alphabet
         .map((item) => ('../packages/research_package/assets/sounds/$item.mp3'))
         .toList());
     currentLetter = 'F';
     lastLetter = '';
+    if (widget.activity.includeInstructions) {
+      activityStatus = ActivityStatus.Instruction;
+      widget.eventLogger.instructionStarted();
+    } else {
+      activityStatus = ActivityStatus.Test;
+      widget.eventLogger.testStarted();
+      startTest();
+    }
   }
 
-  void testInit() async {
+  void startTest() async {
     widget.eventLogger.instructionEnded();
     widget.eventLogger.testStarted();
     setState(() {
-      activityStatus = ActivityStatus.Task;
+      activityStatus = ActivityStatus.Test;
     });
     await Future.delayed(Duration(seconds: 2));
     for (String letter in mocaTestList) {
@@ -175,7 +176,7 @@ class _RPUILetterTappingActivityBodyState
                   borderRadius: BorderRadius.circular(6),
                 ),
                 onPressed: () {
-                  testInit();
+                  startTest();
                 },
                 child: Text(
                   'Ready',
@@ -185,7 +186,7 @@ class _RPUILetterTappingActivityBodyState
             ),
           ],
         );
-      case ActivityStatus.Task:
+      case ActivityStatus.Test:
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

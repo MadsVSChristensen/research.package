@@ -29,14 +29,15 @@ class _RPUICorsiBlockTappingActivityBodyState
   @override
   initState() {
     super.initState();
+    blocks = List.generate(9, (index) => index);
     if (widget.activity.includeInstructions) {
       activityStatus = ActivityStatus.Instruction;
       widget.eventLogger.instructionStarted();
     } else {
-      activityStatus = ActivityStatus.Task;
-      widget.eventLogger.instructionStarted();
+      activityStatus = ActivityStatus.Test;
+      widget.eventLogger.testStarted();
+      startTest();
     }
-    blocks = List.generate(9, (index) => index);
   }
 
   void startTest() async {
@@ -48,14 +49,14 @@ class _RPUICorsiBlockTappingActivityBodyState
     });
     await Future.delayed(Duration(seconds: 1));
     for (int i = 0; i < numberOfBlocks; i++) {
-      if (activityStatus == ActivityStatus.Task && this.mounted) {
+      if (activityStatus == ActivityStatus.Test && this.mounted) {
         setState(() {
           highlightedBlockID = blocks[i];
         });
       }
       await Future.delayed(Duration(milliseconds: 1000));
     }
-    if (activityStatus == ActivityStatus.Task && this.mounted) {
+    if (activityStatus == ActivityStatus.Test && this.mounted) {
       setState(() {
         highlightedBlockID = null;
         readyForTap = true;
@@ -81,7 +82,6 @@ class _RPUICorsiBlockTappingActivityBodyState
           setState(() {
             taskInfo = 'Finished';
           });
-          //this.widget.onResultChange({"Corsi span" : corsiSpan});
           await Future.delayed(Duration(milliseconds: 700));
           this.widget.onResultChange(corsiSpan);
           widget.eventLogger.testEnded();
@@ -156,9 +156,8 @@ class _RPUICorsiBlockTappingActivityBodyState
                   widget.eventLogger.instructionEnded();
                   widget.eventLogger.testStarted();
                   setState(() {
-                    activityStatus = ActivityStatus.Task;
+                    activityStatus = ActivityStatus.Test;
                   });
-                  // Could be started by the user in the task
                   startTest();
                 },
                 child: Text(
@@ -170,7 +169,7 @@ class _RPUICorsiBlockTappingActivityBodyState
           ],
         );
         break;
-      case ActivityStatus.Task:
+      case ActivityStatus.Test:
         return Padding(
           padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: Column(

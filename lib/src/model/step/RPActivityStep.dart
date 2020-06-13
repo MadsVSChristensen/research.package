@@ -25,7 +25,3 @@ class RPActivityStep extends RPStep {
   @override
   Widget get stepWidget => RPUIActivityStep(this);
 }
-
-/// The three stages each test consists of.
-/// These can be exclude using [includeInstructions] or [includeResults].
-enum ActivityStatus { Instruction, Task, Result }

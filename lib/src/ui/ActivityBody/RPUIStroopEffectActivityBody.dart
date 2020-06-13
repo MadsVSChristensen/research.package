@@ -56,37 +56,42 @@ class _RPUIStroopEffectActivityBodyState
   @override
   initState() {
     super.initState();
-    if (widget.activity.includeInstructions) {
-      activityStatus = ActivityStatus.Instruction;
-      widget.eventLogger.instructionStarted();
-    } else {
-      activityStatus = ActivityStatus.Task;
-      widget.eventLogger.instructionStarted();
-    }
     cWordIndex = _random.nextInt(possColorsString.length);
     wColorIndex = _random.nextInt(possColors.length);
     cWord = possColorsString[cWordIndex];
     wColor = possColors[wColorIndex];
+    if (widget.activity.includeInstructions) {
+      activityStatus = ActivityStatus.Instruction;
+      widget.eventLogger.instructionStarted();
+    } else {
+      activityStatus = ActivityStatus.Test;
+      widget.eventLogger.testStarted();
+      startTest();
+    }
   }
 
-  void testControl() {
+  void startTest() {
     if (this.mounted) {
       widget.eventLogger.instructionEnded();
       widget.eventLogger.testStarted();
       setState(() {
         //change screen
-        activityStatus = ActivityStatus.Task;
+        activityStatus = ActivityStatus.Test;
       });
     }
     Timer(Duration(seconds: widget.activity.lengthOfTest), () {
       //when time is up, change window and set result
       widget.eventLogger.testEnded();
-      widget.eventLogger.resultsShown();
-      activityStatus = ActivityStatus.Result;
       if (this.mounted) {
         setState(() {});
         widget.onResultChange(
             {"mistakes": mistakes, "correct taps": correctTaps});
+        if (widget.activity.includeResults) {
+          widget.eventLogger.resultsShown();
+          setState(() {
+            activityStatus = ActivityStatus.Result;
+          });
+        }
       }
     });
     wordPulse();
@@ -97,7 +102,7 @@ class _RPUIStroopEffectActivityBodyState
     disableButton = true;
     pulseTimer.cancel();
     //make sure window is mounted and that test is live before setting state.
-    if (this.mounted && activityStatus == ActivityStatus.Task) {
+    if (this.mounted && activityStatus == ActivityStatus.Test) {
       setState(() {
         cWord = '----';
         wColor = Colors.black;
@@ -111,7 +116,7 @@ class _RPUIStroopEffectActivityBodyState
       await Future.delayed(Duration(
           milliseconds:
               widget.activity.delayTime)); //delay before showing next word
-      if (this.mounted && activityStatus == ActivityStatus.Task) {
+      if (this.mounted && activityStatus == ActivityStatus.Test) {
         setState(() {
           cWordIndex = _random.nextInt(possColorsString.length);
           wColorIndex = _random.nextInt(possColors.length);
@@ -123,7 +128,7 @@ class _RPUIStroopEffectActivityBodyState
     }
 
     pulseTimer = Timer(Duration(milliseconds: widget.activity.displayTime), () {
-      if (activityStatus == ActivityStatus.Task) {
+      if (activityStatus == ActivityStatus.Test) {
         if (!clicked) {
           //if tap doesnt happen in time, count is a mistake.
           mistakes++;
@@ -179,7 +184,7 @@ class _RPUIStroopEffectActivityBodyState
                   borderRadius: BorderRadius.circular(6),
                 ),
                 onPressed: () {
-                  testControl();
+                  startTest();
                 },
                 child: Text(
                   'Ready',
@@ -189,7 +194,7 @@ class _RPUIStroopEffectActivityBodyState
             ),
           ],
         );
-      case ActivityStatus.Task:
+      case ActivityStatus.Test:
         //main screen for test - contains word and buttons to push
         return Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -268,7 +273,7 @@ class _RPUIStroopEffectActivityBodyState
                 //if a button was pressed, produce new word
                 correctTaps++;
                 totalWords++;
-                if (this.mounted && activityStatus == ActivityStatus.Task) {
+                if (this.mounted && activityStatus == ActivityStatus.Test) {
                   setState(() {
                     backgroundButtons[buttonNum] =
                         Colors.green; //set feedback color
@@ -279,7 +284,7 @@ class _RPUIStroopEffectActivityBodyState
               } else {
                 mistakes++;
                 totalWords++;
-                if (this.mounted && activityStatus == ActivityStatus.Task) {
+                if (this.mounted && activityStatus == ActivityStatus.Test) {
                   setState(() {
                     backgroundButtons[buttonNum] = Colors.red;
                   });

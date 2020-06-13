@@ -1,8 +1,8 @@
 part of research_package_ui;
 
-/// The UI representation of the [RPQuestionStep]. This widget is the container, the concrete content depends on the input step's [RPAnswerFormat].
+/// The UI representation of the [RPActivityStep]. This widget is the container, the concrete content depends on the input step's [runtimeType].
 ///
-/// As soon as the participant has finished with the question the [RPStepResult] is being added to the [RPTaskResult]'s result list.
+/// As soon as the participant has finished with the Activity the [RPActivityResult] is added to the [RPTaskResult]'s result list.
 class RPUIActivityStep extends StatefulWidget {
   final RPActivityStep step;
 
@@ -14,7 +14,7 @@ class RPUIActivityStep extends StatefulWidget {
 
 class _RPUIActivityStepState extends State<RPUIActivityStep>
     with CanSaveResult {
-  // Dynamic because we don't know what value the RPChoice will have
+  // Dynamic because as the type of result will have can vary
   dynamic _currentActivityBodyResult;
   bool readyToProceed;
   RPActivityResult result;
@@ -43,7 +43,7 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
     super.initState();
   }
 
-  // Returning the according step body widget based on the answerFormat of the step
+  // Returning the according step body widget based on the runtimeType of the step
   Widget stepBody(RPActivityStep activityStep) {
     switch (activityStep.runtimeType) {
       case RPTrailMakingActivity:
@@ -105,3 +105,7 @@ class _RPUIActivityStepState extends State<RPUIActivityStep>
     blocTask.sendStepResult(result);
   }
 }
+
+/// The three stages each test consists of.
+/// These can be exclude using [includeInstructions] or [includeResults].
+enum ActivityStatus { Instruction, Test, Result }

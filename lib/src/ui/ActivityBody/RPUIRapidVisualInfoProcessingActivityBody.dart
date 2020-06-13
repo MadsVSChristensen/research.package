@@ -46,26 +46,27 @@ class _RPUIRapidVisualInfoProcessingActivityBody
     for (int i = 0; i < widget.activity.sequence.length; i++) {
       seq1s = seq1s + widget.activity.sequence[i].toString() + "  ";
     }
-    if (widget.activity.includeInstructions) {
-      activityStatus = ActivityStatus.Instruction;
-      widget.eventLogger.instructionStarted();
-    } else {
-      activityStatus = ActivityStatus.Task;
-      widget.eventLogger.instructionStarted();
-    }
     for (int i = 0; i < widget.activity.sequence.length; i++) {
       //adds bools according to sequence lengths
       listIndexes.add(false);
     }
+    if (widget.activity.includeInstructions) {
+      activityStatus = ActivityStatus.Instruction;
+      widget.eventLogger.instructionStarted();
+    } else {
+      activityStatus = ActivityStatus.Test;
+      widget.eventLogger.testStarted();
+      startTest();
+    }
   }
 
-  void timerBody() async {
+  void startTest() async {
     await Future.delayed(Duration(seconds: 1));
     Timer.periodic(
         //periodic timer to update number on screen - starts in init currently.
         displayTime, (Timer t) {
       //make sure window is mounted and that test is live before setting state.
-      if (activityStatus == ActivityStatus.Task && this.mounted) {
+      if (activityStatus == ActivityStatus.Test && this.mounted) {
         setState(() {
           numGenerator();
           sequenceChecker(widget.activity
@@ -78,17 +79,19 @@ class _RPUIRapidVisualInfoProcessingActivityBody
     Timer(Duration(seconds: widget.activity.lengthOfTest), () {
       //when time is up, change window and set result
       if (this.mounted) {
-        setState(() {
-          activityStatus = ActivityStatus.Result;
-        });
         widget.eventLogger.testEnded();
-        widget.eventLogger.resultsShown();
         widget.onResultChange({
           "Correct taps": goodTaps,
           "incorrect taps": badTaps,
           "passed sequences": seqPassed,
           "Delay on correct taps": delaysList,
         });
+        if (widget.activity.includeResults) {
+          widget.eventLogger.resultsShown();
+          setState(() {
+            activityStatus = ActivityStatus.Result;
+          });
+        }
       }
     });
   }
@@ -169,10 +172,10 @@ class _RPUIRapidVisualInfoProcessingActivityBody
                   widget.eventLogger.testStarted();
                   if (this.mounted) {
                     setState(() {
-                      activityStatus = ActivityStatus.Task;
+                      activityStatus = ActivityStatus.Test;
                     });
                   }
-                  timerBody();
+                  startTest();
                 },
                 child: Text(
                   'Ready',
@@ -182,7 +185,7 @@ class _RPUIRapidVisualInfoProcessingActivityBody
             ),
           ],
         );
-      case ActivityStatus.Task:
+      case ActivityStatus.Test:
         return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

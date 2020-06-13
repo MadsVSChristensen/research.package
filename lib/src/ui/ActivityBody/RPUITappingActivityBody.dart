@@ -27,9 +27,45 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
       activityStatus = ActivityStatus.Instruction;
       widget.eventLogger.instructionStarted();
     } else {
-      activityStatus = ActivityStatus.Task;
-      widget.eventLogger.instructionStarted();
+      activityStatus = ActivityStatus.Test;
+      widget.eventLogger.testStarted();
+      startTest();
     }
+  }
+
+  void startTest() async {
+    setState(() {
+      activityStatus = ActivityStatus.Test;
+    });
+    widget.eventLogger.instructionEnded();
+    widget.eventLogger.testStarted();
+    for (int i = 3; i > 0; i--) {
+      if (this.mounted) {
+        setState(() {
+          countdown = i.toString();
+        });
+      }
+      await Future.delayed(Duration(seconds: 1));
+    }
+    if (this.mounted) {
+      //remove countdown text
+      setState(() {
+        counting = false;
+      });
+    }
+    Timer(Duration(seconds: widget.activity.lengthOfTest), () {
+      //when time is up, change window and set result
+      widget.eventLogger.testEnded();
+      widget.onResultChange({"Total taps": taps});
+      if (widget.activity.includeResults) {
+        widget.eventLogger.resultsShown();
+        if (this.mounted) {
+          setState(() {
+            activityStatus = ActivityStatus.Result;
+          });
+        }
+      }
+    });
   }
 
   @override
@@ -70,38 +106,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 onPressed: () async {
-                  setState(() {
-                    activityStatus = ActivityStatus.Task;
-                  });
-                  widget.eventLogger.instructionEnded();
-                  widget.eventLogger.testStarted();
-                  for (int i = 3; i > 0; i--) {
-                    if (this.mounted) {
-                      setState(() {
-                        countdown = i.toString();
-                      });
-                    }
-                    await Future.delayed(Duration(seconds: 1));
-                  }
-                  if (this.mounted) {
-                    //remove countdown text
-                    setState(() {
-                      counting = false;
-                    });
-                  }
-                  Timer(Duration(seconds: widget.activity.lengthOfTest), () {
-                    //when time is up, change window and set result
-                    widget.eventLogger.testEnded();
-                    widget.onResultChange({"Total taps": taps});
-                    if (widget.activity.includeResults) {
-                      widget.eventLogger.resultsShown();
-                      if (this.mounted) {
-                        setState(() {
-                          activityStatus = ActivityStatus.Result;
-                        });
-                      }
-                    }
-                  });
+                  startTest();
                 },
                 child: Text(
                   'Ready',
@@ -111,7 +116,7 @@ class _RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
             ),
           ],
         );
-      case ActivityStatus.Task:
+      case ActivityStatus.Test:
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

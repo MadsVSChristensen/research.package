@@ -38,8 +38,10 @@ class _RPUIReactionTimeActivityBodyState
       activityStatus = ActivityStatus.Instruction;
       widget.eventLogger.instructionStarted();
     } else {
-      activityStatus = ActivityStatus.Task;
-      widget.eventLogger.instructionStarted();
+      activityStatus = ActivityStatus.Test;
+      widget.eventLogger.testStarted();
+      testTimer();
+      lightRegulator();
     }
   }
 
@@ -67,9 +69,6 @@ class _RPUIReactionTimeActivityBodyState
       widget.eventLogger.testEnded();
       widget.eventLogger.resultsShown();
       if (this.mounted) {
-        setState(() {
-          activityStatus = ActivityStatus.Result;
-        });
         if (rtList.isEmpty) {
           //if nothing was pressed during the whole test, add 0.
           rtList.add(0);
@@ -84,6 +83,12 @@ class _RPUIReactionTimeActivityBodyState
           "Wrong taps": wrongTaps,
           "Correct taps": correctTaps
         });
+        if (widget.activity.includeResults) {
+          widget.eventLogger.resultsShown();
+          setState(() {
+            activityStatus = ActivityStatus.Result;
+          });
+        }
       }
     });
   }
@@ -129,7 +134,7 @@ class _RPUIReactionTimeActivityBodyState
                   widget.eventLogger.instructionEnded();
                   widget.eventLogger.testStarted();
                   setState(() {
-                    activityStatus = ActivityStatus.Task;
+                    activityStatus = ActivityStatus.Test;
                   });
                   testTimer();
                   lightRegulator();
@@ -142,7 +147,7 @@ class _RPUIReactionTimeActivityBodyState
             ),
           ],
         );
-      case ActivityStatus.Task:
+      case ActivityStatus.Test:
         return Flex(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
