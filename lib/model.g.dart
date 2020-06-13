@@ -508,7 +508,12 @@ RPActivityResult _$RPActivityResultFromJson(Map<String, dynamic> json) {
         : DateTime.parse(json['start_date'] as String)
     ..endDate = json['end_date'] == null
         ? null
-        : DateTime.parse(json['end_date'] as String);
+        : DateTime.parse(json['end_date'] as String)
+    ..results = json['results'] as Map<String, dynamic>
+    ..stepTimes = json['step_times'] == null
+        ? null
+        : StepTimes.fromJson(json['step_times'] as Map<String, dynamic>)
+    ..interactions = json['interactions'] as List;
 }
 
 Map<String, dynamic> _$RPActivityResultToJson(RPActivityResult instance) {
@@ -523,6 +528,9 @@ Map<String, dynamic> _$RPActivityResultToJson(RPActivityResult instance) {
   writeNotNull('identifier', instance.identifier);
   writeNotNull('start_date', instance.startDate?.toIso8601String());
   writeNotNull('end_date', instance.endDate?.toIso8601String());
+  writeNotNull('results', instance.results);
+  writeNotNull('step_times', instance.stepTimes);
+  writeNotNull('interactions', instance.interactions);
   return val;
 }
 

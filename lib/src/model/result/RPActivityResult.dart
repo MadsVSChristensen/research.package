@@ -16,8 +16,7 @@ class RPActivityResult extends RPResult {
   /// It sets [startDate] to the [DateTime.now()]. Since these objects are instantiated
   /// together with the Activity it belongs to so it can be used for measuring how much
   /// time the participant spent the given Activity.
-  RPActivityResult.withParams(RPStep step)
-      : super.withIdentifier(step.identifier) {
+  RPActivityResult.withParams(RPStep step) : super.withIdentifier(step.identifier) {
     this._results = Map<String, dynamic>();
     this._stepTimes = StepTimes();
     this._interactions = List();
@@ -33,6 +32,21 @@ class RPActivityResult extends RPResult {
 
   /// The list of [Interaction]s used to store all relevant UI interaction from the testee.
   List get interactions => _interactions;
+
+  /// Set result value
+  set results(Map<String, dynamic> results) {
+    this._results = results;
+  }
+
+  /// Set step times
+  set stepTimes(StepTimes stepTimes) {
+    this._stepTimes = stepTimes;
+  }
+
+  /// Set interactions
+  set interactions(List interactions) {
+    this._interactions = interactions;
+  }
 
   /// Returns result value for the given identifier from the [results] map
   /// Used if additional results were added.
@@ -55,8 +69,7 @@ class RPActivityResult extends RPResult {
     this.endDate = DateTime.now();
   }
 
-  factory RPActivityResult.fromJson(Map<String, dynamic> json) =>
-      _$RPActivityResultFromJson(json);
+  factory RPActivityResult.fromJson(Map<String, dynamic> json) => _$RPActivityResultFromJson(json);
   Map<String, dynamic> toJson() => _$RPActivityResultToJson(this);
 }
 
@@ -68,8 +81,7 @@ class Interaction {
   String _type;
   String _description;
 
-  Interaction(
-      DateTime time, String correctness, String type, String description) {
+  Interaction(DateTime time, String correctness, String type, String description) {
     this._time = time;
     this._correctness = correctness;
     this._type = type;
@@ -88,8 +100,7 @@ class Interaction {
   /// A explanatory description of the interaction (e.g. Test failed after tapping the button twice)
   String get description => _description;
 
-  factory Interaction.fromJson(Map<String, dynamic> json) =>
-      _$InteractionFromJson(json);
+  factory Interaction.fromJson(Map<String, dynamic> json) => _$InteractionFromJson(json);
   Map<String, dynamic> toJson() => _$InteractionToJson(this);
 }
 
@@ -120,7 +131,6 @@ class StepTimes {
 
   StepTimes();
 
-  factory StepTimes.fromJson(Map<String, dynamic> json) =>
-      _$StepTimesFromJson(json);
+  factory StepTimes.fromJson(Map<String, dynamic> json) => _$StepTimesFromJson(json);
   Map<String, dynamic> toJson() => _$StepTimesToJson(this);
 }
